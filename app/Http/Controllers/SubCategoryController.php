@@ -2,41 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\InnerCategoryRequest;
+use App\DataTables\SubCategoryDataTable;
+use App\Http\Requests\SubCategoryRequest;
 use App\Models\Category;
-use App\Models\InnerCategory;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Models\SubCategory;
 use App\Traits\HtmlTrait;
 use App\Traits\SaveImageTrait;
-use DataTables;
-use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 
 class SubCategoryController extends Controller
 {
     use HtmlTrait, SaveImageTrait;
 
-    public function index(Request $request)
+    public function index(SubCategoryDataTable $dataTable)
     {
         try {
-            if ($request->ajax()) {
-                $inner_category = InnerCategory::orderBy('id', 'desc')->get();
-                return FacadesDataTables::of($inner_category)
-                    ->addIndexColumn()
-                    ->editColumn('category_id', function($row){
-                        return $row->category->name_ar;
-                    })
-                    ->addColumn('action', function ($row) {
-                        $btn = $this->h_edit(route('admin.inner_categories.edit', $row->id));
-                        $btn = $btn . ' ' . $this->h_show(route('admin.inner_categories.show', $row->id));
-                        $btn = $btn . ' ' . $this->h_delete($row);
-                        $btn = $btn . ' ' . $this->modal($row, route('admin.inner_categories.destroy', $row->id));
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('admin.inner_categories.index');
+            return $dataTable->render('admin.sub_categories.index');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -53,11 +33,11 @@ class SubCategoryController extends Controller
         return view('admin.inner_categories.create', compact('categories'));
     }
 
-    public function store(InnerCategoryRequest $request)
+    public function store(SubCategoryRequest $request)
     {
         try {
             $photo_name = $this->saveImage('inner_categories', $request->photo);
-            InnerCategory::create([
+            SubCategory::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
                 'photo' => $photo_name,
@@ -74,7 +54,7 @@ class SubCategoryController extends Controller
     public function show($id)
     {
         try {
-            $inner_category = InnerCategory::findOrFail($id);
+            $inner_category = SubCategory::findOrFail($id);
             return view('admin.inner_categories.show', compact('inner_category'));
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -85,7 +65,7 @@ class SubCategoryController extends Controller
     public function edit($id)
     {
         try {
-            $inner_category = InnerCategory::findOrFail($id);// inner category
+            $inner_category = SubCategory::findOrFail($id);// inner category
             $categories = Category::select('id', 'name_ar', 'name_en')->get();
             return view('admin.inner_categories.edit', compact('inner_category', 'categories'));
         } catch (\Exception $e) {
@@ -94,11 +74,11 @@ class SubCategoryController extends Controller
     }
 
 
-    public function update(InnerCategoryRequest $request, $id)
+    public function update(SubCategoryRequest $request, $id)
     {
         try {
             $photo =$this->saveImage('inner_categories', $request->photo);
-            $inner_category = InnerCategory::findOrFail($id);
+            $inner_category = SubCategory::findOrFail($id);
             $inner_category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -115,7 +95,7 @@ class SubCategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $inner_category = InnerCategory::findOrFail($id);
+            $inner_category = SubCategory::findOrFail($id);
             if (count($inner_category->products) > 0) {
                 return redirect()->back()->with(['error' => 'Element can\'t be deleted, there are things about it']);
             }

@@ -29,12 +29,12 @@ class ProductFactory extends Factory
         $sub_categories = SubCategory::select('id', 'category_id')->get();
         return [
             'first_appearing' => rand('0', '50'),
-            'name_ar' => $this->faker->title,
-            'name_en' => $this->faker->title,
+            'name_ar' => $this->faker->word,
+            'name_en' => $this->faker->word,
             'details_ar' => $this->faker->sentence,
             'details_en' => $this->faker->sentence,
-            'amount' => rand('10', '100'),
-            'photo' => 'product.jpg',
+            'quantity' => rand('10', '100'),
+            'image' => 'images/products/product.jpg',
             'price' => rand('10', '2000'),
             'category_id' => $category_id = $categories->random()->id,
             'sub_category_id' => 

@@ -20,6 +20,10 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
     public function orders()
     {
         return $this->hasMany(Order::class, 'customer_id');

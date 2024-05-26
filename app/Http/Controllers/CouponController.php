@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\CouponDataTable;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,15 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CouponDataTable $dataTable)
     {
-        //
+        try {
+            return $dataTable->render('admin.coupons.index');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.

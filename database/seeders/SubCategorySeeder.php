@@ -30,7 +30,7 @@ class SubCategorySeeder extends Seeder
                     'name_ar' => $faker->word,
                     'name_en' => $faker->word,
                     'category_id' => $category->id,
-                    'cover' => 'cover.jpg',
+                    'cover' => 'images/sub-categories/cover.jpg',
                     ]);
             }
 

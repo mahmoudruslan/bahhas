@@ -11,7 +11,6 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
-use App\Models\User;
 
 class RoleDataTable extends DataTable
 {
@@ -24,17 +23,14 @@ class RoleDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-            $permissions = $this->permissions; // receiving permissions variable from controller
             $id = $row->id;
-            $b = checkAbility('update-roles', $permissions) ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
-            $b .= checkAbility('delete-roles', $permissions) ? $this->getDeleteLink($row, "admin.permission-roles.destroy") : '';
+            $b =  '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+            $b .=  $this->getDeleteLink($row, "admin.permission-roles.destroy");
             return $b;
         });
     }
-
     /**
      * Get query source of dataTable.
      *
@@ -45,7 +41,6 @@ class RoleDataTable extends DataTable
     {
         return $model->newQuery();
     }
-
     /**
      * Optional method if you want to use html builder.
      *
@@ -54,23 +49,22 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('role-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('add'),
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('role-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('add'),
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
-
     /**
      * Get the dataTable columns definition.
      *

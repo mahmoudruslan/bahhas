@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\CategoryDataTable;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -14,26 +15,10 @@ class CategoryController extends Controller
 {
     use HtmlTrait, SaveImageTrait;
 
-    public function index(Request $request)
+    public function index(CategoryDataTable $dataTable)
     {
         try {
-            if ($request->ajax()) {
-                $category = Category::orderBy('id', 'desc')->get();
-                return DataTables::of($category)
-                    ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
-                        $btn = $this->h_edit(route('admin.categories.edit', $row->id));
-                        $btn = $btn . ' ' . $this->h_show(route('admin.categories.show', $row->id));
-                        $btn = $btn . ' ' . $this->h_delete($row);
-                        $btn = $btn . ' ' . $this->modal($row, route('admin.categories.destroy', $row->id));
-
-
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('admin.categories.index');
+            return $dataTable->render('admin.categories.index');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

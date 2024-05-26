@@ -26,17 +26,29 @@ class ProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($row) {
-                    $btn = $this->h_delete($row);
-                    $btn = $btn . ' ' . $this->modal($row, route('admin.products.destroy', $row->id));
-                    $btn = $btn . ' ' . $this->h_show(route('admin.products.show', $row->id));
-                    $btn = $btn . ' ' . $this->h_edit(route('admin.products.edit', $row->id));
-                    $btn = $btn . ' ' . $this->href(route('admin.product_types.all', $row->id), 'Types');
-                    return $btn;
+        ->addColumn('action', function($row) {
+                $id = encrypt($row->id);
+                $b = $this->getEditLink("admin.products.edit", $id);
+                $b = $b .= $this->getShowLink("admin.products.show", $id);
+                $b = $b .= $this->getDeleteLink("admin.products.destroy", $id);
+                return $b;
             })
-            ->setRowId('id');
-            
-            
+            ->editColumn('category_id', function($row){
+                return $row->category['name_' . app()->getLocale()] ?? '';
+            })
+            ->editColumn('sub_category_id', function($row){
+                return $row->subCategory['name_' . app()->getLocale()] ?? '';
+            })
+            ->editColumn('status', function($row){
+                return $this->getStatusIcon($row->status);
+            })
+            ->editColumn('created_at', function($row){
+                return date('Y-m-d', strtotime($row->created_at));
+            })
+            ->editColumn('photo', function($row){
+                return $row->photo ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
+            })
+            ->rawColumns(['photo', 'status', 'action', 'created_at']);
     }
 
     /**
@@ -84,9 +96,13 @@ class ProductDataTable extends DataTable
         return [
             
             Column::make('id'),
-            Column::make('name_' . app()->getLocale()),
-            Column::make('amount'),
-            Column::make('price'),
+            Column::make('name_ar')->title(__('Name in arabic')),
+            Column::make('name_en')->title(__('Name in english')),
+            Column::make('amount')->title(__('Amount')),
+            Column::make('price')->title(__('Price')),
+            Column::make('category_id')->title(__('Category')),
+            Column::make('sub_category_id')->title(__('Sub category')),
+            Column::make('photo')->title(__('Image')),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

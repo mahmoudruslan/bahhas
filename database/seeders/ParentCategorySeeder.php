@@ -18,21 +18,21 @@ class ParentCategorySeeder extends Seeder
         ParentCategory::create([
             'name_ar' => 'خدمات بحاث',
             'name_en' => 'bahhas services',
-            'cover' => 'cover.jpg',
+            'cover' => 'images/parent-categories/cover.jpg',
             'type' => 'service',
         ]);
 
         ParentCategory::create([
             'name_ar' => 'متجر بحاث',
             'name_en' => 'bahhas store',
-            'cover' => 'cover.jpg',
+            'cover' => 'images/parent-categories/cover.jpg',
             'type' => 'products',
         ]);
 
         ParentCategory::create([
             'name_ar' => 'خبراء بحاث',
             'name_en' => 'bahhas advisor',
-            'cover' => 'cover.jpg',
+            'cover' => 'images/parent-categories/cover.jpg',
             'type' => 'service',
         ]);
     }

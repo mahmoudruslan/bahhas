@@ -21,8 +21,7 @@ class ReviewFactory extends Factory
         $product_ids = Product::pluck('id');
         $customer_ids = Customer::pluck('id');
         return [
-            'description_ar' => $this->faker->sentence,
-            'description_en' => $this->faker->sentence,
+            'description' => $this->faker->sentence,
             'product_id' => $product_ids->random(),
             'customer_id' => $customer_ids->random(),
         ];

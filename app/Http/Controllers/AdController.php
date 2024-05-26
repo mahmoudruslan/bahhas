@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\AdDataTable;
 use App\Http\Requests\AdRequest;
 use App\Models\Ad;
 use App\Traits\SaveImageTrait;
@@ -15,12 +16,10 @@ class AdController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AdDataTable $dataTable)
     {
-
         try {
-            $ads = Ad::get();
-            return view('admin.ads.index', compact('ads'));
+            return $dataTable->render('admin.ads.index');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

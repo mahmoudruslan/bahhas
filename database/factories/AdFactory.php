@@ -23,8 +23,9 @@ class AdFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(),
-            'cover' => 'ad.png',
+            'title_ar' => $this->faker->sentence(),
+            'title_en' => $this->faker->sentence(),
+            'cover' => 'images/ads/ad.png',
             'status' => true,
             'url' => 'https://github.com/',
         ];

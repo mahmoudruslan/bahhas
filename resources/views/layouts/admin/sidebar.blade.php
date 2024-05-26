@@ -10,7 +10,7 @@
                 href="{{ route('admin.dashboard') }}">
                 <div class="sidebar-brand-icon">
                     {{-- <i class="fas fa-laugh-wink"></i> --}}
-                    <img style="width: 70px;" src="{{asset('images/logo/white-lolooo.png')}}">
+                    <img style="width: 70px;" src="{{ asset('images/logo/white-lolooo.png') }}">
                 </div>
                 <div class="sidebar-brand-text mx-3">{{ __('Ecommerce Dashboard') }}</div>
             </a>
@@ -18,177 +18,255 @@
             <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('Pages')}}
+                {{ __('Pages') }}
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             @if (count(App\Models\Customer::where('status', 'not active')->get()) > 0)
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('customers.documentation')}}" >
-                    <span class="badge badge-danger badge-counter">{{count(App\Models\Customer::where('status', 'not active')->get())}}</span>
-                    <i class="fas fa-bell fa-fw"></i>
-                    
-                    <span>{{__('Unverified accounts')}}</span>
-                </a>
-            </li>
-            @endif
-        
-            <!-- admins -->
-            @canany(['admins','store-admins', 'update-admins', 'show-admins','delete-admins'])
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseadmin"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>{{ __('Admins') }}</span>
-                </a>
-                <div id="collapseadmin" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('admin.admins.index') }}">{{ __('Admins') }}</a>
-                        <a class="collapse-item" href="{{ route('admin.admins.create') }}">{{ __('Add Admins') }}</a>
-                    </div>
-                </div>
-            </li>
-            @endcanany
-            
-            <!-- categories -->
-            @canany(['categories','store-categories', 'update-categories', 'show-categories','delete-categories'])
-                <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecategory"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>{{ __('Categories') }}</span>
-                </a>
-                <div id="collapsecategory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item"
-                            href="{{ route('admin.categories.index') }}">{{ __('Categories') }}</a>
-                        <a class="collapse-item"
-                            href="{{ route('admin.categories.create') }}">{{ __('Add Category') }}</a>
-                    </div>
-                </div>
-            </li>
-            @endcanany
-            
+                    <a class="nav-link collapsed" href="{{ route('customers.documentation') }}">
+                        <span
+                            class="badge badge-danger badge-counter">{{ count(App\Models\Customer::where('status', 'not active')->get()) }}</span>
+                        <i class="fas fa-bell fa-fw"></i>
 
-                        <!-- inner categories -->
-            @canany(['parent-categories','store-parent-categories', 'update-parent-categories', 'show-parent-categories','delete-parent-categories'])
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseinnercategory"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>{{ __('Inner Categories') }}</span>
+                        <span>{{ __('Unverified accounts') }}</span>
                     </a>
-                    <div id="collapseinnercategory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                </li>
+            @endif
+
+            <!-- admins -->
+            @canany(['admins', 'store-admins', 'update-admins', 'show-admins', 'delete-admins'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseadmin"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>{{ __('Admins') }}</span>
+                    </a>
+                    <div id="collapseadmin" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item"
-                                href="{{ route('admin.inner_categories.index') }}">{{ __('Inner Categories') }}</a>
-                            <a class="collapse-item"
-                                href="{{ route('admin.inner_categories.create') }}">{{ __('Add Inner Category') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.admins.index') }}">{{ __('Admins') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.admins.create') }}">{{ __('Add Admins') }}</a>
                         </div>
                     </div>
                 </li>
             @endcanany
-                        
+
+            <!-- parent categories -->
+            @canany(['parent-categories', 'store-parent-categories', 'update-parent-categories',
+                'show-parent-categories', 'delete-parent-categories'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                        data-target="#collapseparentcategory" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>{{ __('Parent categories') }}</span>
+                    </a>
+                    <div id="collapseparentcategory" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item"
+                                href="{{ route('admin.parent-categories.index') }}">{{ __('Parent categories') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.parent-categories.create') }}">{{ __('Add Parent category') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+
+            <!-- categories -->
+            @canany(['categories', 'store-categories', 'update-categories', 'show-categories', 'delete-categories'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecategory"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>{{ __('Categories') }}</span>
+                    </a>
+                    <div id="collapsecategory" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item"
+                                href="{{ route('admin.categories.index') }}">{{ __('Categories') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.categories.create') }}">{{ __('Add Category') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+
+            <!-- sub categories -->
+            @canany(['sub-categories', 'store-sub-categories', 'update-sub-categories', 'show-sub-categories',
+                'delete-sub-categories'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsesubcategory"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>{{ __('Sub categories') }}</span>
+                    </a>
+                    <div id="collapsesubcategory" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item"
+                                href="{{ route('admin.sub-categories.index') }}">{{ __('Sub categories') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.sub-categories.create') }}">{{ __('Add sub category') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+
             <!-- Products -->
-            @canany(['products','store-products', 'update-products', 'show-products','delete-products'])
+            @canany(['products', 'store-products', 'update-products', 'show-products', 'delete-products'])
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseproduct"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>{{ __('Products') }}</span>
-                </a>
-                <div id="collapseproduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('admin.products.index') }}">{{ __('Products') }}</a>
-                        <a class="collapse-item"
-                            href="{{ route('admin.products.create') }}">{{ __('Add Products') }}</a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseproduct"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>{{ __('Products') }}</span>
+                    </a>
+                    <div id="collapseproduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.products.index') }}">{{ __('Products') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.products.create') }}">{{ __('Add Products') }}</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
             @endcanany
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            @canany(['products','store-products', 'update-products', 'show-products','delete-products'])
+            <!-- revoews -->
+            @canany(['reviews', 'store-reviews', 'update-reviews', 'show-reviews', 'delete-reviews'])
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>{{__('Orders')}}</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">{{__('Orders')}}</h6>
-                        <a class="collapse-item" href="{{route('admin.orders.index')}}">{{__('Orders')}}</a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsereviews"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>{{ __('Reviews') }}</span>
+                    </a>
+                    <div id="collapsereviews" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.reviews.index') }}">{{ __('Reviews') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.reviews.create') }}">{{ __('Add reviews') }}</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-
+                </li>
             @endcanany
-            
-            <!-- Nav Item - Utilities Collapse Menu -->
-            @canany(['orders','store-orders', 'update-orders', 'show-orders','delete-orders'])
+            <!-- coupons -->
+            @canany(['coupons', 'store-coupons', 'update-coupons', 'show-coupons', 'delete-coupons'])
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRols"
-                    aria-expanded="true" aria-controls="collapseRols">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>{{__('Roles')}}</span>
-                </a>
-                <div id="collapseRols" class="collapse" aria-labelledby="headingRols"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">{{__('Roles')}}</h6>
-                        <a class="collapse-item" href="{{route('admin.permission-roles.index')}}">{{__('Roles')}}</a>
-                        <a class="collapse-item" href="{{route('admin.permission-roles.create')}}">{{__('Add Roles')}}</a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecoupon"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>{{ __('Coupons') }}</span>
+                    </a>
+                    <div id="collapsecoupon" class="collapse" aria-labelledby="headingTwo"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.coupons.index') }}">{{ __('Coupons') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.coupons.create') }}">{{ __('Add coupons') }}</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
             @endcanany
-            
+            <!-- orders -->
+            @canany(['orders', 'store-orders', 'update-orders', 'show-orders', 'delete-orders'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                        aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>{{ __('Orders') }}</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">{{ __('Orders') }}</h6>
+                            <a class="collapse-item" href="{{ route('admin.orders.index') }}">{{ __('Orders') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+            <!-- ads -->
+            @canany(['ads', 'store-ads', 'update-ads', 'show-ads', 'delete-ads'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesads"
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-ad fa-fw"></i>
+                        <span>{{ __('Ads') }}</span>
+                    </a>
+                    <div id="collapsePagesads" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.ads.index') }}">{{ __('Ads') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.ads.create') }}">{{ __('Add ads') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+            <!-- cities -->
+            @canany(['cities', 'store-cities', 'update-cities', 'show-cities', 'delete-cities'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                        data-target="#collapsePagesCities" aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-ad fa-fw"></i>
+                        <span>{{ __('Cities') }}</span>
+                    </a>
+                    <div id="collapsePagesCities" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.cities.index') }}">{{ __('Cities') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.cities.create') }}">{{ __('Add Cities') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
+            <!-- customers -->
+            @canany(['customers', 'store-customers', 'update-customers', 'show-customers', 'delete-customers'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer"
+                        aria-expanded="true" aria-controls="collapseCustomer">
+                        <i class="fas fa-users fa-fw"></i>
 
+                        <span>{{ __('Customers') }}</span>
+                    </a>
+                    <div id="collapseCustomer" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item"
+                                href="{{ route('admin.customers.index') }}">{{ __('Customers') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.customers.create') }}">{{ __('Add customers') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
-                {{__('Settings')}}
+                {{ __('Settings') }}
             </div>
 
-            @canany(['products','store-products', 'update-products', 'show-products','delete-products'])
+            <!-- roles and permissions -->
+            @canany(['roles', 'store-roles', 'update-roles', 'show-roles', 'delete-roles'])
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-ad fa-fw"></i>
-                    <span>{{__('Ads')}}</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{route('admin.ads.index')}}">{{__('Ads')}}</a>
-                        <a class="collapse-item" href="{{route('admin.ads.create')}}">{{__('Add ads')}}</a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRols"
+                        aria-expanded="true" aria-controls="collapseRols">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>{{ __('Roles') }}</span>
+                    </a>
+                    <div id="collapseRols" class="collapse" aria-labelledby="headingRols"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">{{ __('Roles') }}</h6>
+                            <a class="collapse-item"
+                                href="{{ route('admin.permission-roles.index') }}">{{ __('Roles') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.permission-roles.create') }}">{{ __('Add Roles') }}</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
             @endcanany
-            
-            @canany(['ads','store-ads', 'update-ads', 'show-ads','delete-ads'])
-                <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer"
-                    aria-expanded="true" aria-controls="collapseCustomer">
-                    <i class="fas fa-users fa-fw"></i>
 
-                    <span>{{__('Customers')}}</span>
-                </a>
-                <div id="collapseCustomer" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{route('customers.index')}}">{{__('Customers')}}</a>
-                    </div>
-                </div>
-            </li>
 
-            @endcanany
-            
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

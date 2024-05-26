@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\AdminDataTable;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\AdminRequest;
@@ -13,22 +14,10 @@ class AdminController extends Controller
 {
     use HtmlTrait;
 
-    public function index(Request $request)
+    public function index(AdminDataTable $dataTable)
     {
         try {
-            if ($request->ajax()) {
-                $user = User::get()->except(Auth::id());
-                return DataTables::of($user)
-                    ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
-                        $btn = $this->h_delete($row);
-                        $btn = $btn . ' ' . $this->modal($row, route('admin.admins.destroy', $row->id));
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
-            return view('admin.admins.index');
+            return $dataTable->render('admin.admins.index');
         } catch (\Exception $e) {
             return $e->getMessage();
         }

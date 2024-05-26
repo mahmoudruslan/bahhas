@@ -29,6 +29,7 @@ class CustomerFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->safeEmail(),
+            'image' => 'images/customers/customer.jpg',
             'phone' => '010' . rand('10000000', '99999999'),
             'password' => '00000000',
             'status' => true,

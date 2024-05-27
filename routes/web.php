@@ -11,6 +11,7 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -66,6 +67,7 @@ Route::group(
             Route::resource('products', ProductController::class);
             Route::resource('reviews', ReviewController::class);
             Route::resource('coupons', CouponController::class);
+            Route::resource('blogs', BlogController::class);
             Route::resource('orders', OrderController::class);
             Route::resource('permission-roles' , RolePermissionController::class);//roles and permissions routes
             Route::get('/export-orders-excel', [OrderController::class, 'exportExcel'])->name('export.excel');

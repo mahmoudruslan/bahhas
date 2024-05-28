@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AdminDataTable;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\AdminRequest;
+use App\Traits\Files;
 use App\Traits\HtmlTrait;
-use DataTables;
-use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
-    use HtmlTrait;
+    use HtmlTrait, Files;
 
     public function index(AdminDataTable $dataTable)
     {
@@ -25,64 +24,84 @@ class AdminController extends Controller
 
     public function create()
     {
-        return view('admin.admins.create');
+        $roles = Role::select('id', 'name')->get();
+        return view('admin.admins.create', compact('roles'));
     }
 
     public function store(AdminRequest $request)
     {
-        
         try {
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'phone' => $request->phone,
-                'address' => $request->address,
-            ]);
-            return redirect()->route('admin.admins.index')->with(['success' => 'Created Successfully']);
+            $data = $request->validated();
+            $image = $request->file('image');
+            if ($image) {
+                $path = 'images/admins/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                
+                $data['image'] = $path . $file_name;
+            }
+            $admin = User::create($data);
+            $admin->markEmailAsVerified();
+            $admin->assignRole($request->role);
+            return redirect()->route('admin.admins.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-
-
 
     public function edit($id)
     {
         try {
+            $roles = Role::select('id', 'name')->get();
             $admin = User::findOrFail($id);
-            return view('admin.admins.edit', compact('admin'));
+            return view('admin.admins.edit', compact('admin', 'roles'));
         } catch (\Exception $e) {
-
             return $e->getMessage();
         }
     }
-
 
     public function update(AdminRequest $request, $id)
     {
         try {
             $admin = User::findOrFail($id);
-            $admin->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'phone' => $request->phone,
-                'address' => $request->address,
-            ]);
-            return redirect()->back()->with(['success' => 'Updated Successfully']);
+            $data = $request->validated();
+            $image = $request->file('image');
+            if ($image) {
+                $this->deleteFiles($admin->image);
+                $path = 'images/admins/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $file_name;
+            }
+            $admin->update($data);
+            $admin->syncRoles($request->role);
+            return redirect()->route('admin.admins.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $admin = User::findOrFail($id);
+            return view('admin.admins.show', compact('admin'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function destroy($id)
     {
         try {
             $admin = User::findOrFail($id);
+            $this->deleteFiles($admin->image);
             $admin->delete();
-            return redirect()->back()->with(['success' => 'Deleted Successfully']);
+            return redirect()->route('admin.admins.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

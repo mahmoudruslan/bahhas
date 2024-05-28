@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 
@@ -29,22 +28,25 @@ class AdminRequest extends FormRequest
         $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'status' => 'nullable',
+            // 'status' => 'nullable',
             'mobile' => 'required|numeric|digits_between:6,50|unique:users',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
+            'address' => 'nullable|string|max:500',
+            // 'role' => 'required|string',
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $id = Crypt::decrypt($this->route('user'));
+            $id = $this->route('admin');
             $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'status' => 'nullable',
+            // 'status' => 'nullable',
             'mobile' => 'required|numeric|digits_between:6,50|unique:users,mobile,'.$id,
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
+            'address' => 'nullable|string|max:500',
             ];
         }
 

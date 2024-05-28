@@ -14,7 +14,7 @@ class ParentCategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,12 +28,14 @@ class ParentCategoryRequest extends FormRequest
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
             'cover' => 'required',
+            'type' => 'required',
         ];
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules = [
                 'name_ar' => 'required|string|max:255',
                 'name_en' => 'required|string|max:255',
+                'type' => 'nullable',
             ];
         }
         return $rules;

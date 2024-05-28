@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -33,16 +34,13 @@ class AdminDataTable extends DataTable
                 $b = $b .= $this->getDeleteLink("admin.admins.destroy", $id);
                 return $b;
             })
-            ->editColumn('status', function($row){
-                return $row->status == 1 ? 'active' : 'inactive'  ;
-            })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
             ->editColumn('image', function($row){
                 return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
-            ->rawColumns(['status', 'action', 'created_at', 'image']);
+            ->rawColumns(['action', 'created_at', 'image']);
     }
 
     /**
@@ -53,9 +51,8 @@ class AdminDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('id', '<>', Auth::id())->newQuery();
     }
-
     /**
      * Optional method if you want to use html builder.
      *
@@ -95,7 +92,7 @@ class AdminDataTable extends DataTable
             Column::make('email')->title(__('Email')),
             Column::make('mobile')->title(__('Mobile')),
             Column::make('image')->title(__('Image')),
-            Column::make('status')->title(__('Status')),
+            Column::make('address')->title(__('address')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')
                 ->exportable(false)

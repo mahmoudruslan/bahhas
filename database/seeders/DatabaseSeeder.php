@@ -48,8 +48,6 @@ class DatabaseSeeder extends Seeder
             'password' => '00000000',
             'mobile' => '01092199386',
             'image' => 'images/users/avatar.svg',
-            'status' => 1,
-            'image' => 'admin.svg',
 
         ]);
         $super_admin->assignRole('super-admin');
@@ -60,8 +58,6 @@ class DatabaseSeeder extends Seeder
             'password' => '00000000',
             'mobile' => '010545445446',
             'image' => 'images/users/avatar.svg',
-            'status' => 1,
-            'image' => 'admin.svg',
         ]);
         $admin->assignRole('admin');
         $employee = User::factory()->create([
@@ -71,8 +67,6 @@ class DatabaseSeeder extends Seeder
             'password' => '00000000',
             'mobile' => '01097978898986',
             'image' => 'images/users/avatar.svg',
-            'status' => 1,
-            'image' => 'admin.svg',
         ]);
         $employee->assignRole('employee');
 

@@ -92,9 +92,9 @@ class AdminDataTable extends DataTable
             Column::make('email')->title(__('Email')),
             Column::make('mobile')->title(__('Mobile')),
             Column::make('image')->title(__('Image')),
-            Column::make('address')->title(__('address')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('address')->title(__('Address')),
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

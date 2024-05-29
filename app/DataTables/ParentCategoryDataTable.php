@@ -92,8 +92,8 @@ class ParentCategoryDataTable extends DataTable
             Column::make('name_en')->title(__('Name in english')),
             Column::make('cover')->title(__('Image')),
             Column::make('type')->title(__('Type')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

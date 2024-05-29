@@ -92,8 +92,8 @@ class CouponDataTable extends DataTable
             // Column::make('use_times')->title(__('Use times')),
             // Column::make('used_times')->title(__('Used times')),
             Column::make('greater_than')->title(__('Greater than')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

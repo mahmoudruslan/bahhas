@@ -77,11 +77,11 @@ class CityDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name_ar')->title(__('name in arabic')),
-            Column::make('name_en')->title(__('name in english')),
+            Column::make('name_ar')->title(__('Name in arabic')),
+            Column::make('name_en')->title(__('Name in english')),
             Column::make('country_id')->title(__('Country')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

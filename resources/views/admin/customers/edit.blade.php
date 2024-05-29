@@ -3,61 +3,108 @@
     {{ __('Edit Data') }}
 @endsection
 @section('content')
-    <!-- Nested Row within Card Body -->
-    <div class="row text-center">
-        {{-- <div class="col-lg-5 d-none d-lg-block bg-register-image"></div> --}}
-        <div class="col"></div>
-        <div class="p-5  col-md-6">
-            @if (Session::has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ __(Session::get('success')) }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-            <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
-            </div>
-            <form class="user insubmit" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
-                @csrf
-                @method('patch')
-                <input name="edit" type="hidden" value="true">
-
-                <div class="form-group">
-                    <input value="{{ $category->name_ar }}" type="text" class="form-control form-control-user"
-                        id="exampleinput" placeholder="Category Name" name="name_ar">
+@section('style')
+    <style>
+        .pt-10 {
+            padding-top: 5rem;
+        }
+    </style>
+@endsection
+<!-- Nested Row within Card Body -->
+<div class="row">
+    <div class="p-5  col-lg-6">
+        <a style="margin-left: 20px" href="{{ route('admin.customers.index') }}" class="btn btn-secondary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+            <span class="text">{{ __('Customers') }}</span>
+        </a><br><br>
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
+        </div>
+        <form class="user" method="POST" action="{{ route('admin.customers.update', $product->id) }}"
+            enctype="multipart/form-data">
+            @csrf
+            @method('patch')
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input value="{{ $product->name_ar }}" type="text" class="form-control form-control-user"
+                        id="exampleFirstName" placeholder="{{ __('Enter Name_ar') }}" name="name_ar">
                     @error('name_ar')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-
-                <div class="form-group">
-                    <input value="{{ $category->name_en }}" type="text" class="form-control form-control-user"
-                        id="exampleinput" placeholder="Category Name" name="name_en">
+                <div class="col-sm-6">
+                    <input value="{{ $product->name_en }}" type="text" class="form-control form-control-user"
+                        id="name_en" placeholder="{{ __('Enter Name_en') }}" name="name_en">
                     @error('name_en')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <input type="file" class="form-control" placeholder="{{__('Enter Photo')}}" name="photo">
-                    @error('photo')
+            </div>
+            <div class="form-group row">
+
+                <div class="col-sm-6">
+                    <input value="{{ $product->details_ar }}" type="text" class="form-control form-control-user"
+                        id="exampleinput" placeholder="{{ __('Enter Details_ar') }}" name="details_ar">
+                    @error('details_ar')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary btn-user btn-block">
-                    {{ __('Submit') }}
-                </button>
-            </form>
-            <hr>
-        </div>
-        <div class="col"></div>
 
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input value="{{ $product->details_en }}" type="text" class="form-control form-control-user"
+                        id="details_en" placeholder="{{ __('Enter Details_en') }}" name="details_en">
+                    @error('details_en')
+                        <span class="text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input value="{{ $product->quantity }}" type="text" class="form-control form-control-user"
+                        id="quantity" placeholder="{{ __('Enter quantity') }}" name="quantity">
+                    @error('quantity')
+                        <span class="text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="col-sm-6">
+                    <input value="{{ $product->price }}" type="text" class="form-control form-control-user"
+                        id="price" placeholder="{{ __('Enter Price') }}" name="price">
+                    @error('price')
+                        <span class="text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            @livewire('cascading-dropdown', ['categories' => $categories, $product])
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                </div>
+                <div class="col-sm-6">
+                    <input value="{{ $product->first_appearing }}" type="number"
+                        class="form-control 
+                    @error('first_appearing') is-invalid @enderror"
+                        name="first_appearing" placeholder="{{ __('First appearing') }}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-user btn-block">
+                {{ __('Submit') }}
+            </button>
+            <hr>
+        </form>
     </div>
+</div>
 @endsection

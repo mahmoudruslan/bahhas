@@ -97,8 +97,8 @@ class CustomerDataTable extends DataTable
             // Column::make('status')->title(__('Status')),
             Column::make('image')->title(__('Image')),
             Column::make('address_id')->title(__('Address')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

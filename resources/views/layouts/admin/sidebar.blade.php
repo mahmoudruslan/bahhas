@@ -10,9 +10,9 @@
                 href="{{ route('admin.dashboard') }}">
                 <div class="sidebar-brand-icon">
                     {{-- <i class="fas fa-laugh-wink"></i> --}}
-                    <img style="width: 70px;" src="{{ asset('images/logo/white-lolooo.png') }}">
+                    {{-- <img style="width: 70px;" src="{{ asset('images/logo/white-lolooo.png') }}"> --}}
                 </div>
-                <div class="sidebar-brand-text mx-3">{{ __('Ecommerce Dashboard') }}</div>
+                <div class="sidebar-brand-text mx-3">{{ __('Dashboard') }}</div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -35,7 +35,7 @@
             @endif
 
             <!-- admins -->
-            @canany(['admins', 'store-admins', 'update-admins', 'show-admins', 'delete-admins'])
+            @can('admins')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseadmin"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -45,15 +45,14 @@
                     <div id="collapseadmin" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{{ route('admin.admins.index') }}">{{ __('Admins') }}</a>
-                            <a class="collapse-item" href="{{ route('admin.admins.create') }}">{{ __('Add Admins') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.admins.create') }}">{{ __('Add admins') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
 
             <!-- parent categories -->
-            @canany(['parent-categories', 'store-parent-categories', 'update-parent-categories',
-                'show-parent-categories', 'delete-parent-categories'])
+            @can('parent-categories')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                         data-target="#collapseparentcategory" aria-expanded="true" aria-controls="collapseTwo">
@@ -66,14 +65,14 @@
                             <a class="collapse-item"
                                 href="{{ route('admin.parent-categories.index') }}">{{ __('Parent categories') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.parent-categories.create') }}">{{ __('Add Parent category') }}</a>
+                                href="{{ route('admin.parent-categories.create') }}">{{ __('Add parent category') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
 
             <!-- categories -->
-            @canany(['categories', 'store-categories', 'update-categories', 'show-categories', 'delete-categories'])
+            @can('categories')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecategory"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -86,15 +85,14 @@
                             <a class="collapse-item"
                                 href="{{ route('admin.categories.index') }}">{{ __('Categories') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.categories.create') }}">{{ __('Add Category') }}</a>
+                                href="{{ route('admin.categories.create') }}">{{ __('Add category') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
 
             <!-- sub categories -->
-            @canany(['sub-categories', 'store-sub-categories', 'update-sub-categories', 'show-sub-categories',
-                'delete-sub-categories'])
+            @can('sub-categories')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsesubcategory"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -111,10 +109,10 @@
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
 
             <!-- Products -->
-            @canany(['products', 'store-products', 'update-products', 'show-products', 'delete-products'])
+            @can('products')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseproduct"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -125,30 +123,30 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{{ route('admin.products.index') }}">{{ __('Products') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.products.create') }}">{{ __('Add Products') }}</a>
+                                href="{{ route('admin.products.create') }}">{{ __('Add products') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- services -->
-            @canany(['services', 'store-services', 'update-services', 'show-services', 'delete-services'])
+            @can('services')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseService"
                         aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-table"></i>
-                        <span>{{ __('Service') }}</span>
+                        <span>{{ __('Services') }}</span>
                     </a>
                     <div id="collapseService" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="{{ route('admin.services.index') }}">{{ __('Service') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.services.index') }}">{{ __('Services') }}</a>
                             <a class="collapse-item"
                                 href="{{ route('admin.services.create') }}">{{ __('Add services') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- revoews -->
-            @canany(['reviews', 'store-reviews', 'update-reviews', 'show-reviews', 'delete-reviews'])
+            @can('reviews')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsereviews"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -159,14 +157,14 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{{ route('admin.reviews.index') }}">{{ __('Reviews') }}</a>
-                            <a class="collapse-item"
-                                href="{{ route('admin.reviews.create') }}">{{ __('Add reviews') }}</a>
+                            {{-- <a class="collapse-item"
+                                href="{{ route('admin.reviews.create') }}">{{ __('Add reviews') }}</a> --}}
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- coupons -->
-            @canany(['coupons', 'store-coupons', 'update-coupons', 'show-coupons', 'delete-coupons'])
+            @can('coupons')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsecoupon"
                         aria-expanded="true" aria-controls="collapseTwo">
@@ -182,9 +180,9 @@
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- orders -->
-            @canany(['orders', 'store-orders', 'update-orders', 'show-orders', 'delete-orders'])
+            @can('orders')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                         aria-expanded="true" aria-controls="collapseUtilities">
@@ -199,9 +197,9 @@
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- ads -->
-            @canany(['ads', 'store-ads', 'update-ads', 'show-ads', 'delete-ads'])
+            @can('ads')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesads"
                         aria-expanded="true" aria-controls="collapsePages">
@@ -216,9 +214,9 @@
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- cities -->
-            @canany(['cities', 'store-cities', 'update-cities', 'show-cities', 'delete-cities'])
+            @can('cities')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                         data-target="#collapsePagesCities" aria-expanded="true" aria-controls="collapsePages">
@@ -230,13 +228,13 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{{ route('admin.cities.index') }}">{{ __('Cities') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.cities.create') }}">{{ __('Add Cities') }}</a>
+                                href="{{ route('admin.cities.create') }}">{{ __('Add cities') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
-            <!-- customers -->
-            @canany(['customers', 'store-customers', 'update-customers', 'show-customers', 'delete-customers'])
+            @endcan
+            {{-- <!-- customers -->
+            @can(['customers', 'store-customers', 'update-customers', 'show-customers', 'delete-customers'])
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer"
                         aria-expanded="true" aria-controls="collapseCustomer">
@@ -254,10 +252,10 @@
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan --}}
 
             <!-- blogs -->
-            @canany(['customers', 'store-blogs', 'update-blogs', 'show-blogs', 'delete-blogs'])
+            @can('blogs')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBlog"
                         aria-expanded="true" aria-controls="collapseBlog">
@@ -271,11 +269,11 @@
                             <a class="collapse-item"
                                 href="{{ route('admin.blogs.index') }}">{{ __('Blogs') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.blogs.create') }}">{{ __('Add blogs') }}</a>
+                                href="{{ route('admin.blogs.create') }}">{{ __('Add to blog') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
@@ -284,7 +282,7 @@
             </div>
 
             <!-- roles and permissions -->
-            @canany(['roles', 'store-roles', 'update-roles', 'show-roles', 'delete-roles'])
+            @can('roles')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRols"
                         aria-expanded="true" aria-controls="collapseRols">
@@ -298,11 +296,11 @@
                             <a class="collapse-item"
                                 href="{{ route('admin.permission-roles.index') }}">{{ __('Roles') }}</a>
                             <a class="collapse-item"
-                                href="{{ route('admin.permission-roles.create') }}">{{ __('Add Roles') }}</a>
+                                href="{{ route('admin.permission-roles.create') }}">{{ __('Add roles') }}</a>
                         </div>
                     </div>
                 </li>
-            @endcanany
+            @endcan
 
 
             <!-- Divider -->

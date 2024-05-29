@@ -91,8 +91,8 @@ class SubCategoryDataTable extends DataTable
             Column::make('name_en')->title(__('Name in english')),
             Column::make('cover')->title(__('Image')),
             Column::make('category_id')->title(__('Category')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

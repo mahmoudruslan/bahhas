@@ -56,22 +56,22 @@ Route::group(
         
 
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
-            Route::resource('admins', AdminController::class);
-            Route::resource('ads', AdController::class);
-            Route::resource('customers', CustomerController::class);
-            Route::resource('cities', CityController::class);
-            Route::resource('addresses', AddressController::class);
-            Route::resource('parent-categories', ParentCategoryController::class);
-            Route::resource('categories', CategoryController::class);
-            Route::resource('sub-categories', SubCategoryController::class);
-            Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
-            Route::resource('products', ProductController::class);
-            Route::resource('services', ServiceController::class);
-            Route::resource('reviews', ReviewController::class);
-            Route::resource('coupons', CouponController::class);
-            Route::resource('blogs', BlogController::class);
-            Route::resource('orders', OrderController::class);
-            Route::resource('permission-roles' , RolePermissionController::class);//roles and permissions routes
+            Route::resource('admins', AdminController::class)->middleware('can:admins');
+            Route::resource('ads', AdController::class)->middleware('can:ads');
+            Route::resource('customers', CustomerController::class)->middleware('can:customers');
+            Route::resource('cities', CityController::class)->middleware('can:cities');
+            Route::resource('addresses', AddressController::class)->middleware('can:addresses');
+            Route::resource('parent-categories', ParentCategoryController::class)->middleware('can:parent-categories');
+            Route::resource('categories', CategoryController::class)->middleware('can:categories');
+            Route::resource('sub-categories', SubCategoryController::class)->middleware('can:sub-categories');
+            Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('can:main');
+            Route::resource('products', ProductController::class)->middleware('can:products');
+            Route::resource('services', ServiceController::class)->middleware('can:services');
+            Route::resource('reviews', ReviewController::class)->middleware('can:reviews');
+            Route::resource('coupons', CouponController::class)->middleware('can:coupons');
+            Route::resource('blogs', BlogController::class)->middleware('can:blogs');
+            Route::resource('orders', OrderController::class)->middleware('can:orders');
+            Route::resource('permission-roles' , RolePermissionController::class)->middleware('can:roles');//roles and permissions routes
             Route::get('/export-orders-excel', [OrderController::class, 'exportExcel'])->name('export.excel');
             Route::get('/export-orders-csv', [OrderController::class, 'exportCSV'])->name('export.csv');
             Route::get('/print-orders', [PrintController::class, 'printOrders']);

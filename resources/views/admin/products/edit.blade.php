@@ -12,7 +12,7 @@
 @endsection
 <!-- Nested Row within Card Body -->
 <div class="row">
-    <div class="p-5  col-lg-6">
+    <div class="p-5  col-lg-12">
         <a style="margin-left: 20px" href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-right"></i>

@@ -17,7 +17,7 @@
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-right"></i>
             </span>
-            <span class="text">{{ __('coupons') }}</span>
+            <span class="text">{{ __('Coupons') }}</span>
         </a><br><br>
         <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-sm-6">
                     <input value="{{ $coupon->value }}" type="text" class="form-control form-control-user"
-                        placeholder="{{ __('Coupon value') }}" name="value">
+                        placeholder="{{ __('Value') }}" name="value">
                     @error('value')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>

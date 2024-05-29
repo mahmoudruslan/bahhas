@@ -16,7 +16,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <input value="{{ old('name_ar') }}" type="text" class="form-control form-control-user"
-                            id="exampleFirstName" placeholder="{{ __('Enter Name_ar') }}" name="name_ar">
+                            id="exampleFirstName" placeholder="{{ __('Name in arabic') }}" name="name_ar">
                         @error('name_ar')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-sm-6">
                         <input value="{{ old('name_en') }}" type="text" class="form-control form-control-user"
-                            id="name_en" placeholder="{{ __('Enter Name_en') }}" name="name_en">
+                            id="name_en" placeholder="{{ __('Name in english') }}" name="name_en">
                         @error('name_en')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <input value="{{ old('details_ar') }}" type="text" class="form-control form-control-user"
-                            id="exampleinput" placeholder="{{ __('Enter Details_ar') }}" name="details_ar">
+                            id="exampleinput" placeholder="{{ __('Description in arabic') }}" name="details_ar">
                         @error('details_ar')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <input value="{{ old('details_en') }}" type="text" class="form-control form-control-user"
-                            id="details_en" placeholder="{{ __('Enter Details_en') }}" name="details_en">
+                            id="details_en" placeholder="{{ __('Description in english') }}" name="details_en">
                         @error('details_en')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <input value="{{ old('quantity') }}" type="text" class="form-control form-control-user"
-                            id="quantity" placeholder="{{ __('Enter quantity') }}" name="quantity">
+                            id="quantity" placeholder="{{ __('Quantity') }}" name="quantity">
                         @error('quantity')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-sm-6">
                         <input value="{{ old('price') }}" type="text" class="form-control form-control-user"
-                            id="price" placeholder="{{ __('Enter Price') }}" name="price">
+                            id="price" placeholder="{{ __('Price') }}" name="price">
                         @error('price')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -98,7 +98,7 @@ class ServiceDataTable extends DataTable
             Column::make('price')->title(__('Price')),
             Column::make('category_id')->title(__('Category')),
             Column::make('image')->title(__('Image')),
-            Column::computed('action')
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

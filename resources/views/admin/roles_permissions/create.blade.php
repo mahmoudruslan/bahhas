@@ -1,7 +1,7 @@
 @extends('layouts.admin.master')
 
 @section('title')
-    {{ __('Add roles and permissions') }}
+    {{ __('Add role') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Add roles and permissions') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Add role') }}</h1>
                 <div class="row justify-content-center">
 
                     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -23,13 +23,13 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Add role') }}</h1>
                                             </div>
                                             <form action="{{ route('admin.permission-roles.store') }}" method="POST"
                                                 class="user">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <input type="text" name="name" class="form-control form-control-user" placeholder="{{ __('Enter Role Name...') }}">
+                                                    <input type="text" name="name" class="form-control form-control-user" placeholder="{{ __('Role name') }}...">
                                                     @error('name')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>

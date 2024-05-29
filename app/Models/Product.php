@@ -22,6 +22,11 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
+    public function status()
+    {
+        return $this->status == 0 ?  'Inactive' : 'Active';
+    }
+
 //     public function orderProducts()
 //     {
 //         return $this->hasMany(OrderProducts::class);

@@ -87,7 +87,7 @@ class BlogDataTable extends DataTable
             Column::make('title_en')->title(__('Title in english')),
             Column::make('image')->title(__('Image')),
             Column::make('created_at')->title(__('Created at')),
-            Column::computed('action')
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

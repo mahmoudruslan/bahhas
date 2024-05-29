@@ -91,13 +91,13 @@ class AdDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('title_ar')->title(__('Title ar')),
-            Column::make('title_en')->title(__('Title en')),
+            Column::make('title_ar')->title(__('Title in arabic')),
+            Column::make('title_en')->title(__('Title in english')),
             Column::make('cover')->title(__('Image')),
             Column::make('status')->title(__('Status')),
             Column::make('url')->title(__('Url')),
-            Column::make('created_at')->title(__('Created At')),
-            Column::computed('action')
+            Column::make('created_at')->title(__('Created at')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

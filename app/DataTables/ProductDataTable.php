@@ -100,7 +100,7 @@ class ProductDataTable extends DataTable
             Column::make('category_id')->title(__('Category')),
             Column::make('sub_category_id')->title(__('Sub category')),
             Column::make('image')->title(__('Image')),
-            Column::computed('action')
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

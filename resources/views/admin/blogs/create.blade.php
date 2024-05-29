@@ -1,13 +1,13 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Add blog') }}
+    {{ __('Add to blog') }}
 @endsection
 @section('content')
     <!-- Nested Row within Card Body -->
     <div class="row">
         <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Add blog') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Add to blog') }}</h1>
             </div>
             <form method="POST" action="{{ route('admin.blogs.store') }}"
                 enctype="multipart/form-data">
@@ -37,7 +37,7 @@
                 <div class="form-group row">
 
                     <div class="col-sm-6">
-                        <textarea placeholder="{{ __('description in arabic') }}" name="description_ar" 
+                        <textarea placeholder="{{ __('Description in arabic') }}" name="description_ar" 
                         class="form-control" >{{old('description_ar')}}</textarea>
                         @error('description_ar')
                             <span class="text-danger" role="alert">
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <textarea placeholder="{{ __('Enter Description_en') }}" name="description_en" 
+                        <textarea placeholder="{{ __('Description in english') }}" name="description_en" 
                         class="form-control" >{{old('description_en')}}</textarea>
                         @error('description_en')
                             <span class="text-danger" role="alert">
@@ -64,7 +64,7 @@
                     <div class="col-sm-6">
                         
                         <select name="blog_id" class="form-control">
-                            <option selected disabled>{{ __('Choose blog') }}</option>
+                            <option selected disabled>{{ __('Choose blog') }} ({{__('Related')}})</option>
                             @foreach ($blogs as $blog)
                                 <option value="{{ $blog->id }}">{{ $blog['title_'. app()->getLocale()] }}</option>
                             @endforeach

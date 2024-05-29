@@ -2,59 +2,78 @@
 @section('title')
     {{ __('Details Product') }}
 @endsection
-@section('style')
-    <style>
-        .pt-10 {
-            padding-top: 3rem;
-        }
-    </style>
-@endsection
+
 @section('content')
+@php
+    $lang = app()->getLocale();
+@endphp
     <!-- Nested Row within Card Body -->
     <div class="row">
         <div class="p-5  col-lg-6">
-            <a style="margin-left: 20px" href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-arrow-right"></i>
-                </span>
-                <span class="text">{{ __('Products') }}</span>
-            </a>
+            <div>
+                <a style="margin-left: 20px" href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">{{ __('Products') }}</span>
+                </a>
+            </div>
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Details Product') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Details product') }}</h1>
             </div>
             <table class="table table-striped">
                 <tbody>
                     <tr>
-                        <th scope="row">{{ __('Name') }}</th>
-                        <td>{{ $product['name_' . app()->getLocale()] }}</td>
+                        <th scope="row">{{ __('First appearing') }}</th>
+                        <td>{{ $product->first_appearing }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Name in arabic') }}</th>
+                        <td>{{ $product->name_ar }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">{{ __('Name in english') }}</th>
+                        <td>{{ $product->name_en }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Description in arabic') }}</th>
+                        <td>{{$product->details_ar}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Description in english') }}</th>
+                        <td>{{ $product->details_en }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Quantity') }}</th>
+                        <td>{{ $product->quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Price') }}</th>
+                        <td>{{ $product->price }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Status') }}</th>
+                        <td>{{ $product->status() }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('Category') }}</th>
-                        <td>{{ $product->category['name_' . app()->getLocale()] }}</td>
+                        <td>{{ $product->category['name_' . $lang] }}</td>
                     </tr>
-
-                    {{-- <tr>
-                        <th scope="row">{{ __('Price') }}</th>
-                        <td>{{ $product->price }}</td>
-                    </tr> --}}
-                    {{-- <tr>
-                        <th scope="row">{{ __('Discount Price') }}</th>
-                        <td>{{$product->discount_price}}</td>
-                    </tr> --}}
-                    {{-- <tr>
-                        <th scope="row">{{ __('Amount') }}</th>
-                        <td>{{ $product->amount }}</td>
-                    </tr> --}}
                     <tr>
-                        <th style="vertical-align: inherit;" scope="row">{{ __('Details') }}</th>
-                        <td>{{ $product['details_' . app()->getLocale()] }}</td>
+                        <th scope="row">{{ __('Sub category') }}</th>
+                        <td>{{ $product->subCategory['name_' . $lang] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('Created at') }}</th>
+                        <td>{{ $product->created_at }}</td>
                     </tr>
                 </tbody>
             </table>
             <div class="table-responsive">
             </div>
         </div>
-        <div class="col-lg-5 pt-10 p-4"><img style="width: 90%; max-height: 90%;"
-                src="{{ asset('images/products/' . $product->photo) }}"></div>
+        <div style="margin-top: 140px" class="col-lg-5">
+            <img style="width: 90%;" src="{{ asset('storage/' . $product->image) }}"></div>
     </div>
 @endsection

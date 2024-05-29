@@ -14,13 +14,13 @@ class RolePermissionController extends Controller
 
     public function index(RoleDataTable $dataTable)
     {
-        $permissions = userAbility(['roles','store-roles', 'update-roles', 'show-roles','delete-roles']);
+        $permissions = userAbility(['roles']);
         return $dataTable->with('permissions' , $permissions)->render('admin.roles_permissions.index');
     }
 
     public function create()
     {
-        userAbility(['store-roles']);
+        userAbility(['roles']);
         $permissions = Permission::get();
         return view('admin.roles_permissions.create', compact('permissions'));
     }
@@ -28,7 +28,7 @@ class RolePermissionController extends Controller
     public function store(RolePermissionRequest $request)
     {
         try {
-            userAbility(['store-roles']);
+            userAbility(['roles']);
             $role = Role::create([
                 'name' => $request->name,
                 'guard_name' => 'web',
@@ -45,7 +45,7 @@ class RolePermissionController extends Controller
     public function edit($id)
     {
         try {
-            userAbility(['update-roles']);
+            userAbility(['roles']);
             $permissions = Permission::get();
             $role = Role::findOrFail($id);
             return view('admin.roles_permissions.edit', compact('permissions', 'role'));
@@ -58,7 +58,7 @@ class RolePermissionController extends Controller
     public function update(RolePermissionRequest $request, $id)
     {
         try {
-            userAbility(['update-roles']);
+            userAbility(['roles']);
 
             $role = Role::findOrFail($id);
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
@@ -76,7 +76,7 @@ class RolePermissionController extends Controller
     public function destroy(Role $role, $id)
     {
         try {
-            userAbility(['delete-roles']);
+            userAbility(['roles']);
             $role = Role::findOrFail($id);
             $permissions = $role->permissions->pluck('name');
             $role->revokePermissionTo($permissions);

@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-sm-6">
                         <input value="{{ old('value') }}" type="text" class="form-control form-control-user"
-                            placeholder="{{ __('Coupon value') }}" name="value">
+                            placeholder="{{ __('Value') }}" name="value">
                         @error('value')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Add Admins') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Add admins') }}</h1>
             </div>
             <form class="user insubmit" method="POST" action="{{ route('admin.admins.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -54,7 +54,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <input type="number" class="form-control form-control-user" id="exampleInputPassword"
-                            placeholder="{{ __('Phone Number') }}" name="mobile" value="{{ old('mobile') }}">
+                            placeholder="{{ __('Phone') }}" name="mobile" value="{{ old('mobile') }}">
                         @error('mobile')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

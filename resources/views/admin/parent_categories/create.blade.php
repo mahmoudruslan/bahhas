@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <select name="type" class="form-control">
-                                <option selected disabled>{{ __('Choose role') }}</option>
+                                <option selected disabled>{{ __('Choose type') }}</option>
                                 <option value="products">{{ __('Products') }}</option>
                                 <option value="services">{{ __('Services') }}</option>
                             </select>

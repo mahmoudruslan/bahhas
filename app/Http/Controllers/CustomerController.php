@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\CustomerDataTable;
-use App\Models\Customer;
-use App\Notifications\AccountStatusNotification;
-use Illuminate\Http\Request;
-use App\Traits\HtmlTrait;
 use DataTables;
+use App\Models\Customer;
+use App\Traits\HtmlTrait;
+use Illuminate\Http\Request;
+use App\DataTables\CustomerDataTable;
+use App\Http\Requests\CustomerRequest;
+use App\Notifications\AccountStatusNotification;
 
 class CustomerController extends Controller
 {
@@ -22,55 +23,77 @@ class CustomerController extends Controller
         }
     }
 
-    // public function allUnverifiedAccounts(Request $request)
-    // {
-    //     try {
-    //         if ($request->ajax()) {
-    //             $customer = Customer::where('status', 'not active')->get();
-    //             return DataTables::of($customer)
-    //                 ->addIndexColumn()
-    //                 ->addColumn('action', function ($row) {
-    //                     $btn = $this->update(route('customer.active', $row->id), __('Active'), 'info');
-    //                     return $btn;
-    //                 })
-    //                 ->rawColumns(['action'])
-    //                 ->make(true);
-    //         }
-    //         return view('customers.unverified_accounts');
-    //     } catch (\Exception $e) {
-    //         return $e->getMessage();
-    //     }
-    // }
+    public function create()
+    {
+        $customers = Customer::get();
+        return view('admin.customers.create', compact('customers'));
+    }
 
-
-    public function show(Request $request, $id)
+    public function store(CustomerRequest $request)
     {
         try {
-            // dd(Customer::findOrFail($id)->orders);
-            $orders = Customer::findOrFail($id)->orders;
-            return view('customers.show', compact('orders'));
+            $data = $request->validated();
+                $path = 'images/customers/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $file_name;
+            Customer::create($data);
+            return redirect()->route('admin.customers.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-
-    // public function active($id)
-    // {
-    //     $customer = Customer::findOrFail($id);
-    //     $customer->update([
-    //         'status' => 'active'
-    //     ]);
-    //     $customer->notify(new AccountStatusNotification());
-    //     return redirect()->back();
-    // }
-
-    public function notActive($id)
+    public function edit(Customer $customer)
     {
-        $customer = Customer::findOrFail($id);
-        $customer->update([
-            'status' => 'not active'
-        ]);
-        return redirect()->back();
+        try {
+            $customers = Customer::get();
+        return view('admin.customers.edit', compact('customers', 'blog'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function update(CustomerRequest $request, Customer $customer)
+    {
+        try {
+            $data = $request->validated();
+            $image = $request->file('image');
+            if ($image) {
+                $this->deleteFiles($customer->image);
+                $path = 'images/customers/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $file_name;
+            }
+            $customer->update($data);
+            return redirect()->route('admin.customers.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function show(Customer $customer)
+    {
+        try {
+            return view('admin.customers.show', compact('blog'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function destroy(Customer $customer)
+    {
+        try {
+            $this->deleteFiles($customer->image);
+            $customer->delete();
+            return redirect()->route('admin.customers.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

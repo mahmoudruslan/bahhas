@@ -26,6 +26,7 @@ class CityRequest extends FormRequest
         return [
             'name_ar' => 'required|string',
             'name_en' => 'required|string',
+            'country_id' => 'required',
         ];
     }
 }

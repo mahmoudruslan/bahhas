@@ -24,13 +24,9 @@ class ReviewDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
-                $b = $this->getEditLink("admin.reviews.edit", $id);
-                $b = $b .= $this->getShowLink("admin.reviews.show", $id);
-                $b = $b .= $this->getDeleteLink("admin.reviews.destroy", $id);
-                return $b;
+                return $this->getDeleteLink("admin.reviews.destroy", $row->id);
             })->editColumn('customer_id', function($row){
-                return $row->customer['first_name'] ?? '';
+                return $row->customer['first_name'] . ' ' . $row->customer['last_name'] ?? '';
             })->editColumn('product_id', function($row){
                 return $row->product['name_' . app()->getLocale()] ?? '';
             })->editColumn('created_at', function($row){

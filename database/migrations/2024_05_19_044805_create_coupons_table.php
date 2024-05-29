@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('expire_date');
             $table->integer('use_times');
-            $table->integer('used_times');
+            $table->integer('used_times')->default(0);
             $table->integer('greater_than');
             $table->timestamps();
         });

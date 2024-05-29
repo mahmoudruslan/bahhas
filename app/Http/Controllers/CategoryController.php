@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\DataTables\CategoryDataTable;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Illuminate\Http\Request;
-use App\Traits\HtmlTrait;
-use App\Traits\SaveImageTrait;
-use DataTables;
+use App\Models\ParentCategory;
+use App\Traits\Files;
 
 class CategoryController extends Controller
 {
-    use HtmlTrait, SaveImageTrait;
+    use Files;
 
     public function index(CategoryDataTable $dataTable)
     {
@@ -23,81 +20,85 @@ class CategoryController extends Controller
             return $e->getMessage();
         }
     }
-
-
     public function create()
     {
-        return view('admin.categories.create');
+        $parent_categories = ParentCategory::get();
+        return view('admin.categories.create', compact('parent_categories'));
     }
 
     public function store(CategoryRequest $request)
     {
         try {
-            $photo_name = $this->saveImage('categories', $request->photo);
-            Category::create([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'photo' => $photo_name,
-            ]);
-
-            return redirect()->route('admin.categories.index')->with(['success' => 'Created Successfully']);
+            $data = $request->validated();
+                $path = 'images/categories/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            Category::create($data);
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $parent_categories = ParentCategory::get();
+            return view('admin.categories.edit', compact('category', 'parent_categories'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function update(CategoryRequest $request, $id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $data = $request->validated();
+            $image = $request->file('cover');
+            if ($image) {
+                $this->deleteFiles($category->cover);
+                $path = 'images/categories/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            }
+            $category->update($data);
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function show($id)
     {
         try {
             $category = Category::findOrFail($id);
-
             return view('admin.categories.show', compact('category'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-
-    public function edit($id)
-    {
-        try {
-            $category = Category::findOrFail($id);
-            return view('admin.categories.edit', compact('category'));
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-
-    public function update(CategoryRequest $request, $id)
-    {
-        try {
-            $photo_name = $this->saveImage('categories', $request->photo);
-
-            $category = Category::findOrFail($id);
-            $category->update([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'photo' => $photo_name ?? $category->photo,
-            ]);
-            return redirect()->route('admin.categories.index')->with(['success' => 'Updated Successfully']);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    
-
     public function destroy($id)
     {
         try {
             $category = Category::findOrFail($id);
-            if (count($category->innerCategories) > 0) {
-                return redirect()->back()->with(['error' => 'Element can\'t be deleted, there are things about it']);
+            if (count($category->subCategories) > 0 || count($category->products) > 0) {
+
+                return redirect()->route('admin.categories.index')->with([
+                    'message' => __('can\'t delete this item'),
+                    'alert-type' => 'danger']);
             }
+            $this->deleteFiles($category->image);
             $category->delete();
-            return redirect()->back()->with(['success' => 'Deleted Successfully']);
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

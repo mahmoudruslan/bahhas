@@ -1,58 +1,60 @@
 @extends('layouts.admin.master')
 @section('title')
-{{__('Add Category')}}
+    {{ __('Add city') }}
 @endsection
 @section('content')
     <!-- Nested Row within Card Body -->
     <div class="row">
-        {{-- <div class="col-lg-5 d-none d-lg-block bg-register-image"></div> --}}
-        @if (Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ Session::get('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="p-5 col-lg-12">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Add cities') }}</h1>
             </div>
-        @endif
-        <div class="col"></div>
-            <div class="p-5 col-md-6">
-                <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">{{__('Add Category')}}</h1>
+            <form method="POST" action="{{ route('admin.cities.store') }}"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="form-group row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="form-group"><input type="text" class="form-control form-control-user"
+                                id="exampleFirstName" placeholder="{{ __('Name in arabic') }}" name="name_ar"
+                                value="{{ old('name_ar') }}">
+                            @error('name_ar')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                id="exampleFirstName" placeholder="{{ __('Name in english') }}" name="name_en"
+                                value="{{ old('name_en') }}">
+                            @error('name_en')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <select name="country_id" class="form-control">
+                                <option selected disabled>{{ __('Choose country') }}</option>
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country['name_'. app()->getLocale()] }}</option>
+                                @endforeach
+                            </select>
+                            @error('country_id')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
                 </div>
-                <form class="user insubmit" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" placeholder="{{__('Enter Name_ar')}}" name="name_ar">
-                        @error('name_ar')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" placeholder="{{__('Enter Name_en')}}" name="name_en">
-                        @error('name_en')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <input type="file" class="form-control" placeholder="{{__('Enter Photo')}}" name="photo">
-                        @error('photo')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        {{ __('Submit') }}
-                    </button>
-                    <hr>
-                </form>
-            </div>
-            <div class="col"></div>
-
+                <hr>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                    {{ __('Submit') }}
+                </button>
+            </form>
+        </div>
     </div>
 @endsection

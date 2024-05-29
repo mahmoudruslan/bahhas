@@ -27,9 +27,9 @@ class AdDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $id = $row->id;
-                $b = $this->getEditLink("admin.admins.edit", $id);
-                $b = $b .= $this->getShowLink("admin.admins.show", $id);
-                $b = $b .= $this->getDeleteLink("admin.admins.destroy", $id);
+                $b = $this->getEditLink("admin.ads.edit", $id);
+                $b = $b .= $this->getShowLink("admin.ads.show", $id);
+                $b = $b .= $this->getDeleteLink("admin.ads.destroy", $id);
                 return $b;
             })
             ->editColumn('status', function($row){
@@ -38,10 +38,13 @@ class AdDataTable extends DataTable
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
+            ->editColumn('url', function($row){
+                return "<a href=".$row->url.">".$row->url."</a>";
+            })
             ->editColumn('cover', function($row){
                 return $row->cover ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
             })
-            ->rawColumns(['status', 'action', 'created_at', 'cover']);
+            ->rawColumns(['status', 'action', 'created_at', 'cover', 'url']);
     }
 
     /**

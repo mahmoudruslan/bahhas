@@ -40,9 +40,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function viewedMessage()
+    public function fullName()
     {
-        return $this->hasMany(ViewedMessage::class, 'user_id');
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function setPasswordAttribute($value)

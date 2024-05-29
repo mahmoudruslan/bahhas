@@ -83,8 +83,8 @@ class BlogDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('title')->title(__('Title')),
-            Column::make('description')->title(__('Description')),
+            Column::make('title_ar')->title(__('Title in arabic')),
+            Column::make('title_en')->title(__('Title in english')),
             Column::make('image')->title(__('Image')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')

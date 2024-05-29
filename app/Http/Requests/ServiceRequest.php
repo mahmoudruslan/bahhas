@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 
-class ProductRequest extends FormRequest
+class ServiceRequest extends FormRequest
 {
     public function authorize()
     {
@@ -28,7 +28,6 @@ class ProductRequest extends FormRequest
             'details_en' => 'required|string|max:500',
             'quantity' => 'required|string|max:50',
             'category_id' => 'required|string|max:50',
-            'sub_category_id' => 'required|string|max:50',
             'status' => 'max:1',
             'image' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
             'first_appearing' => 'numeric',
@@ -43,7 +42,6 @@ class ProductRequest extends FormRequest
                 'details_en' => 'required|string|max:500',
                 'quantity' => 'required|string|max:50',
                 'category_id' => 'required|string|max:50',
-                'sub_category_id' => 'required|string|max:50',
                 'status' => 'max:1',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
                 'first_appearing' => 'numeric',

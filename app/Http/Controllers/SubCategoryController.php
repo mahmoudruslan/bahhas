@@ -6,12 +6,11 @@ use App\DataTables\SubCategoryDataTable;
 use App\Http\Requests\SubCategoryRequest;
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Traits\HtmlTrait;
-use App\Traits\SaveImageTrait;
+use App\Traits\Files;
 
 class SubCategoryController extends Controller
 {
-    use HtmlTrait, SaveImageTrait;
+    use Files;
 
     public function index(SubCategoryDataTable $dataTable)
     {
@@ -22,85 +21,85 @@ class SubCategoryController extends Controller
         }
     }
 
-
     public function create()
     {
-        $categories = Category::select(
-            'id',
-            'name_ar',
-            'name_en',
-        )->get();
-        return view('admin.inner_categories.create', compact('categories'));
+        $categories = Category::get();
+        return view('admin.sub_categories.create', compact('categories'));
     }
 
     public function store(SubCategoryRequest $request)
     {
         try {
-            $photo_name = $this->saveImage('inner_categories', $request->photo);
-            SubCategory::create([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'photo' => $photo_name,
-                'category_id' => $request->category_id,
-            ]);
-
-            return redirect()->route('admin.inner_categories.index')->with(['success' => 'Created Successfully']);
+            $data = $request->validated();
+                $path = 'images/sub_categories/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            SubCategory::create($data);
+            return redirect()->route('admin.sub-categories.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-
-
-    public function show($id)
-    {
-        try {
-            $inner_category = SubCategory::findOrFail($id);
-            return view('admin.inner_categories.show', compact('inner_category'));
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
 
     public function edit($id)
     {
         try {
-            $inner_category = SubCategory::findOrFail($id);// inner category
-            $categories = Category::select('id', 'name_ar', 'name_en')->get();
-            return view('admin.inner_categories.edit', compact('inner_category', 'categories'));
+            $sub_category = SubCategory::findOrFail($id);
+            $categories = Category::get();
+            return view('admin.sub_categories.edit', compact('sub_category', 'categories'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
-
 
     public function update(SubCategoryRequest $request, $id)
     {
         try {
-            $photo =$this->saveImage('inner_categories', $request->photo);
-            $inner_category = SubCategory::findOrFail($id);
-            $inner_category->update([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'photo' => $photo ?? $inner_category->photo,
-                'category_id' => $request->category_id,
-            ]);
-            return redirect()->route('admin.inner_categories.index')->with(['success' => 'Updated Successfully']);
+            $category = SubCategory::findOrFail($id);
+            $data = $request->validated();
+            $image = $request->file('cover');
+            if ($image) {
+                $this->deleteFiles($category->cover);
+                $path = 'images/sub_categories/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            }
+            $category->update($data);
+            return redirect()->route('admin.sub-categories.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $sub_category = SubCategory::findOrFail($id);
+            return view('admin.sub_categories.show', compact('sub_category'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
     public function destroy($id)
     {
         try {
-            $inner_category = SubCategory::findOrFail($id);
-            if (count($inner_category->products) > 0) {
-                return redirect()->back()->with(['error' => 'Element can\'t be deleted, there are things about it']);
+            $sub_category = SubCategory::findOrFail($id);
+            if (count($sub_category->products) > 0) {
+
+                return redirect()->route('admin.sub-categories.index')->with([
+                    'message' => __('can\'t delete this item'),
+                    'alert-type' => 'danger']);
             }
-            $inner_category->delete();
-            return redirect()->back()->with(['success' => 'Deleted Successfully']);
+            $this->deleteFiles($sub_category->image);
+            $sub_category->delete();
+            return redirect()->route('admin.sub-categories.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

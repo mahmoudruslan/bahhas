@@ -21,6 +21,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\InnerCategoryController;
 use App\Http\Controllers\ParentCategoryController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\ServiceController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -65,6 +66,7 @@ Route::group(
             Route::resource('sub-categories', SubCategoryController::class);
             Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
             Route::resource('products', ProductController::class);
+            Route::resource('services', ServiceController::class);
             Route::resource('reviews', ReviewController::class);
             Route::resource('coupons', CouponController::class);
             Route::resource('blogs', BlogController::class);

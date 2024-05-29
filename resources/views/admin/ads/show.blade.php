@@ -1,38 +1,45 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Details Ad') }}
-@endsection
-@section('style')
-    <style>
-        .pt-10 {
-            padding-top: 3rem;
-        }
-    </style>
+    {{ __('Category data') }}
 @endsection
 @section('content')
-    <!-- Nested Row within Card Body -->
-    <div class="row">
-        <div class="p-5  col-lg-6">
-            <a style="margin-left: 20px" href="{{ route('admin.ads.index') }}" class="btn btn-secondary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-arrow-right"></i>
-                </span>
-                <span class="text">{{ __('Ads') }}</span>
-            </a>
-            <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Ad Details') }}</h1>
+    <div class="container-fluid">
+        <h1 class="h3 mb-2 text-gray-800">{{ __('Ad data') }}</h1>
+        <p class="mb-4"></p>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">{{ __('Title in arabic') }}</th>
+                                        <td>{{ $ad->title_ar }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Title in english') }}</th>
+                                        <td>{{ $ad->title_en }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Url') }}</th>
+                                        <td>{{ $ad->url }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Status') }}</th>
+                                        <td>{{ $ad->status() }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="width: 100%; text-align: center">
+                                <img style="width: 80%" src="{{ asset('storage/' . $ad->cover) }}" alt="admin image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <table class="table table-striped">
-                <tbody>
-
-                    <tr>
-                        <th scope="row">{{ __('Link') }}</th>
-                        <td><a href="{{ $ad->target }}">{{ $ad->target }}</a></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-        <div class="col-lg-5 pt-10 p-4"><img style="width: 90%; max-height: 90%;"
-                src="{{ asset('images/ads/' . $ad->photo) }}"></div>
     </div>
 @endsection

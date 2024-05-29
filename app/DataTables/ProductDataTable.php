@@ -27,7 +27,7 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
+                $id = $row->id;
                 $b = $this->getEditLink("admin.products.edit", $id);
                 $b = $b .= $this->getShowLink("admin.products.show", $id);
                 $b = $b .= $this->getDeleteLink("admin.products.destroy", $id);
@@ -42,13 +42,10 @@ class ProductDataTable extends DataTable
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
             })
-            ->editColumn('created_at', function($row){
-                return date('Y-m-d', strtotime($row->created_at));
+            ->editColumn('image', function($row){
+                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
-            ->editColumn('photo', function($row){
-                return $row->photo ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
-            })
-            ->rawColumns(['photo', 'status', 'action', 'created_at']);
+            ->rawColumns(['image', 'status', 'action']);
     }
 
     /**
@@ -59,7 +56,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->whereNotNull('sub_category_id')->newQuery();
     }
 
     /**
@@ -98,11 +95,11 @@ class ProductDataTable extends DataTable
             Column::make('id'),
             Column::make('name_ar')->title(__('Name in arabic')),
             Column::make('name_en')->title(__('Name in english')),
-            Column::make('amount')->title(__('Amount')),
+            Column::make('quantity')->title(__('Quantity')),
             Column::make('price')->title(__('Price')),
             Column::make('category_id')->title(__('Category')),
             Column::make('sub_category_id')->title(__('Sub category')),
-            Column::make('photo')->title(__('Image')),
+            Column::make('image')->title(__('Image')),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

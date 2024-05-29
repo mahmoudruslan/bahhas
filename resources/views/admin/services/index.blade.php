@@ -1,13 +1,13 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Coupons') }}
+    {{ __('Services') }}
 @endsection
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">{{ __('Coupons') }}</h1>
+        <h1 class="h3 mb-2 text-gray-800">{{ __('Services') }}</h1>
         <p class="mb-4"></p>
         <!-- DataTales Example -->
         <div class="card shadow mb-4">

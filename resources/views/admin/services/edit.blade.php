@@ -13,16 +13,16 @@
 <!-- Nested Row within Card Body -->
 <div class="row">
     <div class="p-5  col-lg-6">
-        <a style="margin-left: 20px" href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-icon-split">
+        <a style="margin-left: 20px" href="{{ route('admin.services.index') }}" class="btn btn-secondary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-right"></i>
             </span>
-            <span class="text">{{ __('Products') }}</span>
+            <span class="text">{{ __('services') }}</span>
         </a><br><br>
         <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
         </div>
-        <form class="user" method="POST" action="{{ route('admin.products.update', $product->id) }}"
+        <form class="user" method="POST" action="{{ route('admin.services.update', $product->id) }}"
             enctype="multipart/form-data">
             @csrf
             @method('patch')

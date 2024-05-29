@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\CouponDataTable;
+use App\Http\Requests\CouponRequest;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 
@@ -21,71 +22,66 @@ class CouponController extends Controller
             return $e->getMessage();
         }
     }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try {
+            return view('admin.coupons.create');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(CouponRequest $request)
     {
-        //
-    }
+        try {
+            Coupon::create($request->validated());
+            return redirect()->route('admin.coupons.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Coupon  $coupon
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Coupon $coupon)
-    {
-        //
+            return redirect()->back()->with(['success' => 'Created Successfully']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Coupon  $coupon
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Coupon $coupon)
     {
-        //
+        try {
+            return view('admin.coupons.edit', compact('coupon'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Coupon $coupon)
+    public function show(Coupon $coupon)
     {
-        //
+        try {
+            // $product = Coupon::findOrFail($id);
+            return view('admin.coupons.show', compact('coupon'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Coupon  $coupon
-     * @return \Illuminate\Http\Response
-     */
+    public function update(CouponRequest $request, $id)
+    {
+        try {
+            
+            $coupon = Coupon::findOrFail($id);
+            $coupon->update($request->validated());
+            return redirect()->route('admin.coupons.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function destroy(Coupon $coupon)
     {
-        //
+        try {
+            $coupon->delete();
+            return redirect()->route('admin.coupons.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

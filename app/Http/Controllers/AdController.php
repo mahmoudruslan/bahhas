@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\DataTables\AdDataTable;
 use App\Http\Requests\AdRequest;
 use App\Models\Ad;
-use App\Traits\SaveImageTrait;
-use Illuminate\Http\Request;
+use App\Traits\Files;
 
 class AdController extends Controller
 {
-    use SaveImageTrait;
+    use Files;
     /**
      * Display a listing of the resource.
      *
@@ -27,74 +26,75 @@ class AdController extends Controller
 
     public function create()
     {
-        try {
-            return view('admin.ads.create');
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        // $parent_ads = ParentAd::get();
+        return view('admin.ads.create');
     }
 
     public function store(AdRequest $request)
     {
         try {
-            $photo_name = $this->saveImage('ads', $request->photo);
-            Ad::create([
-                'photo' => $photo_name,
-                'target' => $request->target,
-            ]);
-            return redirect()->route('admin.ads.index')->with('success', __('Created Successfully'));
+            $data = $request->validated();
+                $path = 'images/ads/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            Ad::create($data);
+            return redirect()->route('admin.ads.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-
-    public function show($id)
+    public function edit(Ad $ad)
     {
         try {
-            $ad = Ad::findOrFail($id);
-
-            return view('admin.ads.show', compact('ad'));
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    public function edit($id)
-    {
-        try {
-            $ad = Ad::findOrFail($id);
-
+            // $ad = Ad::findOrFail($id);
+            // $parent_ads = ParentAd::get();
             return view('admin.ads.edit', compact('ad'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(AdRequest $request, $id)
     {
         try {
-            $photo_name = $this->saveImage('ads', $request->photo);
-
-            $ad = Ad::findOrFail($id);
-            $ad->update([
-                'target' => $request->target,
-                'photo' => $photo_name ?? $ad->photo
-            ]);
-            return redirect()->route('admin.ads.index')->with('success', __('Updated Successfully'));
-
+            $category = Ad::findOrFail($id);
+            $data = $request->validated();
+            $image = $request->file('cover');
+            if ($image) {
+                $this->deleteFiles($category->cover);
+                $path = 'images/ads/';
+                $file_name = $this->saveImag($path, [$request->cover]);
+                $data['cover'] = $path . $file_name;
+            }
+            $category->update($data);
+            return redirect()->route('admin.ads.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function destroy($id)
+    public function show(Ad $ad)
     {
         try {
-            $ad = Ad::findOrFail($id);
-            $ad->delete();
-            return redirect()->back()->with('success', __('Deleted Successfully'));
+            return view('admin.ads.show', compact('ad'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
+    public function destroy(Ad $ad)
+    {
+        try {
+            $this->deleteFiles($ad->cover);
+            $ad->delete();
+            return redirect()->route('admin.ads.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

@@ -24,14 +24,16 @@ class CouponDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
+                $id = $row->id;
                 $b = $this->getEditLink("admin.coupons.edit", $id);
                 $b = $b .= $this->getShowLink("admin.coupons.show", $id);
                 $b = $b .= $this->getDeleteLink("admin.coupons.destroy", $id);
                 return $b;
-            })->editColumn('status', function($row){
-                return $row->status == 1 ? 'active' : 'inactive';
-            })->editColumn('created_at', function($row){
+            })
+            ->editColumn('status', function($row){
+                return $row->status();
+            })
+            ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             });
     }
@@ -80,15 +82,15 @@ class CouponDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('description_ar')->title(__('Description in arabic')),
-            Column::make('description_en')->title(__('Description in english')),
+            // Column::make('description_ar')->title(__('Description in arabic')),
+            // Column::make('description_en')->title(__('Description in english')),
             Column::make('code')->title(__('Code')),
             Column::make('value')->title(__('Value')),
             Column::make('status')->title(__('Status')),
             Column::make('start_date')->title(__('Start date')),
             Column::make('expire_date')->title(__('Expire date')),
-            Column::make('use_times')->title(__('Use times')),
-            Column::make('used_times')->title(__('Used times')),
+            // Column::make('use_times')->title(__('Use times')),
+            // Column::make('used_times')->title(__('Used times')),
             Column::make('greater_than')->title(__('Greater than')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')

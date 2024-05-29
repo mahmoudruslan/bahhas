@@ -1,38 +1,62 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Details Category') }}
-@endsection
-@section('style')
-    <style>
-        .pt-10 {
-            padding-top: 3rem;
-        }
-    </style>
+    {{ __('Coupon data') }}
 @endsection
 @section('content')
-    <!-- Nested Row within Card Body -->
-    <div class="row">
-        <div class="p-5  col-lg-6">
-            <a style="margin-left: 20px" href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-arrow-right"></i>
-                </span>
-                <span class="text">{{ __('Categories') }}</span>
-            </a>
-            <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Category Details') }}</h1>
-            </div>
-            <table class="table table-striped">
-                <tbody>
+    <div class="container-fluid">
 
-                    <tr>
-                        <th scope="row">{{ __('Name') }}</th>
-                        <td>{{ $category['name_' . app()->getLocale()] }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <h1 class="h3 mb-2 text-gray-800">{{ __('Coupon data') }}</h1>
+        <p class="mb-4"></p>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">{{ __('Description in arabic') }}</th>
+                                        <td>{{ $coupon->description_ar }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Description in english') }}</th>
+                                        <td>{{ $coupon->description_en }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Code') }}</th>
+                                        <td>{{ $coupon->code }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Coupon value') }}</th>
+                                    <td>{{ $coupon->value }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Status') }}</th>
+                                    <td>{{ $coupon->status() }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Start date') }}</th>
+                                    <td>{{ $coupon->start_date }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Expire date') }}</th>
+                                    <td>{{ $coupon->expire_date }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Use times') }}</th>
+                                    <td>{{ $coupon->use_times }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Used times') }}</th>
+                                    <td>{{ $coupon->used_times }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Greater than') }}</th>
+                                    <td>{{ $coupon->greater_than }}</td>
+                                    </tr>
+                                    <th scope="row">{{ __('Created at') }}</th>
+                                    <td>{{ $coupon->created_at }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-5 pt-10 p-4"><img style="width: 90%; max-height: 90%;"
-                src="{{ asset('images/categories/' . $category->photo) }}"></div>
     </div>
 @endsection

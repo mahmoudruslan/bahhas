@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Category;
-use App\Traits\HTMLTrait;
+use App\Models\Product;
+use App\Traits\HtmlTrait;
+use App\Traits\SaveImageTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,9 +13,9 @@ use Yajra\DataTables\Html\Column;
 
 use Yajra\DataTables\Services\DataTable;
 
-class CategoryDataTable extends DataTable
+class ServiceDataTable extends DataTable
 {
-    use HTMLTrait;
+    use SaveImageTrait, HtmlTrait;
     /**
      * Build DataTable class.
      *
@@ -26,32 +27,35 @@ class CategoryDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $id = $row->id;
-                $b = $this->getEditLink("admin.categories.edit", $id);
-                $b = $b .= $this->getShowLink("admin.categories.show", $id);
-                $b = $b .= $this->getDeleteLink("admin.categories.destroy", $id);
+                $b = $this->getEditLink("admin.services.edit", $id);
+                $b = $b .= $this->getShowLink("admin.services.show", $id);
+                $b = $b .= $this->getDeleteLink("admin.services.destroy", $id);
                 return $b;
             })
-            ->editColumn('parent_category_id', function($row){
-                return $row->parent['name_' . app()->getLocale()]  ;
+            ->editColumn('category_id', function($row){
+                return $row->category['name_' . app()->getLocale()] ?? '';
             })
-            ->editColumn('created_at', function($row){
-                return date('Y-m-d', strtotime($row->created_at));
+            ->editColumn('sub_category_id', function($row){
+                return $row->subCategory['name_' . app()->getLocale()] ?? '';
             })
-            ->editColumn('cover', function($row){
-                return $row->cover ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
+            ->editColumn('status', function($row){
+                return $this->getStatusIcon($row->status);
             })
-            ->rawColumns(['action', 'created_at', 'cover']);
+            ->editColumn('image', function($row){
+                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
+            })
+            ->rawColumns(['image', 'status', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Admin $model
+     * @param \App\Models\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Category $model): QueryBuilder
+    public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->whereNull('sub_category_id')->newQuery();
     }
 
     /**
@@ -62,7 +66,7 @@ class CategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('user-table')
+                    ->setTableId('product-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -90,14 +94,15 @@ class CategoryDataTable extends DataTable
             Column::make('id'),
             Column::make('name_ar')->title(__('Name in arabic')),
             Column::make('name_en')->title(__('Name in english')),
-            Column::make('cover')->title(__('Image')),
-            Column::make('parent_category_id')->title(__('Parent')),
-            Column::make('created_at')->title(__('Created At')),
+            Column::make('quantity')->title(__('Quantity')),
+            Column::make('price')->title(__('Price')),
+            Column::make('category_id')->title(__('Category')),
+            Column::make('image')->title(__('Image')),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'), 
+                ->addClass('text-center'),
         ];
     }
 
@@ -108,6 +113,6 @@ class CategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Admin_' . date('YmdHis');
+        return 'Product_' . date('YmdHis');
     }
 }

@@ -37,7 +37,7 @@ class SubCategoryDataTable extends DataTable
                 return date('Y-m-d', strtotime($row->created_at));
             })
             ->editColumn('cover', function($row){
-                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
+                return $row->cover ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['action', 'created_at', 'cover']);
     }

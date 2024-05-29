@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BlogDataTable;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use App\DataTables\BlogDataTable;
+use App\Http\Requests\BlogRequest;
+use App\Traits\Files;
 
 class BlogController extends Controller
 {
+    use Files;
     /**
      * Display a listing of the resource.
      *
@@ -18,69 +21,77 @@ class BlogController extends Controller
         return $dataTable->render('admin.blogs.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $blogs = Blog::get();
+        return view('admin.blogs.create', compact('blogs'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+                $path = 'images/blogs/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $file_name;
+            Blog::create($data);
+            return redirect()->route('admin.blogs.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Blog $blog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Blog $blog)
     {
-        //
+        try {
+            $blogs = Blog::get();
+        return view('admin.blogs.edit', compact('blogs', 'blog'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Blog $blog)
+    public function update(BlogRequest $request, Blog $blog)
     {
-        //
+        try {
+            $data = $request->validated();
+            $image = $request->file('image');
+            if ($image) {
+                $this->deleteFiles($blog->image);
+                $path = 'images/blogs/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $file_name;
+            }
+            $blog->update($data);
+            return redirect()->route('admin.blogs.index')->with([
+                'message' => __('Item updated successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
+    public function show(Blog $blog)
+    {
+        try {
+            return view('admin.blogs.show', compact('blog'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function destroy(Blog $blog)
     {
-        //
+        try {
+            $this->deleteFiles($blog->image);
+            $blog->delete();
+            return redirect()->route('admin.blogs.index')->with([
+                'message' => __('Item deleted successfully.'),
+                'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

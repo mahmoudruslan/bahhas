@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
+            $table->string('title_ar');
+            $table->string('title_en');
+            $table->text('description_ar');
+            $table->text('description_en');
             $table->string('image');
-            $table->foreignId('blog_id')->nullable()->constrained('blogs');
+            $table->foreignId('blog_id')->nullable()->references('id')->on('blogs')->nullOnDelete();
             $table->timestamps();
         });
     }

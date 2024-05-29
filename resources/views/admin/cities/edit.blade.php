@@ -1,63 +1,70 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Edit Data') }}
+    {{ __('Edit categories') }}
 @endsection
 @section('content')
-    <!-- Nested Row within Card Body -->
-    <div class="row text-center">
-        {{-- <div class="col-lg-5 d-none d-lg-block bg-register-image"></div> --}}
-        <div class="col"></div>
-        <div class="p-5  col-md-6">
-            @if (Session::has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ __(Session::get('success')) }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+    <div class="row">
+        <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit data') }} : {{ $category['name_'. app()->getLocale()] }}</h1>
             </div>
-            <form class="user insubmit" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
-                @csrf
+            <form class="user insubmit" method="POST" action="{{ route('admin.categories.update', $category->id) }}"
+                enctype="multipart/form-data">
                 @method('patch')
-                <input name="edit" type="hidden" value="true">
-
-                <div class="form-group">
-                    <input value="{{ $category->name_ar }}" type="text" class="form-control form-control-user"
-                        id="exampleinput" placeholder="Category Name" name="name_ar">
-                    @error('name_ar')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                @csrf
+                <div class="form-group row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="form-group"><input type="text" class="form-control form-control-user"
+                                id="exampleFirstName" placeholder="{{ __('Name in arabic') }}" name="name_ar"
+                                value="{{ $category->name_ar }}">
+                            @error('name_ar')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                id="exampleFirstName" placeholder="{{ __('Name in english') }}" name="name_en"
+                                value="{{ $category->name_en }}">
+                            @error('name_en')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <select name="parent_category_id" class="form-control">
+                                <option selected value="{{$category->parent_category_id}}">{{ $category->parent['name_' . app()->getLocale()] }}</option>
+                                @foreach ($parent_categories as $parent_category)
+                                    <option value="{{ $parent_category->id }}">{{ $parent_category['name_'. app()->getLocale()] }}</option>
+                                @endforeach
+                            </select>
+                            @error('parent_category_id')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Choose image') }}</label>
+                            <input type="file" name="cover"><br>
+                            @error('cover')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-3"></div>
                 </div>
-
-                <div class="form-group">
-                    <input value="{{ $category->name_en }}" type="text" class="form-control form-control-user"
-                        id="exampleinput" placeholder="Category Name" name="name_en">
-                    @error('name_en')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <input type="file" class="form-control" placeholder="{{__('Enter Photo')}}" name="photo">
-                    @error('photo')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                <hr>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                     {{ __('Submit') }}
                 </button>
             </form>
-            <hr>
         </div>
-        <div class="col"></div>
-
     </div>
 @endsection

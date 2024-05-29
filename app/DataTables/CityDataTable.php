@@ -24,10 +24,7 @@ class CityDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
-                $b = $this->getEditLink("admin.reviews.edit", $id);
-                $b = $b .= $this->getShowLink("admin.reviews.show", $id);
-                $b = $b .= $this->getDeleteLink("admin.reviews.destroy", $id);
+                $b = $this->getDeleteLink("admin.cities.destroy", $row->id);
                 return $b;
             })->editColumn('country_id', function($row){
                 return $row->country['name_' . app()->getLocale()] ?? '';

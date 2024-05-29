@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\ProductDataTable;
-use App\Http\Requests\ProductRequest;
+use App\DataTables\ServiceDataTable;
+use App\Http\Requests\ServiceRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
@@ -11,14 +11,14 @@ use App\Traits\Files;
 use Illuminate\Http\Request;
 
 
-class ProductController extends Controller
+class ServiceController extends Controller
 {
     use Files;
-    public function index(ProductDataTable $dataTable)
+    public function index(ServiceDataTable $dataTable)
     {
         try {
+            return $dataTable->render('admin.services.index');
 
-            return $dataTable->render('admin.products.index');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -27,22 +27,23 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         try {
-            $categories = Category::whereHas('subCategories')->select('id','name_ar','name_en')->get();
-            return view('admin.products.create', compact('categories'));
+            $categories = Category::WhereDoesntHave('subCategories')->select('id','name_ar','name_en')->get();
+            $sub_categories = SubCategory::select('id','name_ar','name_en')->get();
+            return view('admin.services.create', compact('categories', 'sub_categories'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function store(ProductRequest $request)
+    public function store(ServiceRequest $request)
     {
         try {
             $data = $request->validated();
-                $path = 'images/products/';
+                $path = 'images/services/';
                 $file_name = $this->saveImag($path, [$request->image]);
                 $data['image'] = $path . $file_name;
             Product::create($data);
-            return redirect()->route('admin.products.index')->with([
+            return redirect()->route('admin.services.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
 
@@ -52,14 +53,13 @@ class ProductController extends Controller
         }
     }
 
-
     public function edit($id)
     {
         try {
-            $categories = Category::whereHas('subCategories')->select('id','name_ar','name_en')->get();
+            $categories = Category::WhereDoesntHave('subCategories')->select('id','name_ar','name_en')->get();
             $sub_categories = SubCategory::select('id','name_ar','name_en')->get();
             $product = Product::findOrFail($id);
-            return view('admin.products.edit', compact('categories', 'sub_categories', 'product'));
+            return view('admin.services.edit', compact('categories', 'sub_categories', 'product'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -70,14 +70,14 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             $product_types = $product->types;
-            return view('admin.products.show', compact(['product', 'product_types']));
+            return view('admin.services.show', compact(['product', 'product_types']));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
 
-    public function update(ProductRequest $request, $id)
+    public function update(ServiceRequest $request, $id)
     {
         try {
             
@@ -86,13 +86,13 @@ class ProductController extends Controller
             $image = $request->file('image');
             if ($image) {
                 $this->deleteFiles($product->image);
-                $path = 'images/products/';
+                $path = 'images/services/';
                 $file_name = $this->saveImag($path, [$request->image]);
                 $data['image'] = $path . $file_name;
             }
             $product->update($data);
 
-            return redirect()->route('admin.products.index')->with([
+            return redirect()->route('admin.services.index')->with([
                 'message' => __('Item updated successfully.'),
                 'alert-type' => 'success']);
         } catch (\Exception $e) {
@@ -106,7 +106,7 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $this->deleteFiles($product->image);
             $product->delete();
-            return redirect()->route('admin.products.index')->with([
+            return redirect()->route('admin.services.index')->with([
                 'message' => __('Item deleted successfully.'),
                 'alert-type' => 'success']);
         } catch (\Exception $e) {

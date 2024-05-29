@@ -130,6 +130,23 @@
                     </div>
                 </li>
             @endcanany
+            <!-- services -->
+            @canany(['services', 'store-services', 'update-services', 'show-services', 'delete-services'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseService"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>{{ __('Service') }}</span>
+                    </a>
+                    <div id="collapseService" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.services.index') }}">{{ __('Service') }}</a>
+                            <a class="collapse-item"
+                                href="{{ route('admin.services.create') }}">{{ __('Add services') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
             <!-- revoews -->
             @canany(['reviews', 'store-reviews', 'update-reviews', 'show-reviews', 'delete-reviews'])
                 <li class="nav-item">

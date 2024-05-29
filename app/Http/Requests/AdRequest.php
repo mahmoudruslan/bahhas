@@ -23,18 +23,23 @@ class AdRequest extends FormRequest
      */
     public function rules()
     {
-    return  [
-        'photo' => 'required',
-        'target'=> 'required|max:500',
-    ];
-}
-        
-    public function messages()
-    {
-        return [
-            'target.max' => __('This is field must be no more than 500 characters'),
-            'photo.required' => __('This field is required'),
-            'target.required' => __('This field is required'),
+        $rules = [
+            'title_ar' => 'required|string|max:500',
+            'title_en' => 'required|string|max:500',
+            'url' => 'required|string|max:1000',
+            'status' => 'required|max:1',
+            'cover' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules = [
+            'title_ar' => 'required|string|max:500',
+            'title_en' => 'required|string|max:500',
+            'url' => 'required|string|max:1000',
+            'status' => 'required|max:1',
+            'cover' => 'nullable',
+            ];
+        }
+        return $rules;
     }
 }

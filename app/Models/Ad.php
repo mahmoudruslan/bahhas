@@ -9,4 +9,9 @@ class Ad extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function status()
+    {
+        return $this->status == 0 ?  __('Inactive') : __('Active');
+    }
 }

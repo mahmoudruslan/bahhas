@@ -20,10 +20,10 @@ class CreateCustomersTable extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone');
-            $table->string('image');
-            $table->string('password');
-            $table->boolean('status')->default(true);
-            $table->foreignId('address_id')->constrained('addresses');
+            $table->string('image')->nullable();
+            // $table->string('password');
+            // $table->boolean('status')->default(true);
+            // $table->foreignId('address_id')->constrained('addresses');
             $table->timestamps();
         });
     }

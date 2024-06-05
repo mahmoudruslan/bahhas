@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartProduct;
+use App\Models\Customer;
 use App\Models\Product;
+use App\Traits\Files;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,7 @@ use function PHPUnit\Framework\isEmpty;
 
 class CartController extends Controller
 {
-    use GeneralTrait;
+    use GeneralTrait, Files;
     public function index()
     {
         try {
@@ -45,21 +47,33 @@ class CartController extends Controller
     {
         try {
             $cart = Cart::updateOrCreate([
-                'customer_id' => Auth::guard('sanctum')->user()->id
+                'customer_id' => $request->customer_id
             ]);
             $product = $cart->products
             ->where('cart_id', $cart->id)
             ->where('product_id', $request->product_id)
             ->first();
+            // dd($product);
+            $attach_name = null;
+            if($request->attach){
+                $this->deleteFiles($product->attach);
+                $path = 'images/orders/';
+                $attach_name = $this->saveImag($path, [$request->attach]);
+                $data['image'] = $path . $attach_name;
+            }
             if(empty($product)){
                 CartProduct::Create([
                     'cart_id' => $cart->id,
                     'product_id' => $request->product_id,
-                    'quantity' => $request->quantity
+                    'quantity' => $request->quantity,
+                    'notes' => $request->notes ?? null,
+                    'attach' => $attach_name
                 ]);
             }else{
                 $product->update([
                     'quantity' => $product->quantity + 1,
+                    'notes' => $request->notes ?? null,
+                    'attach' => $attach_name
                 ]);
             }
             
@@ -72,7 +86,7 @@ class CartController extends Controller
     public function deleteProduct(Request $request)
     {
         try {
-            $user_cart = auth()->guard('sanctum')->user()->cart;
+            $user_cart = Customer::find($request->customer_id)->cart;
             $user_cart->Products()->where('product_id', $request->product_id)->delete();
             return $this->returnSuccess('200', __('Deleted Successfully'));
         } catch (\Exception $e) {

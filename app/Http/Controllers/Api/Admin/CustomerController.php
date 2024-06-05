@@ -4,56 +4,76 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Traits\Files;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 
 class CustomerController extends Controller
 {
-    use GeneralTrait;
+    use GeneralTrait, Files;
+
+    public function store(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), $this->rules());
+            if ($validator->fails()) {
+                return $this->returnValidationError($validator);
+            }
+            Customer::create($validator->validated());
+            return $this->returnSuccess('200', __('Updated Successfully'));
+        } catch (\Exception $e) {
+            return $this->returnError($e->getCode(), $e->getMessage());
+        }
+    }
     public function update(Request $request, $id)
     {
         try {
-            
 
-            $validator = Validator::make($request->all(), $this->rules());
+            $validator = Validator::make($request->all(), $this->rules($id));
             if ($validator->fails()) {
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code, $validator);
+                return $this->returnValidationError($validator);
             }
-            $user = Customer::find($id);
-            if (!$user) {
-                return $this->returnError('404', 'user not found');
+            $customer = Customer::find($id);
+            if (!$customer) {
+                return $this->returnError('404', 'customer not found');
             }
-            $user->update([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'other_phone' => $request->other_phone,
-                'address' => $request->address,
-                'governorate' => $request->governorate,
-                'district' => $request->district,
-                'activity_type' => $request->activity_type,
-                'password' => $request->password,
-            ]);
+            $data = $validator->validated();
+            if($request->image){
+                $this->deleteFiles($customer->image);
+                $path = 'images/customers/';
+                $image_name = $this->saveImag($path, [$request->image]);
+                $data['image'] = $path . $image_name;
+            }
+            $customer->update($data);
             return $this->returnSuccess('200', __('Updated Successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }
     }
 
-    protected function rules()
+    protected function rules($id = null)
     {
         $rules = [
-            'name' => 'required|max:200',
+            'first_name' => 'required|string|max:200',
+            'last_name' => 'required|string|max:200',
             'phone' => 'required|numeric|digits_between:6,50',
-            'other_phone'=> 'min:6|max:50',
-            'address' => 'required|max:200',
-            'governorate' => 'required|max:200',
-            'district' => 'required|max:200',
-            'activity_type' => 'required|max:200',
-            'password'=> 'required|max:8',
+            'email' => 'required|email|unique:customers,email',
         ];
+        if ($id != null) $rules['email'] = 'required|email|unique:customers,email,' . $id;
         return $rules;
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $customer = Customer::findOrFail($id);
+            $this->deleteFiles($customer->image);
+            $customer->delete();
+            return $this->returnSuccess(200, 'customer deleted successfully');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Admin\OrderController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\ContactMeController;
+use App\Http\Controllers\Api\Admin\CustomerController;
 use App\Http\Controllers\Api\Admin\ExpertController;
 use App\Http\Controllers\Api\Admin\ReviewController;
 use App\Http\Controllers\Api\Admin\ServiceController;
@@ -53,6 +54,12 @@ Route::group(['middleware' => 'lang'], function(){
     Route::post('countries', [ExpertController::class, 'getCountries']);
     Route::post('cities/{country_id}', [ExpertController::class, 'countryCities']);
     Route::post('experts/store', [ExpertController::class, 'store']);
+    Route::post('customers/store', [CustomerController::class, 'store']);
+    Route::post('customers/update/{id}', [CustomerController::class, 'update']);
+    Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);
+    Route::get('cart', [CartController::class, 'index']);
+    Route::post('carts/add-to-cart', [CartController::class, 'store']);
+    Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
 // Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::post('logout', [AuthController::class, 'logout']);
     // Route::post('profile/update/{id}', [CustomerController::class, 'update']);

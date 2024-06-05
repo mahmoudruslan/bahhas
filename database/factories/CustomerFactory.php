@@ -24,16 +24,16 @@ class CustomerFactory extends Factory
      */
     public function definition()
     {
-        $address_ids = Address::select('id')->get();
+        // $address_ids = Address::select('id')->get();
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->safeEmail(),
             'image' => 'images/customers/customer.jpg',
             'phone' => '010' . rand('10000000', '99999999'),
-            'password' => '00000000',
-            'status' => true,
-            'address_id' => $address_ids->random()->id
+            // 'password' => '00000000',
+            // 'status' => true,
+            // 'address_id' => $address_ids->random()->id
         ];
     }
 }

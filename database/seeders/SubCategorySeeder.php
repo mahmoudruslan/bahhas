@@ -19,9 +19,7 @@ class SubCategorySeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        $categories = Category::whereHas('parent', function($query) {
-            $query->where('type', 'products');
-        })->get('id');
+        $categories = Category::where('type', 'product')->get('id');
 
         foreach($categories as $category)
         {

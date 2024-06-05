@@ -51,21 +51,19 @@
                 </li>
             @endcan
 
-            <!-- parent categories -->
-            @can('parent-categories')
+            <!-- experts -->
+            @can('experts')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                         data-target="#collapseparentcategory" aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-folder"></i>
-                        <span>{{ __('Parent categories') }}</span>
+                        <span>{{ __('Experts') }}</span>
                     </a>
                     <div id="collapseparentcategory" class="collapse" aria-labelledby="headingTwo"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item"
-                                href="{{ route('admin.parent-categories.index') }}">{{ __('Parent categories') }}</a>
-                            <a class="collapse-item"
-                                href="{{ route('admin.parent-categories.create') }}">{{ __('Add parent category') }}</a>
+                                href="{{ route('admin.experts.index') }}">{{ __('Experts') }}</a>
                         </div>
                     </div>
                 </li>
@@ -299,6 +297,22 @@
                                 href="{{ route('admin.permission-roles.create') }}">{{ __('Add roles') }}</a>
                         </div>
                     </div>
+                </li>
+            @endcan
+            @can('contact-me')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{route('admin.contact-me.edit')}}">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>{{ __('Contact me') }}</span>
+                    </a>
+                </li>
+            @endcan
+            @can('bhhath')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{route('admin.bhhath.edit')}}">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>{{ __('Bhhath') }}</span>
+                    </a>
                 </li>
             @endcan
 

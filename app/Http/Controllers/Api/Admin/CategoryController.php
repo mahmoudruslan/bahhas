@@ -9,28 +9,59 @@ use App\Traits\GeneralTrait;
 class CategoryController extends Controller
 {
     use GeneralTrait;
-    public function index()
+    // public function index()
+    // {
+    //     try {
+    //         $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'parent_category_id')
+    //         ->with('parent:id,name_'.app()->getLocale() . ' AS name,cover')->get();
+    //         return $this->returnData('categories', $categories, 'success');
+    //     } catch (\Exception $e) {
+    //         return $this->returnError($e->getCode(), $e->getMessage());
+    //     }
+    // }
+
+    public function productCategories()
     {
         try {
-            $categories = Category::get()->makeHidden(['name_ar', 'name_en']);
+            $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'type')->where('type', 'products')->get();
             return $this->returnData('categories', $categories, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }
     }
 
-    public function show($id)
+    public function serviceCategories()
     {
         try {
-            $category = Category::findOrFail($id);
-            $inner_categories = $category->innerCategories->makeHidden([
-                'name_ar', 
-                'name_en',
-            ]);
-        
-            return $this->returnData('inner_categories', $inner_categories , 'success');
+            $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'type')->where('type', 'service')->get();
+            return $this->returnData('categories', $categories, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }
     }
+
+    public function advisorCategories()
+    {
+        try {
+            $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'type')->where('type', 'advisor')->get();
+            return $this->returnData('categories', $categories, 'success');
+        } catch (\Exception $e) {
+            return $this->returnError($e->getCode(), $e->getMessage());
+        }
+    }
+
+    // public function show($id)
+    // {
+    //     try {
+    //         $category = Category::findOrFail($id);
+    //         $inner_categories = $category->innerCategories->makeHidden([
+    //             'name_ar', 
+    //             'name_en',
+    //         ]);
+        
+    //         return $this->returnData('inner_categories', $inner_categories , 'success');
+    //     } catch (\Exception $e) {
+    //         return $this->returnError($e->getCode(), $e->getMessage());
+    //     }
+    // }
 }

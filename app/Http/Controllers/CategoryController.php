@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\DataTables\CategoryDataTable;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use App\Models\ParentCategory;
 use App\Traits\Files;
 
 class CategoryController extends Controller
@@ -22,8 +21,7 @@ class CategoryController extends Controller
     }
     public function create()
     {
-        $parent_categories = ParentCategory::get();
-        return view('admin.categories.create', compact('parent_categories'));
+        return view('admin.categories.create');
     }
 
     public function store(CategoryRequest $request)
@@ -46,8 +44,7 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail($id);
-            $parent_categories = ParentCategory::get();
-            return view('admin.categories.edit', compact('category', 'parent_categories'));
+            return view('admin.categories.edit', compact('category'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

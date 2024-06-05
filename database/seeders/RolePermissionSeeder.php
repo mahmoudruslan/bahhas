@@ -32,6 +32,9 @@ class RolePermissionSeeder extends Seeder
             'services',
             'orders',
             'ads',
+            'contact-me',
+            'bhhath',
+            'experts'
         ];
 
         // Reset cached roles and permissions

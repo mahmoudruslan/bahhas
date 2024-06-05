@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
-use App\Models\ParentCategory;
+use App\Models\Expert;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ParentCategoryDataTable extends DataTable
+class ExpertDataTable extends DataTable
 {
     use HTMLTrait;
     /**
@@ -23,33 +24,30 @@ class ParentCategoryDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-        ->addColumn('action', function($row) {
-                $id = $row->id;
-                $b = $this->getEditLink("admin.parent-categories.edit", $id);
-                $b = $b .= $this->getShowLink("admin.parent-categories.show", $id);
-                $b = $b .= $this->getDeleteLink("admin.parent-categories.destroy", $id);
-                return $b;
-            })
-            // ->editColumn('status', function($row){
-            //     return $row->status == 1 ? 'active' : 'inactive'  ;
-            // })
-            ->editColumn('created_at', function($row){
-                return date('Y-m-d', strtotime($row->created_at));
-            })
-            ->editColumn('cover', function($row){
-                return $row->cover ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
-            })
-            ->rawColumns(['action', 'created_at', 'cover']);
+        
+        return (new EloquentDataTable($query))->addColumn('action', function($row) {
+            $id = $row->id;
+            $b = $this->getEditLink("admin.experts.edit", $id);
+            $b = $b .= $this->getShowLink("admin.experts.show", $id);
+            $b = $b .= $this->getDeleteLink("admin.experts.destroy", $id);
+            return $b;
+        })
+        ->editColumn('status', function($row){
+            return $row->status();
+        })
+        ->editColumn('created_at', function($row){
+            return date('Y-m-d', strtotime($row->created_at));
+        })
+        ->rawColumns(['action', 'created_at']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Admin $model
+     * @param \App\Models\Expert $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ParentCategory $model): QueryBuilder
+    public function query(Expert $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -62,7 +60,7 @@ class ParentCategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('user-table')
+                    ->setTableId('expert-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -86,18 +84,19 @@ class ParentCategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
             Column::make('id'),
-            Column::make('name_ar')->title(__('Name in arabic')),
-            Column::make('name_en')->title(__('Name in english')),
-            Column::make('cover')->title(__('Image')),
-            Column::make('type')->title(__('Type')),
+            Column::make('full_name')->title(__('Name')),
+            Column::make('specialization')->title(__('Specialization')),
+            Column::make('degree')->title(__('Degree')),
+            Column::make('phone')->title(__('Phone')),
+            Column::make('email')->title(__('Email')),
+            Column::make('status')->title(__('Status')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'), 
+                ->addClass('text-center')
         ];
     }
 
@@ -108,6 +107,6 @@ class ParentCategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Admin_' . date('YmdHis');
+        return 'Expert_' . date('YmdHis');
     }
 }

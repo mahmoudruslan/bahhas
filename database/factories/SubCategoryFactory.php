@@ -17,9 +17,7 @@ class SubCategoryFactory extends Factory
      */
     public function definition()
     {
-        $categories = Category::whereHas('parent', function($query) {
-            $query->where('type', 'products');
-        })->pluck('id');
+        $categories = Category::where('type', 'product')->pluck('id');
         return [
             'name_ar' => $this->faker->word,
             'name_en' => $this->faker->word,

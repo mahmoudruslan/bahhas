@@ -100,6 +100,11 @@
                     <div class="col-sm-6">
                         <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                     </div>
+                    <div class="col-sm-6">
+                        <input name="type" type="checkbox" value="PDF" id="flexCheckDefault">
+                        <label for="flexCheckDefault">{{__('PDF')}}</label>
+                    </div>
+    
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                     {{ __('Submit') }}

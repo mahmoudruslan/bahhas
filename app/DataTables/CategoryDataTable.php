@@ -31,8 +31,8 @@ class CategoryDataTable extends DataTable
                 $b = $b .= $this->getDeleteLink("admin.categories.destroy", $id);
                 return $b;
             })
-            ->editColumn('parent_category_id', function($row){
-                return $row->parent['name_' . app()->getLocale()]  ;
+            ->editColumn('type', function($row){
+                return __($row->type);
             })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
@@ -91,7 +91,7 @@ class CategoryDataTable extends DataTable
             Column::make('name_ar')->title(__('Name in arabic')),
             Column::make('name_en')->title(__('Name in english')),
             Column::make('cover')->title(__('Image')),
-            Column::make('parent_category_id')->title(__('Parent')),
+            Column::make('type')->title(__('Type')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')->title(__('Actions'))
                 ->exportable(false)

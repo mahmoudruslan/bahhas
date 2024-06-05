@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
         $rules = [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-            'parent_category_id' => 'required|numeric',
+            'type' => 'required|string|max:10',
             'cover' => 'required',
         ];
 
@@ -33,7 +33,7 @@ class CategoryRequest extends FormRequest
             $rules = [
                 'name_ar' => 'required|string|max:255',
                 'name_en' => 'required|string|max:255',
-                'parent_category_id' => 'required|numeric',
+                'type' => 'required|string|max:10',
                 'cover' => 'nullable',
             ];
         }

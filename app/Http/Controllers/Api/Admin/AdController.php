@@ -16,7 +16,12 @@ class AdController extends Controller
     public function index()
     {
         try {
-            $ads = Ad::get();
+            $lang = app()->getLocale();
+            $ads = Ad::select('id', 'title_'. $lang . ' AS title', 
+            'cover', 'url', 'created_at')
+        ->orderBy('id', 'desc')
+        ->whereStatus(1)
+        ->get();
             return $this->returnData('ads', $ads, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());

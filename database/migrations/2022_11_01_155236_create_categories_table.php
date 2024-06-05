@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name_ar');
             $table->string('name_en');
             $table->string('cover');
-            $table->foreignId('parent_category_id')->constrained('parent_categories');
+            $table->string('type')->default('product');
             $table->timestamps();
         });
     }

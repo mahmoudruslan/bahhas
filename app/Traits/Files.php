@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -10,13 +11,14 @@ trait Files
 {
     function saveImag($path, $images)
     {
-        try{
-
+        try {
             foreach ($images as $image) {
-                $extension = $image->getClientOriginalExtension();
-                $image_name = time() . Str::random(6) . '.' . $extension;
-                $image->storeAs($path, $image_name, 'public');
-                return $image_name;
+                if ($image) {
+                    $extension = $image->getClientOriginalExtension();
+                    $image_name = time() . Str::random(6) . '.' . $extension;
+                    $image->storeAs($path, $image_name, 'public');
+                    return $image_name;
+                }
             }
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -38,14 +40,13 @@ trait Files
 
     function deleteFiles($file_name)
     {
-        try{
-            $file_path = 'storage/'. $file_name;
+        try {
+            $file_path = 'storage/' . $file_name;
             if (File::exists($file_path)) {
                 File::delete($file_path);
                 return true;
             }
             return false;
-
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
@@ -53,12 +54,11 @@ trait Files
 
     public function createProductMedia($images, $product)
     {
-         //create media
+        //create media
         $i = 1;
-        if(isset($images) && count($images) > 0)
-        {
+        if (isset($images) && count($images) > 0) {
             foreach ($images as $image) {
-                if($image){
+                if ($image) {
                     // dd($image);
 
                     $path = 'images/products/';
@@ -84,11 +84,10 @@ trait Files
 
     public function deleteProductMedia($product)
     {
-         //delete media
+        //delete media
         $path = 'storage/';
         $images = $product->media()->pluck('file_name');
-        foreach($images as $image)
-        {
+        foreach ($images as $image) {
             if (File::exists($path . $image)) {
                 File::delete($path . $image);
             }
@@ -96,5 +95,5 @@ trait Files
         $product->media()->delete();
     }
 
-}
 
+}

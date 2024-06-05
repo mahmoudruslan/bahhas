@@ -13,6 +13,6 @@ class Coupon extends Model
 
     public function status()
     {
-        return $this->status == 0 ?  'Inactive' : 'Active';
+        return $this->status == 0 ?  __('Inactive') : __('Active');
     }
 }

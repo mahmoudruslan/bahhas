@@ -80,7 +80,6 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, $id)
     {
         try {
-            
             $product = Product::findOrFail($id);
             $data = $request->validated();
             $image = $request->file('image');

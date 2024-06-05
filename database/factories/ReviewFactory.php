@@ -18,12 +18,10 @@ class ReviewFactory extends Factory
      */
     public function definition()
     {
-        $product_ids = Product::pluck('id');
-        $customer_ids = Customer::pluck('id');
+        $customer_names = Customer::pluck('first_name');
         return [
             'description' => $this->faker->sentence,
-            'product_id' => $product_ids->random(),
-            'customer_id' => $customer_ids->random(),
+            'username' => $customer_names->random(),
         ];
     }
 }

@@ -87,6 +87,12 @@
                             name="first_appearing" placeholder="{{ __('First appearing') }}">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input name="type" type="checkbox" value="PDF" id="flexCheckDefault">
+                        <label for="flexCheckDefault">{{__('PDF')}}</label>
+                    </div>
+                </div>
 
                 <button type="submit" class="btn btn-primary btn-user btn-block">
                     {{ __('Submit') }}

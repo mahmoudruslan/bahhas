@@ -38,7 +38,7 @@ class ProductFactory extends Factory
             'price' => rand('10', '2000'),
             'category_id' => $category_id = $categories->random()->id,
             'sub_category_id' => 
-            Category::find($category_id)->parent->type == 'products'
+            Category::find($category_id)->type == 'product'
             ? 
             $sub_categories->where('category_id', $category_id)->random()->id
             : 

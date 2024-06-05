@@ -25,10 +25,6 @@ class ReviewDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 return $this->getDeleteLink("admin.reviews.destroy", $row->id);
-            })->editColumn('customer_id', function($row){
-                return $row->customer['first_name'] . ' ' . $row->customer['last_name'] ?? '';
-            })->editColumn('product_id', function($row){
-                return $row->product['name_' . app()->getLocale()] ?? '';
             })->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })->rawColumns(['action', 'created_at']);
@@ -79,8 +75,7 @@ class ReviewDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('description')->title(__('Description')),
-            Column::make('customer_id')->title(__('Customer')),
-            Column::make('product_id')->title(__('Product')),
+            Column::make('username')->title(__('Name')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')->title(__('Actions'))
                 ->exportable(false)

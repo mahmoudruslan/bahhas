@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|string|max:50',
             'sub_category_id' => 'required|string|max:50',
             'status' => 'max:1',
+            'type' => 'nullable|string|max:10',
             'image' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
             'first_appearing' => 'numeric',
         ];
@@ -45,6 +46,7 @@ class ProductRequest extends FormRequest
                 'category_id' => 'required|string|max:50',
                 'sub_category_id' => 'required|string|max:50',
                 'status' => 'max:1',
+                'type' => 'nullable|string|max:10',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
                 'first_appearing' => 'numeric',
             ];

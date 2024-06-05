@@ -29,6 +29,7 @@ class ServiceRequest extends FormRequest
             'quantity' => 'required|string|max:50',
             'category_id' => 'required|string|max:50',
             'status' => 'max:1',
+            'type' => 'nullable|string|max:10',
             'image' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
             'first_appearing' => 'numeric',
         ];
@@ -43,6 +44,7 @@ class ServiceRequest extends FormRequest
                 'quantity' => 'required|string|max:50',
                 'category_id' => 'required|string|max:50',
                 'status' => 'max:1',
+                'type' => 'nullable|string|max:10',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
                 'first_appearing' => 'numeric',
             ];

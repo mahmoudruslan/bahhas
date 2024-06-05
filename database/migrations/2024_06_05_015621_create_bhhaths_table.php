@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParentCategoriesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateParentCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('parent_categories', function (Blueprint $table) {
+        Schema::create('bhhaths', function (Blueprint $table) {
             $table->id();
-            $table->string('name_ar');
-            $table->string('name_en');
-            $table->string('cover');
-            $table->string('type')->default('products');
+            $table->text('brief_ar');
+            $table->text('brief_en');
+            $table->string('facebook_link');
+            $table->string('youtube_link');
+            $table->string('X_link');
+            $table->string('instagram_link');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -29,6 +32,6 @@ class CreateParentCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('bhhaths');
     }
-}
+};

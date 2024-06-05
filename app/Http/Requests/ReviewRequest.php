@@ -25,8 +25,7 @@ class ReviewRequest extends FormRequest
     {
         return [
             'description' => 'required|string|max:500',
-            'product_id' => 'required|numeric',
-            'customer_id' => 'required|numeric',
+            'username' => 'required|string',
             'rating' => 'nullable',
             
         ];

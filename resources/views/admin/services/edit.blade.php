@@ -12,7 +12,7 @@
 @endsection
 <!-- Nested Row within Card Body -->
 <div class="row">
-    <div class="p-5  col-lg-6">
+    <div class="p-5  col-lg-12">
         <a style="margin-left: 20px" href="{{ route('admin.services.index') }}" class="btn btn-secondary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-right"></i>
@@ -88,10 +88,21 @@
                     @enderror
                 </div>
             </div>
-            @livewire('cascading-dropdown', ['categories' => $categories, $product])
             <div class="form-group row">
-                <div class="col-sm-6">
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                <div class="col-md-6">
+                    <select name="category_id"
+                        class="form-control select-radius 
+                        @error('category_id') is-invalid @enderror">
+                        <option value="{{ $product->category->id }}">{{ $product->category['name_' . app()->getLocale()] }}</option>
+                        @foreach ($categories as $item)
+                            <option value="{{ $item->id }}">{{ $item->name_ar }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <span class="text-danger" role="alert">
+                            <small>{{ $message }}</small>
+                        </span>
+                    @enderror
                 </div>
                 <div class="col-sm-6">
                     <input value="{{ $product->first_appearing }}" type="number"
@@ -100,6 +111,19 @@
                         name="first_appearing" placeholder="{{ __('First appearing') }}">
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-check">
+                        <input {{$product->type == 'PDF' ? 'checked' : ''}} name="type" type="checkbox" value="PDF" id="flexCheckDefault">
+                        <label for="flexCheckDefault">{{ __('PDF') }}</label>
+                    </div>
+                </div>
+
+            </div>
+
             <button type="submit" class="btn btn-primary btn-user btn-block">
                 {{ __('Submit') }}
             </button>

@@ -15,7 +15,6 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\CitySeeder;
 use Database\Seeders\CouponSeeder;
 use Database\Seeders\CountrySeeder;
-use Database\Seeders\ParentCategorySeeder;
 use Database\Seeders\RolePermissionSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,13 +32,19 @@ class DatabaseSeeder extends Seeder
         $this->call([CountrySeeder::class, CitySeeder::class]);
         Address::factory()->count(10)->create();
         Customer::factory()->count(10)->create();
-        $this->call(ParentCategorySeeder::class);
-        Category::factory()->count(10)->create();
+        $this->call(CategorySeeder::class);
+        // Category::factory()->count(10)->create();
         SubCategory::factory()->count(10)->create();
-        Product::factory()->count(10)->create();
+        Product::factory()->count(50)->create();
         Review::factory()->count(10)->create();
         // Blog::factory()->count(50)->create();
-        $this->call([CouponSeeder::class, BlogSeeder::class]);
+        $this->call([
+            CouponSeeder::class, 
+            BlogSeeder::class, 
+            ContactMeSeeder::class, 
+            BhhathSeeder::class, 
+            ExpertSeeder::class
+        ]);
 
         $super_admin = User::factory()->create([
             'first_name' => 'mahmoud',

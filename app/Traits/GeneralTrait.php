@@ -48,14 +48,14 @@ trait GeneralTrait
         ]);
     }
 
-    public function saveNotificationToken($request, $customer)
-    {
-        DeviceToken::updateOrCreate([
-            'customer_id' => $customer->id,
-            'token' => $request['notification-token'],
-            'device_name' => $request->post('device_name', $request->userAgent())
-        ]);
-    }
+    // public function saveNotificationToken($request, $customer)
+    // {
+    //     DeviceToken::updateOrCreate([
+    //         'customer_id' => $customer->id,
+    //         'token' => $request['notification-token'],
+    //         'device_name' => $request->post('device_name', $request->userAgent())
+    //     ]);
+    // }
     ///////////////// validation //////////////////////////
     public function returnCodeAccordingToInput($validator)
     {
@@ -64,9 +64,9 @@ trait GeneralTrait
         return $code;
     }
 
-    public function returnValidationError($code, $validator)
+    public function returnValidationError($validator, $code = 403)
     {
-        return $this->returnError('403', __($validator->errors()->first()));
+        return $this->returnError($code, __($validator->errors()->first()));
     }
 
     public function getErrorCode($input)

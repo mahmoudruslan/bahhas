@@ -27,7 +27,7 @@ class RoleDataTable extends DataTable
         ->addColumn('action', function($row) {
             $id = $row->id;
             $b =  '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-            $b .=  $this->getDeleteLink($row, "admin.permission-roles.destroy");
+            $b .=  $this->getDeleteLink("admin.permission-roles.destroy", $id);
             return $b;
         });
     }

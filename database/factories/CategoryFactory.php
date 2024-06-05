@@ -23,12 +23,13 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $parent_ids = ParentCategory::pluck('id');
+        // $parent_ids = ParentCategory::pluck('id');
         return [
             'name_ar' => $this->faker->word,
             'name_en' => $this->faker->word,
             'cover' => 'category.jpg',
-            'parent_category_id' => $parent_ids->random()
+            'type' => 'products'
+            // 'parent_category_id' => $parent_ids->random()
         ];
     }
 }

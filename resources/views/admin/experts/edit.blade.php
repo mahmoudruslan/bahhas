@@ -38,7 +38,7 @@
                 <div class="form-group row">
                     <div class="col-sm-4">
                         <input value="{{ $expert->degree }}" type="text" class="form-control form-control-user"
-                            id="degree" placeholder="{{ __('Enter degree') }}" name="degree">
+                            id="degree" placeholder="{{ __('Degree') }}" name="degree">
                         @error('degree')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-sm-4">
                         <input value="{{ $expert->specialization }}" type="text" class="form-control form-control-user"
-                            id="specialization" placeholder="{{ __('Enter specialization') }}" name="specialization">
+                            id="specialization" placeholder="{{ __('Specialization') }}" name="specialization">
                         @error('specialization')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="col-sm-4">
                         <input value="{{ $expert->university }}" type="text" class="form-control form-control-user"
-                            id="university" placeholder="{{ __('Enter university') }}" name="university">
+                            id="university" placeholder="{{ __('University') }}" name="university">
                         @error('university')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -69,7 +69,7 @@
                     <div class="col-sm-6">
                         <input value="{{ $expert->international_bank_number }}" type="number"
                             class="form-control form-control-user"
-                            placeholder="{{ __('Enter international_bank_number') }}" name="international_bank_number">
+                            placeholder="{{ __('International bank number') }}" name="international_bank_number">
                         @error('international_bank_number')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-sm-6">
                         <input value="{{ $expert->phone }}" type="text" class="form-control form-control-user"
-                            id="phone" placeholder="{{ __('Enter phone') }}" name="phone">
+                            id="phone" placeholder="{{ __('Phone') }}" name="phone">
                         @error('phone')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -174,8 +174,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <label for="image" class="form-control">{{ __('Choose image') }}</label>
-                        <input style="display: none" value="{{ $expert->image }}" type="file" class="form-control"
-                            id="image" placeholder="{{ __('Enter image') }}" name="image">
+                        <input style="display: none" value="{{ $expert->image }}" type="file" id="image"  name="image">
                         @error('image')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -209,7 +208,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
-                        <textarea class="form-control" name="text_introduction" placeholder="{{ __('Enter text_introduction') }}">
+                        <textarea class="form-control" name="text_introduction" placeholder="{{ __('Text introduction') }}">
                             {{ $expert->text_introduction }}
                         </textarea>
                         @error('text_introduction')

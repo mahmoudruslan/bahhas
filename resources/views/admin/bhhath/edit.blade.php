@@ -6,7 +6,7 @@
     <div class="row">
         <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit contact information') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit bhhath information') }}</h1>
             </div>
             <form class="user insubmit" method="POST" action="{{ route('admin.bhhath.update', $bhhath->id) }}"
                 enctype="multipart/form-data">
@@ -17,7 +17,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                placeholder="{{ __('facebook_link') }}" name="facebook_link" value="{{ $bhhath->facebook_link }}">
+                                placeholder="{{ __('Facebook link') }}" name="facebook_link" value="{{ $bhhath->facebook_link }}">
                             @error('facebook_link')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -25,7 +25,7 @@
                             @enderror
                         </div>
                         <div class="form-group"><input type="text" class="form-control form-control-user"
-                            id="exampleFirstName" placeholder="{{ __('Title in arabic') }}" name="youtube_link"
+                            id="exampleFirstName" placeholder="{{ __('Youtube link') }}" name="youtube_link"
                             value="{{ $bhhath->youtube_link }}">
                         @error('youtube_link')
                             <span class="text-danger" role="alert">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                            placeholder="{{ __('Title in english') }}" name="X_link" value="{{ $bhhath->X_link }}">
+                            placeholder="{{ __('X link') }}" name="X_link" value="{{ $bhhath->X_link }}">
                         @error('X_link')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                            placeholder="{{ __('instagram_link') }}" name="instagram_link" value="{{ $bhhath->instagram_link }}">
+                            placeholder="{{ __('Instagram link') }}" name="instagram_link" value="{{ $bhhath->instagram_link }}">
                         @error('instagram_link')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

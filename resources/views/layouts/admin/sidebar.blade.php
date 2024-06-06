@@ -22,18 +22,6 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            @if (count(App\Models\Customer::where('status', 'not active')->get()) > 0)
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="{{ route('customers.documentation') }}">
-                        <span
-                            class="badge badge-danger badge-counter">{{ count(App\Models\Customer::where('status', 'not active')->get()) }}</span>
-                        <i class="fas fa-bell fa-fw"></i>
-
-                        <span>{{ __('Unverified accounts') }}</span>
-                    </a>
-                </li>
-            @endif
-
             <!-- admins -->
             @can('admins')
                 <li class="nav-item">

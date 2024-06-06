@@ -22,7 +22,7 @@ class CreateCustomersTable extends Migration
             $table->string('phone');
             $table->string('image')->nullable();
             // $table->string('password');
-            // $table->boolean('status')->default(true);
+            $table->boolean('status')->default(true);
             // $table->foreignId('address_id')->constrained('addresses');
             $table->timestamps();
         });

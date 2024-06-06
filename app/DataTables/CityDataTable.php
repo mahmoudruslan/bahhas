@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\City;
-use App\Traits\HTMLTrait;
+use App\Traits\HtmlTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CityDataTable extends DataTable
 {
-    use HTMLTrait;
+    use HtmlTrait;
     /**
      * Build DataTable class.
      *
@@ -52,7 +52,7 @@ class CityDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                ->setTableId('cities-table')
+                ->setTableId('city-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
                 //->dom('Bfrtip')

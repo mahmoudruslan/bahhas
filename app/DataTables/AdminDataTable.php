@@ -4,7 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Admin;
 use App\Models\User;
-use App\Traits\HTMLTrait;
+use App\Traits\HtmlTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
@@ -17,7 +17,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class AdminDataTable extends DataTable
 {
-    use HTMLTrait;
+    use HtmlTrait;
     /**
      * Build DataTable class.
      *
@@ -61,7 +61,7 @@ class AdminDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('user-table')
+                    ->setTableId('admin-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')

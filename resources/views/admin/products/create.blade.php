@@ -58,7 +58,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <input  value="{{old('quantity')}}" type="text" class="form-control form-control-user" id="quantity"
-                            placeholder="{{ __('Quantity') }}" name="quantity">
+                            placeholder="{{ __('Amount') }}" name="quantity">
                         @error('quantity')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

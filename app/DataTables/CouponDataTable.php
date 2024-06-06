@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Coupon;
-use App\Traits\HTMLTrait;
+use App\Traits\HtmlTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CouponDataTable extends DataTable
 {
-    use HTMLTrait;
+    use HtmlTrait;
     /**
      * Build DataTable class.
      *

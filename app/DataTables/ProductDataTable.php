@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Product;
 use App\Traits\HtmlTrait;
-use App\Traits\SaveImageTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -16,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ProductDataTable extends DataTable
 {
-    use SaveImageTrait, HtmlTrait;
+    use HtmlTrait;
     /**
      * Build DataTable class.
      *

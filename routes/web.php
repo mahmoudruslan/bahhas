@@ -40,7 +40,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-define('PAGINATION', 20);
+// define('PAGINATION', 20);
 
 Route::get('/', function () {
     return view('auth.login');

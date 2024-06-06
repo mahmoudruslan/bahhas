@@ -4,9 +4,6 @@
 @endsection
 
 @section('content')
-@php
-    $lang = app()->getLocale();
-@endphp
     <!-- Nested Row within Card Body -->
     <div class="row">
         <div class="p-5  col-lg-6">
@@ -42,11 +39,11 @@
                     </tr>
                     <tr>
                         <th scope="row">{{ __('Country') }}</th>
-                        <td>{{ $expert->country['name_' . $lang] }}</td>
+                        <td>{{ $expert->country }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('City') }}</th>
-                        <td>{{ $expert->city['name_' . $lang] }}</td>
+                        <td>{{ $expert->city }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('Brief introduction') }}</th>

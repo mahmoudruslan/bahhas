@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('specialization');
             $table->string('degree');
             $table->string('university');
-            $table->foreignId('country_id')->constrained('countries');
-            $table->foreignId('city_id')->constrained('cities');
+            $table->string('country');
+            $table->string('city');
             $table->text('text_introduction');
             $table->string('phone');
             $table->string('email');

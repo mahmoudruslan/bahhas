@@ -37,30 +37,30 @@ class ExpertController extends Controller
         }
     }
 
-    public function getCountries()
-    {
-        try {
-            $lang = app()->getLocale();
-            $countries = Country::select('id', 'name_'. $lang . ' AS name')
-            ->orderBy('id', 'desc')->get();
-            return $this->returnData('countries', $countries);
-        } catch (\Exception $e) {
-            return $this->returnError($e->getCode(), $e->getMessage());
-        }
-    }
+    // public function getCountries()
+    // {
+    //     try {
+    //         $lang = app()->getLocale();
+    //         $countries = Country::select('id', 'name_'. $lang . ' AS name')
+    //         ->orderBy('id', 'desc')->get();
+    //         return $this->returnData('countries', $countries);
+    //     } catch (\Exception $e) {
+    //         return $this->returnError($e->getCode(), $e->getMessage());
+    //     }
+    // }
 
-    public function countryCities($country_id)
-    {
-        try {
-            $lang = app()->getLocale();
-            $country = Country::find($country_id);
-            $cities = $country->cities()->select('id', 'name_'. $lang . ' AS name')
-            ->orderBy('id', 'desc')->get();
-            return $this->returnData('cities', $cities);
-        } catch (\Exception $e) {
-            return $this->returnError($e->getCode(), $e->getMessage());
-        }
-    }
+    // public function countryCities($country_id)
+    // {
+    //     try {
+    //         $lang = app()->getLocale();
+    //         $country = Country::find($country_id);
+    //         $cities = $country->cities()->select('id', 'name_'. $lang . ' AS name')
+    //         ->orderBy('id', 'desc')->get();
+    //         return $this->returnData('cities', $cities);
+    //     } catch (\Exception $e) {
+    //         return $this->returnError($e->getCode(), $e->getMessage());
+    //     }
+    // }
     private function rules()
     {
         return [
@@ -68,8 +68,8 @@ class ExpertController extends Controller
             'specialization' => 'required|string|max:255',
             'degree' => 'required|string|max:255',
             'university' => 'required|string|max:255',
-            'country_id' => 'required|numeric',
-            'city_id' => 'required|numeric',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'text_introduction' => 'required|string|max:5000',
             'phone' => 'required|numeric',
             'email' => 'required|email|unique:experts,email',

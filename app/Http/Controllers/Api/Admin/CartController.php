@@ -17,22 +17,21 @@ use function PHPUnit\Framework\isEmpty;
 class CartController extends Controller
 {
     use GeneralTrait, Files;
-    public function index()
+    public function getCart($customer_id)
     {
         try {
-            $customer = auth()->guard('sanctum')->user();
+            $customer = Customer::findOrFail($customer_id);
+            
             $cart = $customer->cart;
+            // dd($customer);
             if ($cart) {
                 $cart_products = $cart->Products->map(function ($row) {
                     $product = Product::find($row->product_id);
-                    $row->name = $product->name_ar;
-                    $row->details = $product->details_ar;
-                    $row->amount = $product->amount;
-                    $row->photo = $product->photo;
+                    $row->name = $product['name_' . app()->getLocale()];
+                    $row->details = $product['details_' . app()->getLocale()];
+                    $row->quantity = $row->quantity;
+                    $row->image = $product->image;
                     $row->price = $product->price;
-                    $row->unit = $product->unit;
-                    $row->inner_category_id = $product->inner_category_id;
-
                     return $row;
                 });
                 return $this->returnData('cart', $cart_products);
@@ -46,34 +45,38 @@ class CartController extends Controller
     public function store(Request $request)
     {
         try {
+            $attach_name = null;
+            if($request->attach){
+                // $this->deleteFiles($cart_product->attach);
+                $path = 'images/orders/';
+                $attach_name = $this->saveImag($path, [$request->attach]);
+                $attach_name = $path . $attach_name;
+            }
             $cart = Cart::updateOrCreate([
-                'customer_id' => $request->customer_id
+                'customer_id' => $request->customer_id,
+            ],[
+                'attach' => $attach_name,
+                'notes' => $request->notes ?? null
             ]);
-            $product = $cart->products
+            
+            $cart_product = $cart->products
             ->where('cart_id', $cart->id)
             ->where('product_id', $request->product_id)
             ->first();
             // dd($product);
-            $attach_name = null;
-            if($request->attach){
-                $this->deleteFiles($product->attach);
-                $path = 'images/orders/';
-                $attach_name = $this->saveImag($path, [$request->attach]);
-                $data['image'] = $path . $attach_name;
-            }
-            if(empty($product)){
+            
+            $product = Product::findOrFail($request->product_id);
+            if(empty($cart_product)){
                 CartProduct::Create([
                     'cart_id' => $cart->id,
                     'product_id' => $request->product_id,
                     'quantity' => $request->quantity,
-                    'notes' => $request->notes ?? null,
-                    'attach' => $attach_name
+                    'total' => $product->price * $request->quantity
                 ]);
             }else{
-                $product->update([
-                    'quantity' => $product->quantity + 1,
-                    'notes' => $request->notes ?? null,
-                    'attach' => $attach_name
+                $cart_product->update([
+                    'quantity' => $quantity = $cart_product->quantity + 1,
+                    'total' => $product->price * $quantity
                 ]);
             }
             

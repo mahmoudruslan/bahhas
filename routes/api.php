@@ -57,7 +57,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::post('customers/store', [CustomerController::class, 'store']);
     Route::post('customers/update/{id}', [CustomerController::class, 'update']);
     Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);
-    Route::get('cart', [CartController::class, 'index']);
+    Route::get('cart/{customer_id}', [CartController::class, 'getCart']);
     Route::post('carts/add-to-cart', [CartController::class, 'store']);
     Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
 // Route::group(['middleware' => ['auth:sanctum']], function () {

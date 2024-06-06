@@ -18,10 +18,9 @@ class CreateCartProductsTable extends Migration
             $table->foreignId('cart_id')->references('id')->on('carts')->cascadeOnDelete();
             $table->foreignId('product_id')->references('id')->on('products');
             $table->integer('quantity')->default(1);
-            $table->string('notes')->nullable();
-            $table->string('attach')->nullable();
-            $table->timestamps();
-        });
+            $table->integer('total');
+            
+                });
     }
 
     /**

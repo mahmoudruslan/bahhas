@@ -16,6 +16,8 @@ class CreateCartsTable extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
+            $table->string('notes')->nullable();
+            $table->string('attach')->nullable();
             $table->timestamps();
         });
     }

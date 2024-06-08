@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('description');
             $table->string('username');
-            $table->tinyInteger('rating')->default(1);
+            $table->tinyInteger('rating')->default(5);
             $table->timestamps();
         });
     }

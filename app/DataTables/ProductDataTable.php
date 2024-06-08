@@ -42,7 +42,7 @@ class ProductDataTable extends DataTable
                 return $this->getStatusIcon($row->status);
             })
             ->editColumn('image', function($row){
-                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
+                return $row->image ? '<img style="height: auto;width: 100%;max-width: 99px;" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['image', 'status', 'action']);
     }

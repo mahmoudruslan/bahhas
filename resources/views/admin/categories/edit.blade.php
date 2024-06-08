@@ -35,13 +35,15 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <select name="parent_category_id" class="form-control">
-                                <option selected value="{{$category->parent_category_id}}">{{ $category->parent['name_' . app()->getLocale()] }}</option>
-                                @foreach ($parent_categories as $parent_category)
-                                    <option value="{{ $parent_category->id }}">{{ $parent_category['name_'. app()->getLocale()] }}</option>
-                                @endforeach
+                            <select name="type" class="form-control">
+                                <option selected value="{{ $category->type }}">{{ __($category->type) }}</option>
+                                
+                                <option value="product">{{ __('product') }}</option>
+                                <option value="service">{{ __('service') }}</option>
+                                <option value="advisor">{{ __('advisor') }}</option>
+                                
                             </select>
-                            @error('parent_category_id')
+                            @error('type')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

@@ -17,7 +17,7 @@ class ReviewController extends Controller
     public function index()
     {
         try {
-            $reviews = Review::select('id', 'description', 
+            $reviews = Review::select('id', 'description', 'rating',
             'username', 'created_at')
         ->orderBy('id', 'desc')
         ->get();
@@ -34,7 +34,7 @@ class ReviewController extends Controller
             $validator = Validator::make(request()->all(), [
                 'description' => 'required|string|max:500',
             'username' => 'required|string',
-            'rating' => 'nullable',
+            'rating' => 'required',
             ]);
             
             if ($validator->fails()) {

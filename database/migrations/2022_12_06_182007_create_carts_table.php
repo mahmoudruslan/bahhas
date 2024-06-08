@@ -18,6 +18,7 @@ class CreateCartsTable extends Migration
             $table->foreignId('customer_id')->constrained('customers');
             $table->string('notes')->nullable();
             $table->string('attach')->nullable();
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }

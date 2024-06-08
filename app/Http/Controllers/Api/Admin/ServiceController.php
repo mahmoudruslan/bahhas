@@ -22,13 +22,16 @@ class ServiceController extends Controller
                 'image',
                 'quantity',
                 'price',
-                'created_at')
+                'category_id',
+                'created_at','type')
+            
+            ->with('category:id,name_'. $lang . ' AS name')
             ->orderBy('id', 'desc')
             ->whereStatus(1)
             ->whereNull('sub_category_id')
             ->whereHas('category', function($query){
                 $query->where('type', 'service');
-            })->get();
+            })->paginate(PAGINATION);
 
             return $this->returnData('services', $products, 'success');
         } catch (\Exception $e) {
@@ -45,7 +48,7 @@ class ServiceController extends Controller
                 ->select('id', 'name_'. $lang . ' AS name', 
                     'details_'. $lang . ' AS details', 
                     'image', 'quantity',
-                    'price','created_at')
+                    'price','category_id','created_at','type')
                 ->orderBy('id', 'desc')
                 ->whereStatus(1)
                 ->whereNull('sub_category_id')

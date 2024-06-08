@@ -23,8 +23,8 @@
                                         <td>{{$category->name_en}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{__('Parent category')}}</th>
-                                        <td>{{$category->parent['name_' . app()->getLocale()]}}</td>
+                                        <th scope="row">{{__('Type')}}</th>
+                                        <td>{{__($category->type)}}</td>
                                     </tr>
                                 </tbody>
                             </table>

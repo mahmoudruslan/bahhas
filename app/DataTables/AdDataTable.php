@@ -42,7 +42,7 @@ class AdDataTable extends DataTable
                 return "<a href=".$row->url.">".$row->url."</a>";
             })
             ->editColumn('cover', function($row){
-                return $row->cover ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
+                return $row->cover ? '<img style="height: auto;width: 100%;max-width: 99px;" src="'. asset('storage/'.$row->cover) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['status', 'action', 'created_at', 'cover', 'url']);
     }

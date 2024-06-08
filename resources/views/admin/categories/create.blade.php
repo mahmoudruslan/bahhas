@@ -38,9 +38,9 @@
                             <select name="type" class="form-control">
                                 <option selected disabled>{{ __('Choose type') }}</option>
                                 
-                                <option value="product">{{ __('Product') }}</option>
-                                <option value="service">{{ __('Service') }}</option>
-                                <option value="advisor">{{ __('Advisor') }}</option>
+                                <option value="product">{{ __('product') }}</option>
+                                <option value="service">{{ __('service') }}</option>
+                                <option value="advisor">{{ __('advisor') }}</option>
                                 
                             </select>
                             @error('type')

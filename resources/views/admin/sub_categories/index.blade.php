@@ -1,11 +1,11 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Categories') }}
+    {{ __('Sub categories') }}
 @endsection
 @section('content')
 <div class="container-fluid">
 
-    <h1 class="h3 mb-2 text-gray-800">{{ __('Categories') }}</h1>
+    <h1 class="h3 mb-2 text-gray-800">{{ __('Sub categories') }}</h1>
     <p class="mb-4"></p>
     <div class="card shadow mb-4">
         <div class="card-body">

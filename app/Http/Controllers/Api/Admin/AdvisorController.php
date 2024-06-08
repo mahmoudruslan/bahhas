@@ -22,13 +22,15 @@ class AdvisorController extends Controller
                 'image',
                 'quantity',
                 'price',
-                'created_at')
+                'category_id',
+                'created_at','type')
+            ->with('category')
             ->orderBy('id', 'desc')
             ->whereStatus(1)
             ->whereNull('sub_category_id')
             ->whereHas('category', function($query){
                 $query->where('type', 'advisor');
-            })->get();
+            })->paginate(PAGINATION);
 
             return $this->returnData('advisors', $products, 'success');
         } catch (\Exception $e) {
@@ -45,7 +47,7 @@ class AdvisorController extends Controller
                 ->select('id', 'name_'. $lang . ' AS name', 
                     'details_'. $lang . ' AS details', 
                     'image', 'quantity',
-                    'price','created_at')
+                    'price','type','category_id','created_at')
                 ->orderBy('id', 'desc')
                 ->whereStatus(1)
                 ->whereNull('sub_category_id')

@@ -38,7 +38,7 @@ class AdminDataTable extends DataTable
                 return date('Y-m-d', strtotime($row->created_at));
             })
             ->editColumn('image', function($row){
-                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
+                return $row->image ? '<img style="height: auto;width: 100%;max-width: 99px;" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['action', 'created_at', 'image']);
     }

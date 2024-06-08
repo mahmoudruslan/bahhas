@@ -13,12 +13,16 @@ class BlogController extends Controller
     public function index()
     {
         try {
-            $blogs = Blog::with('related')->select(
-                'id',
-                'title_'.app()->getLocale() . ' AS title', 
-                'description_'.app()->getLocale() . ' AS description', 
-                'image', )
-                ->get();
+            $lang = app()->getLocale();
+            $blogs = Blog::with(['related' => function($query) use ($lang){
+                return $query->select('id','blog_id',
+                'title_'.$lang . ' AS title', 
+                'description_'.$lang . ' AS description', 
+                'image','created_at')->get();
+            }])->select('id','title_'.$lang . ' AS title', 
+                'description_'.$lang . ' AS description', 
+                'image','created_at','blog_id' )
+                ->paginate(PAGINATION);
             return $this->returnData('blogs', $blogs, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());

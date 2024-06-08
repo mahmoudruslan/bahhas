@@ -17,20 +17,24 @@ class ProductController extends Controller
     {
         try {
             $lang = app()->getLocale();
-            $products = Product::select(
+            $products = Product::with(['subCategory' => function($query) use ($lang){
+                return $query->select('id','name_'. $lang . ' AS name','category_id')
+                ->with('category:id,name_'. $lang . ' AS name')->get();
+            }])->select(
                 'id',
                 'name_'. $lang . ' AS name', 
                 'details_'. $lang . ' AS details', 
                 'image',
                 'quantity',
                 'price',
+                'sub_category_id',
                 'created_at')
             ->orderBy('id', 'desc')
             ->whereStatus(1)
             ->whereNotNull('sub_category_id')
             ->whereHas('category', function($query){
                 $query->where('type', 'product');
-            })->get();
+            })->paginate(PAGINATION);
 
             return $this->returnData('products', $products, 'success');
         } catch (\Exception $e) {
@@ -46,7 +50,7 @@ class ProductController extends Controller
                 ->select('id', 'name_'. $lang . ' AS name', 
                     'details_'. $lang . ' AS details', 
                     'image', 'quantity',
-                    'price','created_at')
+                    'price','type','category_id','created_at')
                 ->orderBy('id', 'desc')
                 ->whereStatus(1)
                 ->whereHas('category', function($query){
@@ -62,19 +66,22 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::find($id);
-            $product_types = $product->products()
-            ->paginate(PAGINATION)
-            ->makeHidden([
-                'name_ar', 
-                'details_ar', 
-                'name_en',
-                'details_en',
-            ]);
+            $lang = app()->getLocale();
+            $product = Product::select('id',
+                'name_'. $lang . ' AS name', 
+                'details_'. $lang . ' AS details', 
+                'image',
+                'quantity',
+                'price',
+                'type',
+                'sub_category_id',
+                'category_id',
+                'created_at')->with('subCategory')->find($id);
+
             if (!$product) {
                 return $this->returnError('404', 'product types not found');
             }
-            return $this->returnData('product_types', $product_types, 'success');
+            return $this->returnData('product', $product, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

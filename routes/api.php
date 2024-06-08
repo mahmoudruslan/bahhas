@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+define('PAGINATION', 10);
 
 // Route::post('/login', [AuthController::class, 'login'])->middleware('guest');;
 // Route::post('/register', [AuthController::class, 'register']);
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('advisors', [AdvisorController::class, 'allAdvisors']);
     Route::get('services/{service_category_id}', [ServiceController::class, 'categoryServices']);
     Route::get('products/{sub_category_id}', [ProductController::class, 'categoryProducts']);
+    Route::get('products/show/{product_id}', [ProductController::class, 'show']);
     Route::get('advisors/{advisor_category_id}', [AdvisorController::class, 'categoryAdvisors']);
     Route::get('ads', [AdController::class, 'index']);
     Route::get('bhhath', [BhhathController::class, 'index']);
@@ -60,6 +62,8 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('cart/{customer_id}', [CartController::class, 'getCart']);
     Route::post('carts/add-to-cart', [CartController::class, 'store']);
     Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
+    Route::post('carts/decrease', [CartController::class, 'decrease']);
+    Route::post('carts/increase', [CartController::class, 'increase']);
 // Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::post('logout', [AuthController::class, 'logout']);
     // Route::post('profile/update/{id}', [CustomerController::class, 'update']);

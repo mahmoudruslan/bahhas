@@ -21,7 +21,7 @@ class AdController extends Controller
             'cover', 'url', 'created_at')
         ->orderBy('id', 'desc')
         ->whereStatus(1)
-        ->get();
+        ->paginate(PAGINATION);
             return $this->returnData('ads', $ads, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());

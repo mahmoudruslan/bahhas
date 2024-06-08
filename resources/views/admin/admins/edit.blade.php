@@ -78,7 +78,7 @@
                 </div>
                 <div class="form-group row">
                     <textarea class="form-control form-control-user" placeholder="{{ __('Address') }}" name="address"
-                        style="border-radius: 4px"> {{ $admin->address }}</textarea>
+                        style="border-radius: 4px">{{ $admin->address }}</textarea>
                     @error('address')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>

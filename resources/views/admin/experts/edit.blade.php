@@ -86,7 +86,28 @@
                         @enderror
                     </div>
                 </div>
-                @livewire('cascading-dropdown-address', ['countries' => $countries, $expert])
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <input value="{{ $expert->country }}" type="text"
+                            class="form-control form-control-user"
+                            placeholder="{{ __('Country') }}" name="country">
+                        @error('country')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-sm-6">
+                        <input value="{{ $expert->city }}" type="text" class="form-control form-control-user"
+                            id="city" placeholder="{{ __('City') }}" name="city">
+                        @error('city')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                {{-- @livewire('cascading-dropdown-address', ['countries' => $countries, $expert]) --}}
                 <div class="form-group row">
                     {{-- <div class="col-sm-6 mb-3 mb-sm-0">
                         <label for="iban-certificate" class="form-control">{{ __('Upload IBAN certificate') }}</label>

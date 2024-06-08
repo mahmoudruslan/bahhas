@@ -66,12 +66,12 @@
                         <td>{{ $expert->international_bank_number }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">{{ __('Created at') }}</th>
-                        <td><a href="{{ route('admin.expert.download', ['id' => $expert->id, 'input_name' => 'IBAN_certificate']) }}" >Open the pdf!</a></td>
+                        <th scope="row">{{ __('IBAN certificate') }}</th>
+                        <td><a href="{{ route('admin.expert.download', ['id' => $expert->id, 'input_name' => 'IBAN_certificate']) }}" >Download the pdf!</a></td>
                     </tr>
                     <tr>
-                        <th scope="row">{{ __('Created at') }}</th>
-                        <td><a href="{{ route('admin.expert.download', ['id' => $expert->id, 'input_name' => 'the_biography']) }}">Open the pdf!</a></td>
+                        <th scope="row">{{ __('Biography') }}</th>
+                        <td><a href="{{ route('admin.expert.download', ['id' => $expert->id, 'input_name' => 'the_biography']) }}">Download the pdf!</a></td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('Show information on bhhas') }}</th>

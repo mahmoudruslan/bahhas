@@ -7,8 +7,9 @@ use App\Traits\GeneralTrait;
 
 
 use App\Models\Ad;
+use App\Models\Slider;
 
-class AdController extends Controller
+class SliderController extends Controller
 {
     use GeneralTrait;
 
@@ -17,12 +18,12 @@ class AdController extends Controller
     {
         try {
             $lang = app()->getLocale();
-            $ads = Ad::select('id', 'title_'. $lang . ' AS title', 
+            $ads = Slider::select('id', 'title_'. $lang . ' AS title', 'details_'. $lang . ' AS details',
             'cover', 'url', 'created_at')
         ->orderBy('id', 'desc')
         ->whereStatus(1)
         ->get();
-            return $this->returnData('ads', $ads, 'success');
+            return $this->returnData('sliders', $ads, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

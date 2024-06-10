@@ -19,8 +19,9 @@ class CreateCartProductsTable extends Migration
             $table->foreignId('product_id')->references('id')->on('products');
             $table->integer('quantity')->default(1);
             $table->integer('total');
-            
-                });
+            $table->string('notes')->nullable();
+            $table->string('attach')->nullable();
+        });
     }
 
     /**

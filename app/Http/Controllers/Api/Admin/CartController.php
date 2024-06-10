@@ -20,12 +20,13 @@ class CartController extends Controller
     public function getCart($customer_id)
     {
         try {
+            $lang = app()->getLocale();
             $customer = Customer::findOrFail($customer_id);
 
             $cart = $customer->cart;
 
             if ($cart) {
-                $cart = $cart->with(['products.product'])->first();
+                $cart = $cart->with(['products.product:id,name_'. $lang . ' AS name,details_'. $lang . ' AS details,image,price'])->first();
                 return $this->returnData('cart', $cart);
             }
             return $this->returnData('cart', []);
@@ -54,7 +55,9 @@ class CartController extends Controller
         try {
             $user_cart = Customer::find($request->customer_id)->cart;
             if ($user_cart) {
-                $user_cart->Products()->where('product_id', $request->product_id)->delete();
+                $cart_product = $user_cart->Products()->where('product_id', $request->product_id)->first();
+                $this->deleteFiles($cart_product->attach);
+                $cart_product->delete();
             }
             if (!count($user_cart->products) > 0) {
                 $user_cart->delete();
@@ -68,18 +71,22 @@ class CartController extends Controller
     public function increase(Request $request)
     {
         try {
-            $customer_cart = Customer::findOrFail($request->customer_id)->cart;
-            $product = $customer_cart->products->where('product_id', $request->product_id)->first();
+            $cart = Customer::findOrFail($request->customer_id)->cart;
+            $product = $cart->products->where('product_id', $request->product_id)->first();
             if ($product->quantity < 100) {
                 $product->update([
                     'quantity' => $product->quantity + 1,
                     'total' => $product->total + $product->product->price,
                 ]);
+                $cart->update([
+                    'total' => $cart->total + $product->product->price,
+                ]);
             }
             return $this->returnData(
                 'data',[
                     'quantity' => $product->quantity,
-                    'total' => $product->total
+                    'product_total' => $product->total,
+                    'cart_total' => $cart->total
                 ]
             );
         } catch (\Exception $e) {
@@ -89,23 +96,25 @@ class CartController extends Controller
 
     public function decrease(Request $request)
     {
-
         try {
-            $customer_cart = Customer::findOrFail($request->customer_id)->cart;
-            $product = $customer_cart->products->where('product_id', $request->product_id)->first();
+            $cart = Customer::findOrFail($request->customer_id)->cart;
+            $product = $cart->products->where('product_id', $request->product_id)->first();
             if ($product) {
                 if ($product->quantity > 1) {
                     $product->update([
                         'quantity' => $product->quantity - 1,
                         'total' => $product->total - $product->product->price,
                     ]);
-                    
+                    $cart->update([
+                        'total' => $cart->total - $product->product->price,
+                    ]);
                 }
                 return $this->returnData(
                     'data',
                     [
                         'quantity' => $product->quantity,
-                        'total' => $product->total
+                        'product_total' => $product->total,
+                        'cart_total' => $cart->total
                     ]
                 );
             }
@@ -118,49 +127,42 @@ class CartController extends Controller
     private function createOrUpdateCart($request)
     {
         $customer = Customer::findOrFail($request->customer_id);
-        $cart = $customer->cart;
-        $attach_name = null;
-        if ($request->attach) {
-            $path = 'images/orders/';
-            $attach_name = $this->saveImag($path, [$request->attach]);
-            $attach_name = $path . $attach_name;
-        }
-        if ($cart) {
-            $this->deleteFiles($cart->attach); //delete old attach
-            $cart->update([
-                'attach' => $attach_name,
-                'notes' => $request->notes ?? null
-            ]);
-        } else {
-            $cart = Cart::create([
-                'customer_id' => $request->customer_id,
-                'attach' => $attach_name,
-                'notes' => $request->notes ?? null
-            ]);
-        }
+        $cart = Cart::updateOrCreate([
+            'customer_id' => $customer->id,
+        ]);
         return $cart;
     }
 
     private function createOrUpdateCartProduct($cart_product, $cart, $request)
     {
         $product = Product::findOrFail($request->product_id);
+        $attach_name = null;
+        if ($request->attach) {
+            $path = 'images/orders/';
+            $attach_name = $this->saveImag($path, [$request->attach]);
+            $attach_name = $path . $attach_name;
+        }
         if (empty($cart_product)) {
             $cart_product = CartProduct::Create([
                 'cart_id' => $cart->id,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
-                'total' => $product->price * $request->quantity
+                'total' => $product->price * $request->quantity,
+                'notes' => $request->notes,
+                'attach' => $attach_name,
             ]);
-            
         } else {
-
+            $this->deleteFiles($cart_product->attach);
             $cart_product->update([
                 'quantity' => $quantity = $cart_product->quantity + 1,
-                'total' => $product->price * $quantity
+                'total' => $product->price * $quantity,
+                'notes' => $request->notes,
+                'attach' => $attach_name,
             ]);
         }
+        $cart_products = Customer::findOrFail($request->customer_id)->cart->products;
         $cart->update([
-            'total' => count($cart->products) > 1 ? $cart->products->sum('total') : $cart_product->total
+            'total' => count($cart_products) > 1 ? $cart_products->sum('total') : $cart_product->total
         ]);
         return true;
     }

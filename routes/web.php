@@ -13,19 +13,15 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BhhathController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactMeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExpertController;
-use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SubCategoryController;
-use App\Http\Controllers\InnerCategoryController;
-use App\Http\Controllers\ParentCategoryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
-use App\Models\ContactMe;
+use App\Http\Controllers\SliderController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -66,6 +62,7 @@ Route::group(
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
             Route::resource('admins', AdminController::class)->middleware('can:admins');
             Route::resource('ads', AdController::class)->middleware('can:ads');
+            Route::resource('sliders', SliderController::class)->middleware('can:slider');
             Route::resource('customers', CustomerController::class)->middleware('can:customers');
             Route::resource('cities', CityController::class)->middleware('can:cities');
             Route::resource('addresses', AddressController::class)->middleware('can:addresses');

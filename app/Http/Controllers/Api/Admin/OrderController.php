@@ -29,7 +29,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $price = 0;
             $customer = Customer::findOrFail($request->customer_id);
             $cart = $customer->cart;
             if ($cart && count($cart->products) > 0) {
@@ -44,8 +43,8 @@ class OrderController extends Controller
                 ]);
 
                 foreach ($cart_products as $cart_product) {
+                    
                     $product = Product::find($cart_product['product_id']);
-
                     OrderProduct::create([ //create order products
                         'order_id' => $order->id,
                         'product_id' => $product->id,

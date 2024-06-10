@@ -43,7 +43,8 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class, 
             ContactMeSeeder::class, 
             BhhathSeeder::class, 
-            ExpertSeeder::class
+            ExpertSeeder::class,
+            SliderSeeder::class,
         ]);
 
         $super_admin = User::factory()->create([

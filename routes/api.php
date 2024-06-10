@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Admin\CustomerController;
 use App\Http\Controllers\Api\Admin\ExpertController;
 use App\Http\Controllers\Api\Admin\ReviewController;
 use App\Http\Controllers\Api\Admin\ServiceController;
+use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
 
 /*
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('products/show/{product_id}', [ProductController::class, 'show']);
     Route::get('advisors/{advisor_category_id}', [AdvisorController::class, 'categoryAdvisors']);
     Route::get('ads', [AdController::class, 'index']);
+    Route::get('sliders', [SliderController::class, 'index']);
     Route::get('bhhath', [BhhathController::class, 'index']);
     Route::get('contact-me', [ContactMeController::class, 'index']);
     Route::get('reviews', [ReviewController::class, 'index']);

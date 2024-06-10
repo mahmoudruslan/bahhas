@@ -201,6 +201,23 @@
                     </div>
                 </li>
             @endcan
+            <!-- ads -->
+            @can('sliders')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagessliders"
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-ad fa-fw"></i>
+                        <span>{{ __('Sliders') }}</span>
+                    </a>
+                    <div id="collapsePagessliders" class="collapse" aria-labelledby="headingPages"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{{ route('admin.sliders.index') }}">{{ __('Sliders') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.sliders.create') }}">{{ __('Sliders ads') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcan
             <!-- cities -->
             @can('cities')
                 <li class="nav-item">

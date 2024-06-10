@@ -32,6 +32,7 @@ class RolePermissionSeeder extends Seeder
             'services',
             'orders',
             'ads',
+            'sliders',
             'contact-me',
             'bhhath',
             'experts'

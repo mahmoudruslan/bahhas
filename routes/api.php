@@ -41,6 +41,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('advisor-categories', [CategoryController::class, 'advisorCategories']);
     Route::get('sub-categories/{category_id}', [SubCategoryController::class, 'subCategories']);
     Route::get('blogs', [BlogController::class, 'index']);
+    Route::get('blogs/{blog_id}', [BlogController::class, 'show']);
     Route::get('services', [ServiceController::class, 'allServices']);
     Route::get('products', [ProductController::class, 'allProducts']);
     Route::get('advisors', [AdvisorController::class, 'allAdvisors']);
@@ -64,16 +65,13 @@ Route::group(['middleware' => 'lang'], function(){
     Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
     Route::post('carts/decrease', [CartController::class, 'decrease']);
     Route::post('carts/increase', [CartController::class, 'increase']);
+    Route::post('orders/store', [OrderController::class, 'store']);
 // Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::post('logout', [AuthController::class, 'logout']);
     // Route::post('profile/update/{id}', [CustomerController::class, 'update']);
     // Route::get('active/account', [AuthController::class, 'activeAccount']);
-    // Route::post('order/store', [OrderController::class, 'store']);
+
     // Route::get('customer/orders', [OrderController::class, 'show']);
     // Route::delete('order/cancel/{order_id}', [OrderController::class, 'cancel']);
-    // Route::get('cart', [CartController::class, 'index']);
-    // Route::post('add-to-cart', [CartController::class, 'store']);
-    // Route::post('delete/product/cart', [CartController::class, 'deleteProduct']);
-    // Route::post('delete/cart', [CartController::class, 'deleteCart']);
 
 });

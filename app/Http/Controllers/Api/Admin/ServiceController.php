@@ -44,6 +44,7 @@ class ServiceController extends Controller
         try {
             $lang = app()->getLocale();
             $service_category = Category::findOrFail($service_category_id);
+            
             $services = $service_category->products()
                 ->select('id', 'name_'. $lang . ' AS name', 
                     'details_'. $lang . ' AS details', 
@@ -54,7 +55,7 @@ class ServiceController extends Controller
                 ->whereNull('sub_category_id')
                 ->whereHas('category', function($query){
                     $query->where('type', 'service');
-                })->get();
+                })->paginate(PAGINATION);
 
             return $this->returnData('services', $services, 'success');
         } catch (\Exception $e) {

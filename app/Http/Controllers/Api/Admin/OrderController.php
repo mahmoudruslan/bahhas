@@ -25,39 +25,40 @@ class OrderController extends Controller
         }
     }
 
+
     public function store(Request $request)
     {
         try {
             $price = 0;
-            $customer = Auth::guard('sanctum')->user();
+            $customer = Customer::findOrFail($request->customer_id);
             $cart = $customer->cart;
-            if ($cart) {
+            if ($cart && count($cart->products) > 0) {
                 $cart_products = $cart->products;
-                foreach ($cart_products as $item) {
-                    $product = Product::find($item['product_id']);
-                    $price += $product->price * $item['quantity'];
-                }
+
                 $order = Order::Create([ //create order
                     'customer_id' => $customer->id,
-                    'status' => '3',
-                    'notes' => $request->notes,
-                    'price' => $price
+                    'status' => '0',
+                    'notes' => $cart->notes,
+                    'price' => $cart->total,
+                    'attach' => $cart->attach
                 ]);
 
-                foreach ($cart_products as $item) {
-                    $product = Product::find($item['product_id']);
-                    
+                foreach ($cart_products as $cart_product) {
+                    $product = Product::find($cart_product['product_id']);
+
                     OrderProduct::create([ //create order products
                         'order_id' => $order->id,
                         'product_id' => $product->id,
-                        'name' => $product->name_ar,
+                        'name_ar' => $product->name_ar,
+                        'name_en' => $product->name_en,
                         'price' => $product->price,
-                        'quantity' => $item['quantity'],
-                        'total' => $product->price * $item['quantity'],
+                        'quantity' => $cart_product->quantity,
+                        'total' => $cart_product->total
                     ]);
                 }
                 $cart->delete();
-                return $this->returnData('order_id',$order->id , __('Created Successfully'));
+                $order = Order::with('products')->find($order->id);
+                return $this->returnData('order',$order , __('Created Successfully'));
             }
             return $this->returnError('201', __('Cart not found'));
         } catch (\Exception $e) {

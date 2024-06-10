@@ -17,7 +17,8 @@ class CreateOrderProductsTable extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('product_id')->constrained('products');
-            $table->string('name');
+            $table->string('name_ar');
+            $table->string('name_en');
             $table->string('price')->nullable();
             $table->integer('quantity')->default(1);
             $table->integer('total');

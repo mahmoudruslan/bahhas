@@ -76,10 +76,15 @@ class ProductController extends Controller
                 'type',
                 'sub_category_id',
                 'category_id',
-                'created_at')->with('subCategory')->find($id);
+                'created_at')->with(['category' => function($query) use ($lang){
+                    return $query->select('id', 'name_'. $lang . ' AS name');
+                    }])->find($id);
 
             if (!$product) {
-                return $this->returnError('404', 'product types not found');
+                return $this->returnError('404', 'product not found');
+            }
+            if ($product->sub_category_id != null) {
+                return $this->returnData('product', $product, 'success');
             }
             return $this->returnData('product', $product, 'success');
         } catch (\Exception $e) {

@@ -95,5 +95,9 @@ trait Files
         $product->media()->delete();
     }
 
+    public function downloadFile($file)
+    {
+        return response()->download(public_path('storage/' . $file));
 
+    }
 }

@@ -85,7 +85,8 @@ Route::group(
             Route::post('contact-me/update/{id}' , [ContactMeController::class, 'update'])->name('contact-me.update')->middleware('can:contact-me');
             Route::post('bhhath/update/{id}' , [BhhathController::class, 'update'])->name('bhhath.update')->middleware('can:bhhath');
             Route::get('/export-orders-excel', [OrderController::class, 'exportExcel'])->name('export.excel');
-            Route::get('/expert-download/{id}', [ExpertController::class, 'download'])->name('expert.download');
+            Route::get('/expert-download/{id}', [ExpertController::class, 'downloadPDF'])->name('expert.download');
+            Route::get('/orders/download/{id}', [OrderController::class, 'downloadPDF'])->name('orders.download');
             Route::get('/export-orders-csv', [OrderController::class, 'exportCSV'])->name('export.csv');
             Route::get('/print-orders', [PrintController::class, 'printOrders']);
         });

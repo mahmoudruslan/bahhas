@@ -14,8 +14,13 @@ class Customer extends Authenticatable
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $guarded = [];
+    public $append = ['full_name'];
 
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
     public function reviews()
     {
         return $this->hasMany(Review::class);

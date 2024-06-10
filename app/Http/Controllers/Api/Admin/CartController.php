@@ -42,7 +42,7 @@ class CartController extends Controller
             // get product for the cart 
             $cart_product = $cart->products->where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
             // if $cart_product empty = create product for the cart else update quantity
-            $this->createOrUpdateCartProduct($cart_product, $cart->id, $request);
+            $this->createOrUpdateCartProduct($cart_product, $cart, $request);
             return $this->returnSuccess('200', __('Created Successfully'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
@@ -109,8 +109,7 @@ class CartController extends Controller
                     ]
                 );
             }
-            return $this->returnError('500', __('not found'));
-            // return $this->returnError('500', __('product not found'));
+            return $this->returnError('500', __('product not found'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -118,7 +117,8 @@ class CartController extends Controller
 
     private function createOrUpdateCart($request)
     {
-        $cart = Cart::where('customer_id', $request->customer_id)->first();
+        $customer = Customer::findOrFail($request->customer_id);
+        $cart = $customer->cart;
         $attach_name = null;
         if ($request->attach) {
             $path = 'images/orders/';
@@ -141,16 +141,17 @@ class CartController extends Controller
         return $cart;
     }
 
-    private function createOrUpdateCartProduct($cart_product, $cart_id, $request)
+    private function createOrUpdateCartProduct($cart_product, $cart, $request)
     {
         $product = Product::findOrFail($request->product_id);
         if (empty($cart_product)) {
-            CartProduct::Create([
-                'cart_id' => $cart_id,
+            $cart_product = CartProduct::Create([
+                'cart_id' => $cart->id,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
                 'total' => $product->price * $request->quantity
             ]);
+            
         } else {
 
             $cart_product->update([
@@ -158,6 +159,9 @@ class CartController extends Controller
                 'total' => $product->price * $quantity
             ]);
         }
+        $cart->update([
+            'total' => count($cart->products) > 1 ? $cart->products->sum('total') : $cart_product->total
+        ]);
         return true;
     }
 }

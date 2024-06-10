@@ -105,10 +105,11 @@ class ExpertController extends Controller
 
 
           //download PDF
-    public function download(Request $request)
+    public function downloadPDF(Request $request)
     {
         $expert = Expert::find($request->id);
-        return response()->download(public_path('storage/' . $expert[$request->input_name]));
+        return $this->downloadFile($expert[$request->input_name]);
+        // return response()->download(public_path('storage/' . $expert[$request->input_name]));
 
     }
     

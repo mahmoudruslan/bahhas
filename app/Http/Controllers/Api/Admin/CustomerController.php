@@ -21,8 +21,8 @@ class CustomerController extends Controller
             if ($validator->fails()) {
                 return $this->returnValidationError($validator);
             }
-            Customer::create($validator->validated());
-            return $this->returnSuccess('200', __('Updated Successfully'));
+            $customer = Customer::create($validator->validated());
+            return $this->returnData('customer', $customer, __('Created Successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

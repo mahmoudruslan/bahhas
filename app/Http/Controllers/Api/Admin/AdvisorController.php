@@ -53,7 +53,7 @@ class AdvisorController extends Controller
                 ->whereNull('sub_category_id')
                 ->whereHas('category', function($query){
                     $query->where('type', 'advisor');
-                })->get();
+                })->paginate(PAGINATION);
 
             return $this->returnData('advisors', $advisors, 'success');
         } catch (\Exception $e) {

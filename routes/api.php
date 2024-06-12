@@ -30,7 +30,7 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 */
 define('PAGINATION', 10);
 
-// Route::post('/login', [AuthController::class, 'login'])->middleware('guest');;
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');;
 // Route::post('/register', [AuthController::class, 'register']);
 
 
@@ -51,7 +51,9 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('products/show/{product_id}', [ProductController::class, 'show']);
     Route::get('advisors/{advisor_category_id}', [AdvisorController::class, 'categoryAdvisors']);
     Route::get('ads', [AdController::class, 'index']);
+    Route::get('ads/{ad_id}', [AdController::class, 'show']);
     Route::get('sliders', [SliderController::class, 'index']);
+    Route::get('sliders/{slider_id}', [SliderController::class, 'show']);
     Route::get('bhhath', [BhhathController::class, 'index']);
     Route::get('contact-me', [ContactMeController::class, 'index']);
     Route::get('reviews', [ReviewController::class, 'index']);

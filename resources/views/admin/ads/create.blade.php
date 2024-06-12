@@ -62,6 +62,24 @@
                                 </span>
                             @enderror
                         </div>
+                        <div class="form-group"><input type="text" class="form-control form-control-user"
+                            id="exampleFirstName" placeholder="{{ __('Details in arabic') }}" name="details_ar"
+                            value="{{ old('details_ar') }}">
+                        @error('details_ar')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                            placeholder="{{ __('Details in english') }}" name="details_en" value="{{ old('details_en') }}">
+                        @error('details_en')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                         <hr>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
                             {{ __('Submit') }}

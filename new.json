@@ -10,10 +10,11 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0.5",
         "laravel/ui": "^4.0",
         "livewire/livewire": "^2.12",
         "mcamara/laravel-localization": "^1.7",
-        "sadiqsalau/laravel-otp": "^1.0",
         "spatie/laravel-permission": "^6.7",
         "yajra/laravel-datatables": "^9.0"
     },

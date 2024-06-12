@@ -29,6 +29,14 @@
                                         <th scope="row">{{ __('Status') }}</th>
                                         <td>{{ $ad->status() }}</td>
                                     </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Details in arabic') }}</th>
+                                        <td>{{ $ad->details_ar }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">{{ __('Details in english') }}</th>
+                                        <td>{{ $ad->details_en }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

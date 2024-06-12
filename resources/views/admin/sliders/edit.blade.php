@@ -6,7 +6,7 @@
     <div class="row">
         <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit data') }} : {{ $slider['title_'. app()->getLocale()] }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit data') }} : {{ $slider['title_' . app()->getLocale()] }}</h1>
             </div>
             <form class="user insubmit" method="POST" action="{{ route('admin.sliders.update', $slider->id) }}"
                 enctype="multipart/form-data">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status">
-                                <option value="{{$slider->status}}">{{__($slider->status())}}</option>
+                                <option value="{{ $slider->status }}">{{ __($slider->status()) }}</option>
                                 <option value="1">{{ __('Active') }}</option>
                                 <option value="0">{{ __('Inactive') }}</option>
                             </select>
@@ -64,23 +64,24 @@
                             @enderror
                         </div>
                         <div class="form-group"><input type="text" class="form-control form-control-user"
-                            id="exampleFirstName" placeholder="{{ __('Details in arabic') }}" name="details_ar"
-                            value="{{ $slider->details_ar }}">
-                        @error('details_ar')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                            placeholder="{{ __('Details in english') }}" name="details_en" value="{{ $slider->details_en }}">
-                        @error('details_en')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
+                                id="exampleFirstName" placeholder="{{ __('Details in arabic') }}" name="details_ar"
+                                value="{{ $slider->details_ar }}">
+                            @error('details_ar')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                placeholder="{{ __('Details in english') }}" name="details_en"
+                                value="{{ $slider->details_en }}">
+                            @error('details_en')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <hr>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
                             {{ __('Submit') }}

@@ -23,7 +23,12 @@ class CategoryController extends Controller
     public function productCategories()
     {
         try {
-            $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'type')->with('subCategories')->where('type', 'product')->get();
+            $categories = Category::select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'type')
+            ->with(['subCategories' => function($query){
+                return $query->select('id', 'name_'.app()->getLocale() . ' AS name', 'cover', 'category_id');
+            }])
+            ->where('type', 'product')
+            ->get();
             return $this->returnData('categories', $categories, 'success');
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());

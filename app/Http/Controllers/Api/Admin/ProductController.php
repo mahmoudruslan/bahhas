@@ -55,7 +55,7 @@ class ProductController extends Controller
                 ->whereStatus(1)
                 ->whereHas('category', function($query){
                     $query->where('type', 'product');
-                })->get();
+                })->paginate(PAGINATION);
 
             return $this->returnData('products', $products, 'success');
         } catch (\Exception $e) {

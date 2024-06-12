@@ -26,6 +26,8 @@ class AdRequest extends FormRequest
         $rules = [
             'title_ar' => 'required|string|max:500',
             'title_en' => 'required|string|max:500',
+            'details_ar' => 'required|string|max:1000',
+            'details_en' => 'required|string|max:1000',
             'url' => 'required|string|max:1000',
             'status' => 'required|max:1',
             'cover' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
@@ -38,6 +40,8 @@ class AdRequest extends FormRequest
             'url' => 'required|string|max:1000',
             'status' => 'required|max:1',
             'cover' => 'nullable',
+            'details_ar' => 'required|string|max:1000',
+            'details_en' => 'required|string|max:1000',
             ];
         }
         return $rules;

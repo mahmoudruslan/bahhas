@@ -17,6 +17,8 @@ class CreateAdsTable extends Migration
             $table->id();
             $table->string('title_ar');
             $table->string('title_en');
+            $table->string('details_ar');
+            $table->string('details_en');
             $table->string('cover');
             $table->boolean('status')->default(true);
             $table->string('url');

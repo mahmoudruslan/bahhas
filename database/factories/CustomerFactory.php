@@ -32,8 +32,6 @@ class CustomerFactory extends Factory
             'image' => 'images/customers/customer.jpg',
             'phone' => '010' . rand('10000000', '99999999'),
             // 'password' => '00000000',
-            // 'status' => true,
-            // 'address_id' => $address_ids->random()->id
         ];
     }
 }

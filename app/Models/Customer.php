@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Authenticatable  
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $guarded = [];
     public $append = ['full_name'];
@@ -42,6 +43,15 @@ class Customer extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function createOTPCode()
+    {
+        $this->timestamps = false;
+        $this->code = /*Hash::make(*/rand(1111, 9999)/*)*/;
+        $this->code_expire = now()->addMinute(10);
+        $this->save();
+
     }
 
 }

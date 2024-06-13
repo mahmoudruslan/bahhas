@@ -18,6 +18,13 @@ use App\Http\Controllers\Api\Admin\ServiceController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
 
+use App\Models\Customer;
+use App\Otp\UserRegistrationOtp;
+use Illuminate\Http\Request;
+use SadiqSalau\LaravelOtp\Facades\Otp;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\Rules;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,10 +35,70 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-define('PAGINATION', 10);
+// Route::post('customer/register', function(Request $request){
+//     $request->validate([
+//         'first_name'          => ['required', 'string', 'max:255'],
+//         'last_name'          => ['required', 'string', 'max:255'],
+//         'email'         => ['required', 'string', 'email', 'max:255', 'unique:' . Customer::class],
+//         'password'      => ['required',  Rules\Password::defaults()],
+//     ]);
+//     $otp = Otp::identifier($request->email)->send(
+//         new UserRegistrationOtp(
+//             first_name: $request->first_name,
+//             last_name: $request->last_name,
+//             email: $request->email,
+//             password: $request->password,
+//         ),
+//         Notification::route('mail', $request->email)
+//     );
+//     return __($otp['status']);
+// })->name('customer.register');
 
-Route::post('/login', [AuthController::class, 'login'])->middleware('guest');;
-// Route::post('/register', [AuthController::class, 'register']);
+// /** OTP Verification Route */
+// Route::post('/otp/verify', function (Request $request) {
+
+// $request->validate([
+// 'email'    => ['required', 'string', 'email', 'max:255'],
+// 'code'     => ['required', 'string']
+// ]);
+
+// $otp = Otp::identifier($request->email)->attempt($request->code);
+
+// if($otp['status'] != Otp::OTP_PROCESSED)
+// {
+// abort(403, __($otp['status']));
+// }
+
+// return $otp['result'];
+// });
+
+
+// /** OTP Resend Route */
+// Route::post('/otp/resend', function (Request $request) {
+
+// $request->validate([
+// 'email'    => ['required', 'string', 'email', 'max:255']
+// ]);
+
+// $otp = Otp::identifier($request->email)->update();
+
+// if($otp['status'] != Otp::OTP_SENT)
+// {
+// abort(403, __($otp['status']));
+// }
+// return __($otp['status']);
+// });
+
+
+
+
+define('PAGINATION', 10);
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('customer/register', [AuthController::class, 'register']);
+Route::group(['middleware' => ['checkOTPCode']], function(){
+
+
+});
 
 
 
@@ -58,24 +125,21 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('contact-me', [ContactMeController::class, 'index']);
     Route::get('reviews', [ReviewController::class, 'index']);
     Route::post('reviews/store', [ReviewController::class, 'store']);
-    Route::get('countries', [ExpertController::class, 'getCountries']);
-    Route::get('cities/{country_id}', [ExpertController::class, 'countryCities']);
+    // Route::get('countries', [ExpertController::class, 'getCountries']);
+    // Route::get('cities/{country_id}', [ExpertController::class, 'countryCities']);
+
     Route::post('experts/store', [ExpertController::class, 'store']);
-    Route::post('customers/store', [CustomerController::class, 'store']);
-    Route::post('customers/update/{id}', [CustomerController::class, 'update']);
-    Route::delete('customers/delete/{id}', [CustomerController::class, 'destroy']);
-    Route::get('cart/{customer_id}', [CartController::class, 'getCart']);
-    Route::post('carts/add-to-cart', [CartController::class, 'store']);
-    Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
-    Route::post('carts/decrease', [CartController::class, 'decrease']);
-    Route::post('carts/increase', [CartController::class, 'increase']);
-    Route::post('orders/store', [OrderController::class, 'store']);
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-    // Route::post('logout', [AuthController::class, 'logout']);
-    // Route::post('profile/update/{id}', [CustomerController::class, 'update']);
-    // Route::get('active/account', [AuthController::class, 'activeAccount']);
-
-    // Route::get('customer/orders', [OrderController::class, 'show']);
-    // Route::delete('order/cancel/{order_id}', [OrderController::class, 'cancel']);
-
+    Route::group(['middleware' => ['auth:sanctum', 'checkOTPCode']], function () {
+        Route::post('customers/update', [CustomerController::class, 'update']);
+        Route::delete('customers/delete', [CustomerController::class, 'destroy']);
+        Route::get('cart', [CartController::class, 'getCart']);
+        Route::post('carts/add-to-cart', [CartController::class, 'store']);
+        Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
+        Route::post('carts/decrease', [CartController::class, 'decrease']);
+        Route::post('carts/increase', [CartController::class, 'increase']);
+        Route::post('orders/store', [OrderController::class, 'store']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+        
+        });
+    Route::post('/customer/otp-verify', [AuthController::class, 'checkOTPCode'])->middleware('auth:sanctum');
 });

@@ -58,6 +58,10 @@ Route::group(
         // Route::post('customers/active/{id}', [CustomerController::class, 'active'])->name('customer.active');
         // Route::post('customers/not-active/{id}', [CustomerController::class, 'notActive'])->name('customer.not.active');
         
+        
+
+
+
 
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
             Route::resource('admins', AdminController::class)->middleware('can:admins');

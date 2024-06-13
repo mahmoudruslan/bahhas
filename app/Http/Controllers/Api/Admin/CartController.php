@@ -10,18 +10,19 @@ use App\Models\Product;
 use App\Traits\Files;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isEmpty;
 
 class CartController extends Controller
 {
     use GeneralTrait, Files;
-    public function getCart($customer_id)
+    public function getCart()
     {
         try {
             $lang = app()->getLocale();
-            $customer = Customer::findOrFail($customer_id);
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
 
             $cart = $customer->cart;
 
@@ -38,12 +39,14 @@ class CartController extends Controller
     public function store(Request $request)
     {
         try {
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
             // if the cart exists update attach and notes column, else = create new cart
-            $cart = $this->createOrUpdateCart($request);
+            $cart = $this->createOrUpdateCart($customer);
             // get product for the cart 
             $cart_product = $cart->products->where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
             // if $cart_product empty = create product for the cart else update quantity
-            $this->createOrUpdateCartProduct($cart_product, $cart, $request);
+            $this->createOrUpdateCartProduct($cart_product, $cart, $request, $customer);
             return $this->returnSuccess('200', __('Created Successfully'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
@@ -53,7 +56,9 @@ class CartController extends Controller
     public function deleteProduct(Request $request)
     {
         try {
-            $user_cart = Customer::find($request->customer_id)->cart;
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
+            $user_cart = $customer->cart;
             if ($user_cart) {
                 $cart_product = $user_cart->Products()->where('product_id', $request->product_id)->first();
                 $this->deleteFiles($cart_product->attach);
@@ -71,7 +76,9 @@ class CartController extends Controller
     public function increase(Request $request)
     {
         try {
-            $cart = Customer::findOrFail($request->customer_id)->cart;
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
+            $cart = $customer->cart;
             $product = $cart->products->where('product_id', $request->product_id)->first();
             if ($product->quantity < 100) {
                 $product->update([
@@ -97,7 +104,9 @@ class CartController extends Controller
     public function decrease(Request $request)
     {
         try {
-            $cart = Customer::findOrFail($request->customer_id)->cart;
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
+            $cart = $customer->cart;
             $product = $cart->products->where('product_id', $request->product_id)->first();
             if ($product) {
                 if ($product->quantity > 1) {
@@ -124,16 +133,15 @@ class CartController extends Controller
         }
     }
 
-    private function createOrUpdateCart($request)
+    private function createOrUpdateCart($customer)
     {
-        $customer = Customer::findOrFail($request->customer_id);
         $cart = Cart::updateOrCreate([
             'customer_id' => $customer->id,
         ]);
         return $cart;
     }
 
-    private function createOrUpdateCartProduct($cart_product, $cart, $request)
+    private function createOrUpdateCartProduct($cart_product, $cart, $request, $customer)
     {
         $product = Product::findOrFail($request->product_id);
         $attach_name = null;
@@ -160,7 +168,7 @@ class CartController extends Controller
                 'attach' => $attach_name,
             ]);
         }
-        $cart_products = Customer::findOrFail($request->customer_id)->cart->products;
+        $cart_products = $customer->cart->products;
         $cart->update([
             'total' => count($cart_products) > 1 ? $cart_products->sum('total') : $cart_product->total
         ]);

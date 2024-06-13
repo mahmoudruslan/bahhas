@@ -43,6 +43,7 @@ trait GeneralTrait
             'status' => true,
             'msg' => $msg,
             'token' => $token,
+            'token_type'    => 'Bearer',
             $key => $value
             
         ]);

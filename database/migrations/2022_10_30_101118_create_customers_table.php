@@ -21,9 +21,10 @@ class CreateCustomersTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('image')->nullable();
-            // $table->string('password');
-            $table->boolean('status')->default(true);
-            // $table->foreignId('address_id')->constrained('addresses');
+            $table->string('code')->nullable();
+            $table->timestamp('code_expire')->nullable();
+            $table->boolean('status')->default(false);
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Traits\Files;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -14,28 +15,17 @@ class CustomerController extends Controller
 {
     use GeneralTrait, Files;
 
-    public function store(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), $this->rules());
-            if ($validator->fails()) {
-                return $this->returnValidationError($validator);
-            }
-            $customer = Customer::create($validator->validated());
-            return $this->returnData('customer', $customer, __('Created Successfully'));
-        } catch (\Exception $e) {
-            return $this->returnError($e->getCode(), $e->getMessage());
-        }
-    }
-    public function update(Request $request, $id)
-    {
-        try {
 
-            $validator = Validator::make($request->all(), $this->rules($id));
+    public function update(Request $request)
+    {
+        try {
+            $customer_id = Auth::guard('sanctum')->id();
+            $customer = Customer::find($customer_id);
+            $validator = Validator::make($request->all(), $this->rules($customer_id));
             if ($validator->fails()) {
                 return $this->returnValidationError($validator);
             }
-            $customer = Customer::find($id);
+            
             if (!$customer) {
                 return $this->returnError('404', 'customer not found');
             }
@@ -65,12 +55,14 @@ class CustomerController extends Controller
         return $rules;
     }
 
-    public function destroy($id)
+    public function destroy()
     {
         try {
-            $customer = Customer::findOrFail($id);
-            $this->deleteFiles($customer->image);
-            $customer->delete();
+            $customer_id = Auth::guard('sanctum')->id();// customer id
+            $customer = Customer::find($customer_id);// auth customer
+            $this->deleteFiles($customer->image);// delete customer's files
+            $customer->tokens()->delete();// delete customer's tokens
+            $customer->delete();// delete the customer
             return $this->returnSuccess(200, 'customer deleted successfully');
         } catch (\Exception $e) {
             return $e->getMessage();

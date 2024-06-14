@@ -18,8 +18,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->tinyInteger('status')->default('0');
             $table->integer('price')->nullable();
-            $table->string('attach')->nullable();
-            $table->string('notes')->nullable();
+            $table->boolean('paid')->default(false);
             $table->timestamps();
         });
     }

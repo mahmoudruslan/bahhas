@@ -35,9 +35,9 @@ class CustomerDataTable extends DataTable
             ->editColumn('status', function($row){
                 return $row->status == 1 ? 'active' : 'inactive'  ;
             })
-            ->editColumn('address_id', function($row){
-                return $row->address->address;
-            })
+            // ->editColumn('address_id', function($row){
+            //     return $row->address->address;
+            // })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
@@ -92,11 +92,11 @@ class CustomerDataTable extends DataTable
             Column::make('id'),
             Column::make('first_name')->title(__('First name')),
             Column::make('last_name')->title(__('Last name')),
-            // Column::make('email')->title(__('Email')),
-            // Column::make('phone')->title(__('Phone')),
-            // Column::make('status')->title(__('Status')),
+            Column::make('email')->title(__('Email')),
+            Column::make('phone')->title(__('Phone')),
+            Column::make('code')->title(__('Code')),
             Column::make('image')->title(__('Image')),
-            Column::make('address_id')->title(__('Address')),
+            // Column::make('address_id')->title(__('Address')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')->title(__('Actions'))
                 ->exportable(false)

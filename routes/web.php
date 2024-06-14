@@ -22,6 +22,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SliderController;
+use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -36,6 +37,15 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
+//payment getaway
+
+Route::post('/arb/response', function (Request $request) {
+    if ($request->status == 'success') {
+        dd('success');
+    } else {
+        dd('error');
+    }
+});
 // define('PAGINATION', 20);
 
 Route::get('/', function () {

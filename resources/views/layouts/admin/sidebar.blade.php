@@ -236,7 +236,7 @@
                     </div>
                 </li>
             @endcan
-            {{-- <!-- customers -->
+            <!-- customers -->
             @can(['customers', 'store-customers', 'update-customers', 'show-customers', 'delete-customers'])
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer"
@@ -255,7 +255,7 @@
                         </div>
                     </div>
                 </li>
-            @endcan --}}
+            @endcan
 
             <!-- blogs -->
             @can('blogs')

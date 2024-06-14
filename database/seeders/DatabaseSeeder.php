@@ -40,11 +40,12 @@ class DatabaseSeeder extends Seeder
         // Blog::factory()->count(50)->create();
         $this->call([
             CouponSeeder::class, 
-            BlogSeeder::class, 
+            BlogSeeder::class,
             ContactMeSeeder::class, 
             BhhathSeeder::class, 
             ExpertSeeder::class,
             SliderSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
 
         $super_admin = User::factory()->create([

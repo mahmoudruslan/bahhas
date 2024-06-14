@@ -18,13 +18,6 @@ use App\Http\Controllers\Api\Admin\ServiceController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
 
-use App\Models\Customer;
-use App\Otp\UserRegistrationOtp;
-use Illuminate\Http\Request;
-use SadiqSalau\LaravelOtp\Facades\Otp;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Validation\Rules;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes

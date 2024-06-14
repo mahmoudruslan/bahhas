@@ -22,6 +22,8 @@ class CreateOrderProductsTable extends Migration
             $table->string('price')->nullable();
             $table->integer('quantity')->default(1);
             $table->integer('total');
+            $table->string('attach')->nullable();
+            $table->string('notes')->nullable();
         });
     }
 

@@ -33,7 +33,7 @@ class AuthController extends Controller
                 }
                 $customer->createOTPCode();
                 $token  = $customer->createToken('auth_token')->plainTextToken;
-                $customer->notify(new SendVerifyMail());
+                // $customer->notify(new SendVerifyMail());
                 return $this->returnToken('customer', $customer->makeHidden('code'), $token);
             }
             return $this->returnError('500', 'بيانات الدخول غير صحيحة');
@@ -70,7 +70,7 @@ class AuthController extends Controller
             $customer->createOTPCode();
 
             $token = $customer->createToken('auth_token')->plainTextToken;
-            $customer->notify(new SendVerifyMail());
+            // $customer->notify(new SendVerifyMail());
             // $this->saveNotificationToken($request, $customer);
             // return $this->returnSuccess("check your email");
             return $this->returnData('data', [

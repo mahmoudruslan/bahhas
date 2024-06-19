@@ -51,16 +51,14 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //     dd($request->getOriginalData() );
 // });
 
-Route::post('/arb/response', function (Request $request) {
+// Route::post('/arb/response', function (Request $request) {
     
-            dd($request->all());
-});
+//             dd($request->all());
+// });
 
 // define('PAGINATION', 20);
 
-Route::get('/', function () {
-    return view('auth.login');
-})->middleware('guest');
+Route::view('/', 'auth.login')->middleware('guest');
 Auth::routes(['verify' => true]);
 
 Route::group(
@@ -73,15 +71,6 @@ Route::group(
             'auth']
     ],
     function () {
-        // Route::get('customers/documentation', [CustomerController::class, 'allUnverifiedAccounts'])->name('customers.documentation');
-
-        // Route::post('customers/active/{id}', [CustomerController::class, 'active'])->name('customer.active');
-        // Route::post('customers/not-active/{id}', [CustomerController::class, 'notActive'])->name('customer.not.active');
-        
-        
-
-
-
 
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
             Route::resource('admins', AdminController::class)->middleware('can:admins');

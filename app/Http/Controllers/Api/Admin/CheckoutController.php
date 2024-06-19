@@ -3,32 +3,31 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Traits\GeneralTrait;
 use Egyjs\Arb\Events\ArbPaymentFailedEvent;
 use Egyjs\Arb\Events\ArbPaymentSuccessEvent;
 use Illuminate\Http\Request;
 use Egyjs\Arb\Facades\Arb;
 use Illuminate\Support\Facades\Event;
 use Egyjs\Arb\Objects\Card;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
+    use GeneralTrait;
     public function redirectToCheckoutPage()
     {
 
-        Arb::card([
-            'number' => '4012001037141112',
-            'year' => '20'.'27',
-            'month' => '12',
-            'name' => 'AbdulRahman',
-            'cvv' => '212',
-            'type' => Card::CREDIT // or Card::DEBIT
-         ]);    
-         $response = Arb::initiatePayment(100); // 100 to be paid
+        $customer = Auth::guard('sanctum')->user();
+        $cart = $customer->cart;
+        if (!$cart) {
+            return $this->returnError(200, 'Cart is empty');
+        }
 
-        // Arb::successUrl('http://localhost:8000/arb/response/success')
-        // ->failUrl('http://localhost:8000/arb/response/fail');
-
-        // $response = Arb::initiatePayment(2); // 100 to be paid
+        $cart_total = $customer->cart->total;
+        Arb::successUrl('http://localhost:8000/arb/response')
+    ->failUrl('http://localhost:8000/arb/response');
+        $response = Arb::initiatePayment($cart_total); // 100 to be paid
 
         return response()->json(['response' => $response]);
     }

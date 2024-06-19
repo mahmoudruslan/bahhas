@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use App\DataTables\CustomerDataTable;
 use App\Http\Requests\CustomerRequest;
 use App\Notifications\AccountStatusNotification;
+use App\Traits\Files;
 
 class CustomerController extends Controller
 {
-    use HtmlTrait;
+    use HtmlTrait, Files;
 
     public function index(CustomerDataTable $dataTable)
     {

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Admin\CartController;
 use App\Http\Controllers\Api\Admin\OrderController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\CheckoutController;
 use App\Http\Controllers\Api\Admin\ContactMeController;
 use App\Http\Controllers\Api\Admin\CustomerController;
 use App\Http\Controllers\Api\Admin\ExpertController;
@@ -28,70 +29,11 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Route::post('customer/register', function(Request $request){
-//     $request->validate([
-//         'first_name'          => ['required', 'string', 'max:255'],
-//         'last_name'          => ['required', 'string', 'max:255'],
-//         'email'         => ['required', 'string', 'email', 'max:255', 'unique:' . Customer::class],
-//         'password'      => ['required',  Rules\Password::defaults()],
-//     ]);
-//     $otp = Otp::identifier($request->email)->send(
-//         new UserRegistrationOtp(
-//             first_name: $request->first_name,
-//             last_name: $request->last_name,
-//             email: $request->email,
-//             password: $request->password,
-//         ),
-//         Notification::route('mail', $request->email)
-//     );
-//     return __($otp['status']);
-// })->name('customer.register');
-
-// /** OTP Verification Route */
-// Route::post('/otp/verify', function (Request $request) {
-
-// $request->validate([
-// 'email'    => ['required', 'string', 'email', 'max:255'],
-// 'code'     => ['required', 'string']
-// ]);
-
-// $otp = Otp::identifier($request->email)->attempt($request->code);
-
-// if($otp['status'] != Otp::OTP_PROCESSED)
-// {
-// abort(403, __($otp['status']));
-// }
-
-// return $otp['result'];
-// });
-
-
-// /** OTP Resend Route */
-// Route::post('/otp/resend', function (Request $request) {
-
-// $request->validate([
-// 'email'    => ['required', 'string', 'email', 'max:255']
-// ]);
-
-// $otp = Otp::identifier($request->email)->update();
-
-// if($otp['status'] != Otp::OTP_SENT)
-// {
-// abort(403, __($otp['status']));
-// }
-// return __($otp['status']);
-// });
-
-
-
 
 define('PAGINATION', 10);
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('customer/register', [AuthController::class, 'register']);
-Route::group(['middleware' => ['checkOTPCode']], function(){
 
-
-});
 
 
 
@@ -132,6 +74,7 @@ Route::group(['middleware' => 'lang'], function(){
         Route::post('carts/increase', [CartController::class, 'increase']);
         Route::post('orders/store', [OrderController::class, 'store']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/checkout', [CheckoutController::class, 'redirectToCheckoutPage']);
         
         });
     Route::post('/customer/otp-verify', [AuthController::class, 'checkOTPCode'])->middleware('auth:sanctum');

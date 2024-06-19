@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'http://localhost:8000/arb/response/fail',
+        'http://localhost:8000/arb/response/success',
+        'http://localhost:8000/arb/response',
     ];
 }

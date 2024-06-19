@@ -11,6 +11,7 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Api\Admin\CheckoutController;
 use App\Http\Controllers\BhhathController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
@@ -18,10 +19,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactMeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExpertController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SliderController;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -39,13 +42,20 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 //payment getaway
 
+// Route::post('/arb/response/true', [PaymentMethodController::class, 'paymentResponse']);
+// Route::post('/arb/response/fail', function (Request $request) {
+//         dd($request);
+    
+// });
+// Route::post('/arb/response/success', function (Request $request) {
+//     dd($request->getOriginalData() );
+// });
+
 Route::post('/arb/response', function (Request $request) {
-    if ($request->status == 'success') {
-        dd('success');
-    } else {
-        dd('error');
-    }
+    
+            dd($request->all());
 });
+
 // define('PAGINATION', 20);
 
 Route::get('/', function () {

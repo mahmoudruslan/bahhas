@@ -27,8 +27,8 @@ class CartController extends Controller
             $cart = $customer->cart;
 
             if ($cart) {
-                $cart = $cart->with(['products.product:id,name_'. $lang . ' AS name,details_'. $lang . ' AS details,image,price'])->first();
-                return $this->returnData('cart', $cart);
+                $new_cart = Cart::with(['cartProducts.product:id,name_'. $lang . ' AS name,details_'. $lang . ' AS details,image,price'])->find($cart->id);
+                return $this->returnData('cart', $new_cart);
             }
             return $this->returnData('cart', []);
         } catch (\Exception $e) {
@@ -106,7 +106,7 @@ class CartController extends Controller
         try {
             $customer_id = Auth::guard('sanctum')->id();
             $customer = Customer::find($customer_id);
-            $cart = $customer->cart;
+            $cart = Customer::findOrFail($request->customer_id)->cart;
             $product = $cart->products->where('product_id', $request->product_id)->first();
             if ($product) {
                 if ($product->quantity > 1) {

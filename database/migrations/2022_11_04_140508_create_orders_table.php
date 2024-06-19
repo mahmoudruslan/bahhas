@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('status')->default('0');
             $table->integer('price')->nullable();
             $table->boolean('paid')->default(false);
+            $table->string('order_nr');
             $table->timestamps();
         });
     }

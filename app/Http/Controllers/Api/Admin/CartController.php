@@ -44,7 +44,7 @@ class CartController extends Controller
             // if the cart exists update attach and notes column, else = create new cart
             $cart = $this->createOrUpdateCart($customer);
             // get product for the cart 
-            $cart_product = $cart->products->where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
+            $cart_product = $cart->cartProducts->where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
             // if $cart_product empty = create product for the cart else update quantity
             $this->createOrUpdateCartProduct($cart_product, $cart, $request, $customer);
             return $this->returnSuccess('200', __('Created Successfully'));
@@ -168,7 +168,7 @@ class CartController extends Controller
                 'attach' => $attach_name,
             ]);
         }
-        $cart_products = $customer->cart->products;
+        $cart_products = $customer->cart->cartProducts;
         $cart->update([
             'total' => count($cart_products) > 1 ? $cart_products->sum('total') : $cart_product->total
         ]);

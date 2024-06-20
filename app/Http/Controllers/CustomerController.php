@@ -8,7 +8,6 @@ use App\Traits\HtmlTrait;
 use Illuminate\Http\Request;
 use App\DataTables\CustomerDataTable;
 use App\Http\Requests\CustomerRequest;
-use App\Notifications\AccountStatusNotification;
 use App\Traits\Files;
 
 class CustomerController extends Controller
@@ -50,15 +49,16 @@ class CustomerController extends Controller
     {
         try {
             $customers = Customer::get();
-        return view('admin.customers.edit', compact('customers', 'blog'));
+        return view('admin.customers.edit', compact('customers', 'customer'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(CustomerRequest $request, Customer $customer)
+    public function update(CustomerRequest $request, $id)
     {
         try {
+            $customer = Customer::findOrFail($id);
             $data = $request->validated();
             $image = $request->file('image');
             if ($image) {

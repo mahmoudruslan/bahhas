@@ -43,15 +43,6 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-sm-6">
-                        <input  value="{{old('password')}}" type="password" class="form-control form-control-user"
-                            placeholder="{{ __('password') }}" name="password">
-                        @error('password')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
                 </div>
                 <div class="form-group row">
 

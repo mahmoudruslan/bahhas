@@ -12,7 +12,7 @@
 @endsection
 <!-- Nested Row within Card Body -->
 <div class="row">
-    <div class="p-5  col-lg-6">
+    <div class="p-5  col-lg-12">
         <a style="margin-left: 20px" href="{{ route('admin.customers.index') }}" class="btn btn-secondary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-right"></i>
@@ -22,24 +22,24 @@
         <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">{{ __('Edit Data') }}</h1>
         </div>
-        <form class="user" method="POST" action="{{ route('admin.customers.update', $product->id) }}"
+        <form class="user" method="POST" action="{{ route('admin.customers.update', $customer->id) }}"
             enctype="multipart/form-data">
             @csrf
             @method('patch')
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input value="{{ $product->name_ar }}" type="text" class="form-control form-control-user"
-                        id="exampleFirstName" placeholder="{{ __('Enter Name_ar') }}" name="name_ar">
-                    @error('name_ar')
+                    <input  value="{{$customer->first_name}}"  type="text" class="form-control form-control-user" id="exampleFirstName"
+                        placeholder="{{ __('First name') }}" name="first_name">
+                    @error('first_name')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
                 <div class="col-sm-6">
-                    <input value="{{ $product->name_en }}" type="text" class="form-control form-control-user"
-                        id="name_en" placeholder="{{ __('Enter Name_en') }}" name="name_en">
-                    @error('name_en')
+                    <input  value="{{$customer->last_name}}" type="text" class="form-control form-control-user"
+                        placeholder="{{ __('Enter last name') }}" name="last_name">
+                    @error('last_name')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -47,21 +47,19 @@
                 </div>
             </div>
             <div class="form-group row">
-
-                <div class="col-sm-6">
-                    <input value="{{ $product->details_ar }}" type="text" class="form-control form-control-user"
-                        id="exampleinput" placeholder="{{ __('Enter Details_ar') }}" name="details_ar">
-                    @error('details_ar')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input value="{{ $product->details_en }}" type="text" class="form-control form-control-user"
-                        id="details_en" placeholder="{{ __('Enter Details_en') }}" name="details_en">
-                    @error('details_en')
+                    <input  value="{{$customer->email}}"  type="email" class="form-control form-control-user" id="exampleFirstName"
+                        placeholder="{{ __('Email') }}" name="email">
+                    @error('email')
+                        <span class="text-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="col-sm-6">
+                    <input  value="{{$customer->phone}}" type="text" class="form-control form-control-user" id="exampleinput"
+                        placeholder="{{ __('Enter phone') }}" name="phone">
+                    @error('phone')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -69,35 +67,21 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-6">
-                    <input value="{{ $product->quantity }}" type="text" class="form-control form-control-user"
-                        id="quantity" placeholder="{{ __('Enter quantity') }}" name="quantity">
-                    @error('quantity')
+                
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select class="form-control" name="status">
+                        <option selected disabled>{{__('Status')}}</option>
+                        <option value="1">{{__('Active')}}</option>
+                        <option value="0">{{__('Inactive')}}</option>
+                    </select>
+                    @error('status')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
                 <div class="col-sm-6">
-                    <input value="{{ $product->price }}" type="text" class="form-control form-control-user"
-                        id="price" placeholder="{{ __('Enter Price') }}" name="price">
-                    @error('price')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            @livewire('cascading-dropdown', ['categories' => $categories, $product])
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
-                </div>
-                <div class="col-sm-6">
-                    <input value="{{ $product->first_appearing }}" type="number"
-                        class="form-control 
-                    @error('first_appearing') is-invalid @enderror"
-                        name="first_appearing" placeholder="{{ __('First appearing') }}">
+                    <input  type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-user btn-block">

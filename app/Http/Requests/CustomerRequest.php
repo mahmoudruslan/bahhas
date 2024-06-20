@@ -28,26 +28,24 @@ class CustomerRequest extends FormRequest
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'status' => 'nullable',
-            'phone' => 'required|numeric|digits_between:6,50|unique:users',
+            'phone' => 'required|numeric|digits_between:6,50|unique:customers',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'address_id' => 'required|numeric',
+            'email' => 'required|string|email|max:255|unique:customers',
+            // 'password' => 'required|string|min:8|confirmed',
+            // 'address_id' => 'required|numeric',
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $id = Crypt::decrypt($this->route('user'));
+            $id = $this->route('customer');
             $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'status' => 'nullable',
-            'phone' => 'required|numeric|digits_between:6,50|unique:users,mobile,'.$id,
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'required|string|min:8|confirmed',
-            'address_id' => 'required|numeric',
+            'phone' => 'required|numeric|digits_between:6,50|unique:customers,phone,'.$id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
+            'email' => 'required|string|email|max:255|unique:customers,email,'.$id,
+            // 'password' => 'required|string|min:8|confirmed',
             ];
         }
-
         return $rules;
     }
 }

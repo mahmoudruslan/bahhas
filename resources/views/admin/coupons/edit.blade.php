@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-sm-6">
                     <input value="{{ $coupon->value }}" type="text" class="form-control form-control-user"
-                        placeholder="{{ __('Value') }}" name="value">
+                        placeholder="{{ __('Value') }}-{{(__('Percentage'))}}" name="value">
                     @error('value')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>

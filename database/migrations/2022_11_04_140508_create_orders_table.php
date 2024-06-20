@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->integer('price')->nullable();
             $table->boolean('paid')->default(false);
             $table->string('order_nr');
+            $table->string('coupon')->nullable();
             $table->timestamps();
         });
     }

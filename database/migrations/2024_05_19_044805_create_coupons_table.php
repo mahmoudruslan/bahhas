@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('value');
             $table->tinyInteger('status');
-            $table->date('start_date');
-            $table->date('expire_date');
+            $table->dateTime('start_date');
+            $table->dateTime('expire_date');
             $table->integer('use_times');
             $table->integer('used_times')->default(0);
             $table->integer('greater_than');

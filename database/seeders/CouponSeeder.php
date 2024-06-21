@@ -18,7 +18,7 @@ class CouponSeeder extends Seeder
     {
     Coupon::create([
         'code' => 'ramadan200',
-        'status' => false,
+        'status' => true,
         'value' => 12,
         'description_ar' => 'خصم 100 ريال على مبيعاتك على الموقع',
         'description_en' => 'Discount 200 pound on your sales on website',

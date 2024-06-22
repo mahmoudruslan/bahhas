@@ -31,10 +31,12 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 */
 
 define('PAGINATION', 10);
+
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('customer/register', [AuthController::class, 'register']);
 
 
+Route::post('/arb/response', [OrderController::class, 'store']);
 
 
 Route::group(['middleware' => 'lang'], function(){
@@ -65,6 +67,7 @@ Route::group(['middleware' => 'lang'], function(){
 
     Route::post('experts/store', [ExpertController::class, 'store']);
     Route::group(['middleware' => ['auth:sanctum', 'checkOTPCode']], function () {
+        Route::get('customer', [CustomerController::class, 'show']);
         Route::post('customers/update', [CustomerController::class, 'update']);
         Route::delete('customers/delete', [CustomerController::class, 'destroy']);
         Route::get('cart', [CartController::class, 'getCart']);

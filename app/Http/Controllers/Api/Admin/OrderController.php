@@ -28,38 +28,46 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         try {
-            $customer = Customer::findOrFail($request->customer_id);
-            $cart = $customer->cart;
-            if ($cart && count($cart->products) > 0) {
-                $cart_products = $cart->products;
+            if ($request->result == null) {
 
-                $order = Order::Create([ //create order
-                    'customer_id' => $customer->id,
-                    'status' => '0',
-                    'notes' => $cart->notes,
-                    'price' => $cart->total,
-                    'attach' => $cart->attach
-                ]);
+                $customer = Customer::find(8);//auth customer
+                $cart = $customer->cart;
+                $cart_products = $cart->cartProducts;
+                // if ($cart && count($cart_products = $cart->cartProducts) > 0) {
 
-                foreach ($cart_products as $cart_product) {
-                    
-                    $product = Product::find($cart_product['product_id']);
-                    OrderProduct::create([ //create order products
-                        'order_id' => $order->id,
-                        'product_id' => $product->id,
-                        'name_ar' => $product->name_ar,
-                        'name_en' => $product->name_en,
-                        'price' => $product->price,
-                        'quantity' => $cart_product->quantity,
-                        'total' => $cart_product->total
+                $latestOrder = Order::orderBy('created_at','DESC')->first();
+
+                    $order = Order::Create([ //create order
+                        'customer_id' => $customer->id,
+                        'status' => true,
+                        'paid' => true,
+                        'order_nr' => '#'.str_pad($latestOrder->id ?? 0 + 1, 8, rand(1111111, 9999999), STR_PAD_LEFT),
+                        'coupon' => $cart->coupon,
+                        'price' => $cart->total,
                     ]);
-                }
-                $cart->delete();
-                $order = Order::with('products')->find($order->id);
-                return $this->returnData('order',$order , __('Created Successfully'));
+                    foreach ($cart_products as $cart_product) {
+
+                        $product = Product::find($cart_product['product_id']);
+                        OrderProduct::create([ //create order products
+                            'order_id' => $order->id,
+                            'product_id' => $product->id,
+                            'name_ar' => $product->name_ar,
+                            'name_en' => $product->name_en,
+                            'price' => $product->price,
+                            'quantity' => $cart_product->quantity,
+                            'total' => $cart_product->total,
+                            'notes' => $cart_product->notes,
+                            'attach' => $cart_product->attach
+                        ]);
+                    }
+                    $cart->delete();
+                    $order = Order::with('products')->find($order->id);
+                    dd($order);
+                    return $this->returnData('order', $order, __('Created Successfully'));
             }
-            return $this->returnError('201', __('Cart not found'));
+            return $this->returnError('201', __('error in payment'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -69,8 +77,7 @@ class OrderController extends Controller
     {
         try {
             $order = DB::table('orders')->find($id);
-            if($order->status == '3' || $order->status == '1')
-            {
+            if ($order->status == '3' || $order->status == '1') {
                 $order = DB::table('orders')->where('id', $id)->update([
                     'status' => '1'
                 ]);

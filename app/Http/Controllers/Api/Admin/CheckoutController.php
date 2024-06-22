@@ -8,6 +8,9 @@ use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Egyjs\Arb\Facades\Arb;
+use Egyjs\Arb\Events\ArbPaymentFailedEvent;
+use Egyjs\Arb\Events\ArbPaymentSuccessEvent;
+use Illuminate\Support\Facades\Event;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -24,13 +27,15 @@ class CheckoutController extends Controller
         if (!$cart) {
             return $this->returnError(200, 'Cart is empty');
         }
+        $total = $cart->total;
         if (isset($request->coupon)) {
+            //coupon process
             
-            
-            $coupon = Coupon::where('code', $request->coupon)->first();
+            $coupon = Coupon::where('code', $request->coupon)->first();//get coupon
             if (!$coupon || $coupon->status == false) {
                 return $this->returnError(200, 'Invalid coupon');
             }
+            //check dates
             $at_the_moment = Carbon::createFromFormat('Y-m-d H:i:s', now());
             $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $coupon->start_date);
             $expire_date = Carbon::createFromFormat('Y-m-d H:i:s', $coupon->expire_date);
@@ -43,27 +48,29 @@ class CheckoutController extends Controller
             {
                 return $this->returnError(200, 'Coupon is not active yet');
             }
-            else if(!$cart->total >= $coupon->greater_than)
+            else if(!$cart->total >= $coupon->greater_than)//if low price
             {
                 return $this->returnError(200, 'Order price must be greater than ' . $coupon->greater_than);
             }
 
-            $percentage_coupon_value = $coupon->value;
-            $coupon_value = $cart->total * ($percentage_coupon_value  /100);
-
-            $total_after_coupon = $cart->total - $coupon_value;
-            
             $cart->update([
-                'coupon' => $request->coupon ?? null,
-                // 'total' => $total_after_coupon
+                'coupon' => $request->coupon,
             ]);
+            //coupon value %
+            $percentage_coupon_value = $coupon->value;
+            $coupon_value = $cart->total * ($percentage_coupon_value  /100);//get discount value
+            $total = $cart->total - $coupon_value;//Subtract the discount value from the basic total
         }
-        
-        $cart_total = $customer->cart->total;
-        Arb::successUrl('http://localhost:8000/arb/response')
-    ->failUrl('http://localhost:8000/arb/response');
-        $response = Arb::initiatePayment($cart_total); // 100 to be paid
+        Arb::data([
+            'customer_id' => $customer->id,
+        ]);
+    
+        Arb::successUrl('http://localhost:8000/api/arb/response')
+        ->failUrl('http://localhost:8000/api/arb/response');
+        $response = Arb::initiatePayment($total); // 100 to be paid
 
         return response()->json(['response' => $response]);
     }
+
+    
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Api\Admin\CheckoutController;
+use App\Http\Controllers\Api\Admin\OrderController as ApiOrderController;
 use App\Http\Controllers\BhhathController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
@@ -19,13 +20,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactMeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExpertController;
-use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SliderController;
-use App\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Http\Request;
+
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -51,12 +50,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //     dd($request->getOriginalData() );
 // });
 
-// Route::post('/arb/response', function (Request $request) {
-    
-//             dd($request->all());
-// });
 
-// define('PAGINATION', 20);
 
 Route::view('/', 'auth.login')->middleware('guest');
 Auth::routes(['verify' => true]);

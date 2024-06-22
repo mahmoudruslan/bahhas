@@ -68,4 +68,14 @@ class CustomerController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function show()
+    {
+        try {
+            $customer = Auth::guard('sanctum')->user()->only(['first_name','last_name','email','phone','image']);
+            return $this->returnData('customer', $customer);
+        } catch (\Exception $e) {
+            return $this->returnError($e->getCode(), $e->getMessage());
+        }
+    }
 }

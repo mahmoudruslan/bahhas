@@ -76,6 +76,7 @@ class ReviewDataTable extends DataTable
             Column::make('id'),
             Column::make('description')->title(__('Description')),
             Column::make('username')->title(__('Name')),
+            Column::make('rating')->title(__('Rating')),
             Column::make('created_at')->title(__('Created at')),
             Column::computed('action')->title(__('Actions'))
                 ->exportable(false)

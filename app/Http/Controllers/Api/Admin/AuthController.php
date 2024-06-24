@@ -61,9 +61,19 @@ class AuthController extends Controller
                 $customer->createOTPCode();
                 $token  = $customer->createToken('auth_token')->plainTextToken;
                 // send sms
-                $result = $this->sendVerifySMS($customer->code, $customer->phone);
-                // return response()->json(['test', $result]);
-                return $this->returnToken('customer', $customer->makeHidden('code'), $token);
+                $http_code = $this->sendVerifySMS($customer->code, $customer->phone);
+
+                return response()->json([
+                    'data' => [
+                        'status' => true,
+                        'msg' => 'success',
+                        'sms_error_number' => $http_code,
+                        'token_type' => 'Bearer',
+                        'token' => $token,
+                        'customer' => $customer->makeHidden('code')
+
+                    ]
+                ]);
             }
             return $this->returnError('203', 'بيانات الدخول غير صحيحة');
         } catch (\Exception $e) {
@@ -114,15 +124,15 @@ class AuthController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Content-Type: application/json"
+            "Content-Type: *"
         ));
 
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
         curl_close($ch);
 
-        var_dump($info["http_code"]);
-        var_dump($response);
+        // var_dump($info);
+        return $info["http_code"];
         // return $response['message'];
     }
     // public function register(Request $request)

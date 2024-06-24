@@ -213,13 +213,13 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="{{ route('admin.sliders.index') }}">{{ __('Sliders') }}</a>
-                            <a class="collapse-item" href="{{ route('admin.sliders.create') }}">{{ __('Sliders ads') }}</a>
+                            <a class="collapse-item" href="{{ route('admin.sliders.create') }}">{{ __('Add slider') }}</a>
                         </div>
                     </div>
                 </li>
             @endcan
             <!-- cities -->
-            @can('cities')
+            {{-- @can('cities')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                         data-target="#collapsePagesCities" aria-expanded="true" aria-controls="collapsePages">
@@ -235,7 +235,7 @@
                         </div>
                     </div>
                 </li>
-            @endcan
+            @endcan --}}
             <!-- customers -->
             @can(['customers', 'store-customers', 'update-customers', 'show-customers', 'delete-customers'])
                 <li class="nav-item">

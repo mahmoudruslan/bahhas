@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('quantity')->default(1);
             $table->string('image');
             $table->string('price');
+            $table->string('book')->nullable();
             $table->string('type')->nullable();
             $table->boolean('status')->default(true);
             $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories');

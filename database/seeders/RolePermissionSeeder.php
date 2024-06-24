@@ -36,6 +36,7 @@ class RolePermissionSeeder extends Seeder
             'contact-me',
             'bhhath',
             'customer',
+            'settings',
             'experts'
         ];
 

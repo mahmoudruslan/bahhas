@@ -11,8 +11,6 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\Api\Admin\CheckoutController;
-use App\Http\Controllers\Api\Admin\OrderController as ApiOrderController;
 use App\Http\Controllers\BhhathController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
@@ -23,6 +21,7 @@ use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
 
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -40,7 +39,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 */
 
 //payment getaway
-
+Route::post('/arb/response', [OrderController::class, 'store']);
 // Route::post('/arb/response/true', [PaymentMethodController::class, 'paymentResponse']);
 // Route::post('/arb/response/fail', function (Request $request) {
 //         dd($request);
@@ -50,6 +49,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //     dd($request->getOriginalData() );
 // });
 
+// Route::post('https://private-anon-061c89e2e8-msegat.apiary-proxy.com/gw/sendsms.php', [AdminController::class, 'test']);
 
 
 Route::view('/', 'auth.login')->middleware('guest');
@@ -69,6 +69,7 @@ Route::group(
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
             Route::resource('admins', AdminController::class)->middleware('can:admins');
             Route::resource('ads', AdController::class)->middleware('can:ads');
+            Route::resource('settings', SettingController::class)->middleware('can:settings');
             Route::resource('sliders', SliderController::class)->middleware('can:slider');
             Route::resource('customers', CustomerController::class)->middleware('can:customers');
             Route::resource('cities', CityController::class)->middleware('can:cities');
@@ -90,7 +91,7 @@ Route::group(
             Route::post('bhhath/update/{id}' , [BhhathController::class, 'update'])->name('bhhath.update')->middleware('can:bhhath');
             Route::get('/export-orders-excel', [OrderController::class, 'exportExcel'])->name('export.excel');
             Route::get('/expert-download/{id}', [ExpertController::class, 'downloadPDF'])->name('expert.download');
-            Route::get('/orders/download/{id}', [OrderController::class, 'downloadPDF'])->name('orders.download');
+            Route::get('/orders/download/{id}', [OrderController::class, 'downloadPDF'])->name('orders.download.attach');
             Route::get('/export-orders-csv', [OrderController::class, 'exportCSV'])->name('export.csv');
             Route::get('/print-orders', [PrintController::class, 'printOrders']);
         });

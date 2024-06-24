@@ -304,6 +304,14 @@
                     </div>
                 </li>
             @endcan
+            @can('settings')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{route('admin.settings.index')}}">
+                        <i class="fas fa-fw fa-settings"></i>
+                        <span>{{ __('Settings') }}</span>
+                    </a>
+                </li>
+            @endcan
             @can('contact-me')
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{{route('admin.contact-me.edit')}}">

@@ -8,6 +8,7 @@ use App\Http\Requests\OrderRequest;
 use App\Imports\ImportOrder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Notifications\StatusOrderNotification;
 use App\Traits\Files;
 use App\Traits\HtmlTrait;
@@ -31,7 +32,7 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = Order::with(['products.product', 'customer'])->findOrFail($id);
             return view('admin.orders.show', compact(['order']));
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -65,28 +66,21 @@ class OrderController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        try {
-            $order = Order::findOrFail($id);
-            $order->delete();
-            return redirect()->back()->with(['success' => 'Deleted Successfully']);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
+    // public function destroy($id)
+    // {
+    //     try {
+    //         $order = Order::findOrFail($id);
+    //         $order->delete();
+    //         return redirect()->back()->with(['success' => 'Deleted Successfully']);
+    //     } catch (\Exception $e) {
+    //         return $e->getMessage();
+    //     }
+    // }
 
-    public function exportExcel(Request $request)
+    public function downloadPDF($order_product_id)
     {
-        return Excel::download(new ExportOrder, 'orders.xlsx');
-    }
+        $order_product = OrderProduct::find($order_product_id);
 
-    public function exportCSV(Request $request)
-    {
-        return Excel::download(new ExportOrder, 'orders.csv');
-    }
-    public function downloadPDF(Order $order)
-    {
-        return $this->downloadFile($order->attach);
+        return $this->downloadFile($order_product->attach);
     }
 }

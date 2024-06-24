@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
             ExpertSeeder::class,
             SliderSeeder::class,
             PaymentMethodSeeder::class,
+            SettingSeeder::class,
+            OrderSeeder::class,
+            OrderProductSeeder::class,
         ]);
 
         $super_admin = User::factory()->create([

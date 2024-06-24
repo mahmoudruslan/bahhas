@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\AdminRequest;
 use App\Traits\Files;
 use App\Traits\HtmlTrait;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller

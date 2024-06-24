@@ -6,20 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Notifications\SendVerifyMail;
 use App\Traits\GeneralTrait;
+use App\Traits\SendVerifySMS;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
 class AuthController extends Controller
 {
-    use GeneralTrait;
-    public function login(Request $request)
+    use GeneralTrait, SendVerifySMS;
+    public function loginWithEmail(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), $this->loginRules());
+            $validator = Validator::make($request->all(), $this->emailRule());
 
             if ($validator->fails()) {
                 return $this->returnValidationError($validator);
@@ -33,10 +35,37 @@ class AuthController extends Controller
                 }
                 $customer->createOTPCode();
                 $token  = $customer->createToken('auth_token')->plainTextToken;
-                // $customer->notify(new SendVerifyMail());
+                $customer->notify(new SendVerifyMail());
                 return $this->returnToken('customer', $customer->makeHidden('code'), $token);
             }
             return $this->returnError('500', 'بيانات الدخول غير صحيحة');
+        } catch (\Exception $e) {
+            return $this->returnError('500', $e->getMessage());
+        }
+    }
+    public function loginWithPhone(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), $this->phoneRule());
+
+            if ($validator->fails()) {
+                return $this->returnValidationError($validator);
+            }
+
+            $customer  = Customer::where('phone', $request->phone)->first();
+            if ($customer) {
+                $old_tokens = $customer->tokens();
+                if ($old_tokens) {
+                    $old_tokens->delete();
+                }
+                $customer->createOTPCode();
+                $token  = $customer->createToken('auth_token')->plainTextToken;
+                // send sms
+                $result = $this->sendVerifySMS($customer->code, $customer->phone);
+                // return response()->json(['test', $result]);
+                return $this->returnToken('customer', $customer->makeHidden('code'), $token);
+            }
+            return $this->returnError('203', 'بيانات الدخول غير صحيحة');
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -57,31 +86,70 @@ class AuthController extends Controller
         }
     }
 
-    public function register(Request $request)
+    public function sendVerifySMS($code, $phone)
     {
-        try {
-            $validator = Validator::make($request->all(), $this->registerRules());
+        $SMS_API_KEY = Config::get('sms.SMS_API_KEY');
+        $SMS_USER_SENDER = Config::get('sms.SMS_USER_SENDER');
+        $SMS_USER_NAME = Config::get('sms.SMS_USER_NAME');
+        $SMS_SEND_URL = Config::get('sms.SMS_SEND_URL');
 
-            if ($validator->fails()) {
-                return $this->returnValidationError($validator);
-            }
-            //register
-            $customer = Customer::create($validator->validated());
-            $customer->createOTPCode();
+        $ch = curl_init();
 
-            $token = $customer->createToken('auth_token')->plainTextToken;
-            // $customer->notify(new SendVerifyMail());
-            // $this->saveNotificationToken($request, $customer);
-            // return $this->returnSuccess("check your email");
-            return $this->returnData('data', [
-                'customer'          => $customer,
-                'access_token'  => $token,
-                'token_type'    => 'Bearer'
-            ]);
-        } catch (\Exception $e) {
-            return $this->returnError('500', $e->getMessage());
+        curl_setopt($ch, CURLOPT_URL, "{$SMS_SEND_URL}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, TRUE);
+
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+
+        $fields = <<<EOT
+        {
+            "userName": "{$SMS_USER_NAME}",
+            "numbers": "{$phone}",
+            "userSender": "{$SMS_USER_SENDER}",
+            "apiKey": "{$SMS_API_KEY}",
+            "msg": "{$code}"
         }
+            
+        EOT;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json"
+        ));
+
+        $response = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+
+        var_dump($info["http_code"]);
+        var_dump($response);
+        // return $response['message'];
     }
+    // public function register(Request $request)
+    // {
+    //     try {
+    //         $validator = Validator::make($request->all(), $this->registerRules());
+
+    //         if ($validator->fails()) {
+    //             return $this->returnValidationError($validator);
+    //         }
+    //         //register
+    //         $customer = Customer::create($validator->validated());
+    //         $customer->createOTPCode();
+
+    //         $token = $customer->createToken('auth_token')->plainTextToken;
+    //         $customer->notify(new SendVerifyMail());
+            
+            
+    //         return $this->returnData('data', [
+    //             'customer'          => $customer,
+    //             'access_token'  => $token,
+    //             'token_type'    => 'Bearer'
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return $this->returnError('500', $e->getMessage());
+    //     }
+    // }
 
     public function checkOTPCode(Request $request)
     {
@@ -122,10 +190,18 @@ class AuthController extends Controller
 
 
 
-    public function loginRules()
+    public function emailRule()
     {
         $rules = [
             'email' => 'required|string|email',
+            // 'password' => 'required|string|max:20',
+        ];
+        return $rules;
+    }
+    public function phoneRule()
+    {
+        $rules = [
+            'phone' => 'required|numeric|digits_between:6,50',
             // 'password' => 'required|string|max:20',
         ];
         return $rules;

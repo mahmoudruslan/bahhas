@@ -15,8 +15,8 @@
                 @csrf
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input  value="{{old('name_ar')}}"  type="text" class="form-control form-control-user" id="exampleFirstName"
-                            placeholder="{{ __('Name in arabic') }}" name="name_ar">
+                        <input value="{{ old('name_ar') }}" type="text" class="form-control form-control-user"
+                            id="exampleFirstName" placeholder="{{ __('Name in arabic') }}" name="name_ar">
                         @error('name_ar')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -24,8 +24,8 @@
                         @enderror
                     </div>
                     <div class="col-sm-6">
-                        <input  value="{{old('name_en')}}" type="text" class="form-control form-control-user" id="name_en"
-                            placeholder="{{ __('Name in english') }}" name="name_en">
+                        <input value="{{ old('name_en') }}" type="text" class="form-control form-control-user"
+                            id="name_en" placeholder="{{ __('Name in english') }}" name="name_en">
                         @error('name_en')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -36,8 +36,8 @@
                 <div class="form-group row">
 
                     <div class="col-sm-6">
-                        <input  value="{{old('details_ar')}}" type="text" class="form-control form-control-user" id="exampleinput"
-                            placeholder="{{ __('Description in arabic') }}" name="details_ar">
+                        <input value="{{ old('details_ar') }}" type="text" class="form-control form-control-user"
+                            id="exampleinput" placeholder="{{ __('Description in arabic') }}" name="details_ar">
                         @error('details_ar')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -46,8 +46,8 @@
                     </div>
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input  value="{{old('details_en')}}" type="text" class="form-control form-control-user" id="details_en"
-                            placeholder="{{ __('Description in english') }}" name="details_en">
+                        <input value="{{ old('details_en') }}" type="text" class="form-control form-control-user"
+                            id="details_en" placeholder="{{ __('Description in english') }}" name="details_en">
                         @error('details_en')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -57,8 +57,8 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input  value="{{old('quantity')}}" type="text" class="form-control form-control-user" id="quantity"
-                            placeholder="{{ __('Amount') }}" name="quantity">
+                        <input value="{{ old('quantity') }}" type="text" class="form-control form-control-user"
+                            id="quantity" placeholder="{{ __('Amount') }}" name="quantity">
                         @error('quantity')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -66,8 +66,8 @@
                         @enderror
                     </div>
                     <div class="col-sm-6">
-                        <input  value="{{old('price')}}" type="text" class="form-control form-control-user" id="price"
-                            placeholder="{{ __('Price') }}" name="price">
+                        <input value="{{ old('price') }}" type="text" class="form-control form-control-user"
+                            id="price" placeholder="{{ __('Price') }}" name="price">
                         @error('price')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -75,30 +75,34 @@
                         @enderror
                     </div>
                 </div>
-                @livewire('cascading-dropdown', ['categories'=> $categories, null])
+                @livewire('cascading-dropdown', ['categories' => $categories, null])
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input  type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                        <label class="form-control  @error('image') is-invalid @enderror" for="image">{{ __('Choose image') }}</label>
+                        <input style="display: none" id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                     </div>
                     <div class="col-sm-6">
-                        <input  value="{{old('first_appearing')}}" type="number"
+                        <input value="{{ old('first_appearing') }}" type="number"
                             class="form-control 
                         @error('first_appearing') is-invalid @enderror"
                             name="first_appearing" placeholder="{{ __('First appearing') }}">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="form-check">
-                        <input name="type" type="checkbox" value="PDF" id="flexCheckDefault">
-                        <label for="flexCheckDefault">{{__('PDF')}}</label>
+                    <div class="col-md-6">
+                        <label class="form-control  @error('book') is-invalid @enderror" for="book">{{ __('Choose book') }} ({{ __('Optinal') }})</label>
+
+                        <input style="display: none" id="book" type="file" name="book">
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-user btn-block">
-                    {{ __('Submit') }}
-                </button>
-                <hr>
-            </form>
-        </div>
+        
+
+        <button type="submit" class="btn btn-primary btn-user btn-block">
+            {{ __('Submit') }}
+        </button>
+        <hr>
+        </form>
+    </div>
     </div>
 @endsection

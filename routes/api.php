@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\Admin\ReviewController;
 use App\Http\Controllers\Api\Admin\ServiceController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +34,12 @@ use App\Http\Controllers\Api\Admin\SubCategoryController;
 
 define('PAGINATION', 10);
 
-Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('/login-email', [AuthController::class, 'loginWithEmail'])->middleware('guest');
+Route::post('/login-phone', [AuthController::class, 'loginWithPhone'])->middleware('guest');
+
 Route::post('customer/register', [AuthController::class, 'register']);
-
-
 Route::post('/arb/response', [OrderController::class, 'store']);
+Route::get('/get/arb/response', [OrderController::class, 'store']);
 
 
 Route::group(['middleware' => 'lang'], function(){
@@ -53,6 +56,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('services/{service_category_id}', [ServiceController::class, 'categoryServices']);
     Route::get('products/{sub_category_id}', [ProductController::class, 'categoryProducts']);
     Route::get('products/show/{product_id}', [ProductController::class, 'show']);
+    
     Route::get('advisors/{advisor_category_id}', [AdvisorController::class, 'categoryAdvisors']);
     Route::get('ads', [AdController::class, 'index']);
     Route::get('ads/{ad_id}', [AdController::class, 'show']);
@@ -75,10 +79,15 @@ Route::group(['middleware' => 'lang'], function(){
         Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
         Route::post('carts/decrease', [CartController::class, 'decrease']);
         Route::post('carts/increase', [CartController::class, 'increase']);
-        Route::post('orders/store', [OrderController::class, 'store']);
+        Route::get('orders', [OrderController::class, 'getOrders']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/checkout', [CheckoutController::class, 'redirectToCheckoutPage']);
-        
+        Route::get('/product/book/download/{product_id}', [OrderController::class, 'downloadBook'])->name('products.download.book');
         });
     Route::post('/customer/otp-verify', [AuthController::class, 'checkOTPCode'])->middleware('auth:sanctum');
+
+    Route::get('test', function(Request $request){
+        $host1 = $request->schemeAndHttpHost();
+        return response()->json(['host' => $host1]);
+        });
 });

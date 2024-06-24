@@ -29,30 +29,28 @@
                 <span class="text">{{ __('Orders') }}</span>
             </a>
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Details Order') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Order details') }}</h1>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered text-center yajra-datatable" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th class="text-center">{{ __('Order number') }}</th>
                             <th class="text-center">{{ __('Customer Name') }}</th>
-                            <th class="text-center">{{ __('Phone Number') }}</th>
-                            <th class="text-center">{{ __('Address') }}</th>
-                            <th class="text-center">{{ __('Price') }}</th>
                             <th class="text-center">{{ __('Status') }}</th>
-                            <th class="text-center">{{ __('Order Date') }}</th>
-                            <th class="text-center">{{ __('Notes') }}</th>
+                            <th class="text-center">{{ __('Price') }}</th>
+                            <th class="text-center">{{ __('Paid') }}</th>
+                            <th class="text-center">{{ __('Coupon') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{$order->customer->name}}</td>
-                            <td>{{$order->customer->phone}}</td>
-                            <td>{{$order->customer->address}}</td>
-                            <td>{{$order->price}}</td>
+                            <td>{{$order->order_nr}}</td>
+                            <td>{{$order->customer['fullName']}}</td>
                             <td>{{$order->status}}</td>
-                            <td>{{$order->created_at}}</td>
-                            <td>{{$order->notes}}</td>
+                            <td>{{$order->price}}</td>
+                            <td>{{$order->paid}}</td>
+                            <td>{{$order->coupne ?? '-'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,24 +63,30 @@
                     <thead>
                         <tr>
                             <th class="text-center">{{ __('#') }}</th>
-                            <th class="text-center">{{ __('Name') }}</th>
-                            <th class="text-center">{{ __('Quantity') }}</th>
+                            <th class="text-center">{{ __('Product') }}</th>
                             <th class="text-center">{{ __('Price') }}</th>
-                            {{-- <th class="text-center">{{ __('Discount Price') }}</th> --}}
-                            <th class="text-center w-25">{{ __('Details') }}</th>
-                            <th class="text-center">{{ __('Amount') }}</th>
+                            <th class="text-center">{{ __('Quantity') }}</th>
+                            <th class="text-center">{{ __('Total') }}</th>
+                            <th class="text-center">{{ __('Attach') }}</th>
+                            <th class="text-center">{{ __('Notes') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($order->products as $key => $product)
                         <tr>
                             <td>{{$loop->index + 1}}</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$order->productDetails[$key]->quantity}}</td>
+                            <td>{{$product['name_' . app()->getLocale()]}}</td>
                             <td>{{$product->price}}</td>
-                            {{-- <td>{{$product->discount_price}}</td> --}}
-                            <td>{{$product->details}}</td>
-                            <td>{{$product->amount}}</td>
+                            <td>{{$product->quantity}}</td>
+                            <td>{{$product->total}}</td>
+                            <td>
+                                @if ($product->attach)
+                                <a href="{{route('admin.orders.download.attach', $product->id)}}">{{__('Download the pdf!') }}</a>
+                                @else
+                                {{__('No attach')}}
+                                @endif
+                            </td>
+                            <td>{{$product->notes ?? '-'}}</td>
                         </tr>
                         @endforeach
                     </tbody>

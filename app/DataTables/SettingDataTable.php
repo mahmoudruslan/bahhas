@@ -2,21 +2,18 @@
 
 namespace App\DataTables;
 
-use App\Models\Order;
-use App\Traits\Files;
-use App\Traits\HTMLTrait;
+use App\Models\Setting;
+use App\Traits\HtmlTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class OrderDataTable extends DataTable
+class SettingDataTable extends DataTable
 {
-    use HtmlTrait, Files;
+    use HtmlTrait;
     /**
      * Build DataTable class.
      *
@@ -27,34 +24,21 @@ class OrderDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
-            $id = $row->id;
-            $b = $this->getEditLink("admin.orders.edit", $id);
-            $b = $b .= $this->getShowLink("admin.orders.show", $id);
-            // $b = $b .= $this->getDeleteLink("admin.orders.destroy", $id);
-            return $b;
-        })
-        ->editColumn('customer_id', function($row){
-            return $row->customer->full_name;
-        })
-        ->editColumn('attach', function($row){
-            return '<a href="'. route('admin.orders.download.attach', $row->id) .'">'.__('Download the pdf!').'</a>';
-        })
-        ->editColumn('created_at', function($row){
-            return date('Y-m-d', strtotime($row->created_at));
-        })
-        ->editColumn('coupon', function($row){
-            return $row->coupon ??  '-';
-        })
-        ->rawColumns(['attach', 'action']);
+                $id = $row->id;
+                $b = $this->getEditLink("admin.settings.edit", $id);
+                return $b;
+            })
+
+            ->rawColumns(['action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Order $model
+     * @param \App\Models\Setting $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Order $model): QueryBuilder
+    public function query(Setting $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -67,7 +51,7 @@ class OrderDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('order-table')
+                    ->setTableId('setting-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -91,19 +75,14 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
-        Column::make('id'),
-        Column::make('customer_id')->title(__('Customer')),
-        Column::make('status')->title(__('Status')),
-        Column::make('price')->title(__('Price')),
-        Column::make('paid')->title(__('Paid')),
-        Column::make('coupon')->title(__('Coupon')),
-        Column::make('created_at')->title(__('Created at')),
-        Column::computed('action')->title(__('Actions'))
+            Column::make('id'),
+            Column::make('key')->title(__('Key')),
+            Column::make('value')->title(__('Value')),
+            Column::computed('action')->title(__('Actions'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center')
+                ->addClass('text-center'), 
         ];
     }
 
@@ -114,6 +93,6 @@ class OrderDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Order_' . date('YmdHis');
+        return 'Setting_' . date('YmdHis');
     }
 }

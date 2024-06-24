@@ -24,6 +24,21 @@ trait Files
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
     }
+    function savePDF($path, $pdf)
+    {
+        try {
+            // foreach ($images as $image) {
+                if ($pdf) {
+                    $extension = $pdf->getClientOriginalExtension();
+                    $image_name = time() . Str::random(6) . '.' . $extension;
+                    $pdf->storeAs($path, $image_name, 'public');
+                    return $image_name;
+                }
+            // }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+    }
 
 
     // function resizeImage($width, $hight, $path, $file_name, $image)
@@ -97,7 +112,10 @@ trait Files
 
     public function downloadFile($file)
     {
-        return response()->download(public_path('storage/' . $file));
-
+        $path = 'storage/' . $file;
+        if (File::exists($path)) {
+            return response()->download($path, $file);
+        }
+        return false;
     }
 }

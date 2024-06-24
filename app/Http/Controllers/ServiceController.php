@@ -42,6 +42,11 @@ class ServiceController extends Controller
                 $path = 'images/services/';
                 $file_name = $this->saveImag($path, [$request->image]);
                 $data['image'] = $path . $file_name;
+                if($request->file('book'))
+                {
+                    $book_name = $this->saveImag($path, [$request->book]);
+                    $data['book'] = $book_name;
+                }
             Product::create($data);
             return redirect()->route('admin.services.index')->with([
                 'message' => __('Item Created successfully.'),
@@ -83,12 +88,21 @@ class ServiceController extends Controller
             $product = Product::findOrFail($id);
             $data = $request->validated();
             $image = $request->file('image');
+            $path = 'images/services/';
             if ($image) {
                 $this->deleteFiles($product->image);
-                $path = 'images/services/';
                 $file_name = $this->saveImag($path, [$request->image]);
                 $data['image'] = $path . $file_name;
             }
+            if($request->file('book'))
+                {
+                    if($product->book != null)
+                    {
+                        $this->deleteFiles($product->book);
+                    }
+                    $book_name = $this->saveImag($path, [$request->book]);
+                    $data['book'] = $book_name;
+                }
             $product->update($data);
 
             return redirect()->route('admin.services.index')->with([

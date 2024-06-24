@@ -101,8 +101,8 @@
                         <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                     </div>
                     <div class="col-sm-6">
-                        <input name="type" type="checkbox" value="PDF" id="flexCheckDefault">
-                        <label for="flexCheckDefault">{{__('PDF')}}</label>
+                        <label class="form-control  @error('book') is-invalid @enderror" for="book">{{ __('Choose book') }} ({{ __('Optinal') }})</label>
+                        <input style="display: none" id="book" type="file" name="book">
                     </div>
     
                 </div>

@@ -101,9 +101,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-check">
-                    <input {{$product->type == 'PDF' ? 'checked' : ''}} name="type" type="checkbox" value="PDF" id="flexCheckDefault">
-                    <label for="flexCheckDefault">{{__('PDF')}}</label>
+                <div class="col-md-6">
+                    <label class="form-control  @error('book') is-invalid @enderror" for="book">{{ __('Choose book') }} ({{ __('Optinal') }})</label>
+                        <input style="display: none" id="book" type="file" name="book">
                 </div>
             </div>
 

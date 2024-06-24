@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\Setting;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Egyjs\Arb\Facades\Arb;
-use Egyjs\Arb\Events\ArbPaymentFailedEvent;
-use Egyjs\Arb\Events\ArbPaymentSuccessEvent;
-use Illuminate\Support\Facades\Event;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -64,9 +63,10 @@ class CheckoutController extends Controller
         Arb::data([
             'customer_id' => $customer->id,
         ]);
-    
-        Arb::successUrl('http://localhost:8000/api/arb/response')
-        ->failUrl('http://localhost:8000/api/arb/response');
+        $success_url = Setting::where('key','ARB_REDIRECT_SUCCESS')->first()->value;
+        $fail_url = Setting::where('key','ARB_REDIRECT_FAIL')->first()->value;
+        Arb::successUrl($success_url)
+        ->failUrl($fail_url);
         $response = Arb::initiatePayment($total); // 100 to be paid
 
         return response()->json(['response' => $response]);

@@ -16,6 +16,49 @@ class OrderProductSeeder extends Seeder
      */
     public function run()
     {
-        // OrderProduct::factory()->count(60)->create();
+        OrderProduct::create([
+            'order_id' => 1,
+            'product_id' => 1,
+            'price' => 250,
+            'name_ar' => "منتج 1",
+            'name_en' => "product 1",
+            'quantity' => "1",
+            'total' => 250,
+            'attach' => null,
+            'notes' => null,
+        ]);
+        OrderProduct::create([
+            'order_id' => 1,
+            'product_id' => 2,
+            'price' => 250,
+            'name_ar' => "منتج 2",
+            'name_en' => "product 2",
+            'quantity' => "1",
+            'total' => 250,
+            'attach' => null,
+            'notes' => null,
+        ]);
+        OrderProduct::create([
+            'order_id' => 1,
+            'product_id' => 3,
+            'price' => 250,
+            'name_ar' => "منتج 2",
+            'name_en' => "product 2",
+            'quantity' => "1",
+            'total' => 250,
+            'attach' => null,
+            'notes' => null,
+        ]);
+        OrderProduct::create([
+            'order_id' => 1,
+            'product_id' => 4,
+            'price' => 250,
+            'name_ar' => "منتج 2",
+            'name_en' => "product 4",
+            'quantity' => "1",
+            'total' => 250,
+            'attach' => null,
+            'notes' => null,
+        ]);
     }
 }

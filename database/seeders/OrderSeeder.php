@@ -16,6 +16,13 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        Order::factory()->count(20)->create();
+        Order::create([
+            'customer_id' => 1,
+            'status' => 1,
+            'price' => 1000,
+            'order_nr' => "#45632871",
+            'paid' => 1,
+            'coupon' => null,
+        ]);
     }
 }

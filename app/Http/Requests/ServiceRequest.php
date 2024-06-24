@@ -32,6 +32,7 @@ class ServiceRequest extends FormRequest
             'type' => 'nullable|string|max:10',
             'image' => 'required||mimes:jpeg,png,jpg,gif|max:1024',
             'first_appearing' => 'numeric',
+            "book" => "nullable|mimes:pdf|max:10000"
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             // $id = Crypt::decrypt($this->route('product'));
@@ -47,6 +48,7 @@ class ServiceRequest extends FormRequest
                 'type' => 'nullable|string|max:10',
                 'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:1024',
                 'first_appearing' => 'numeric',
+                "book" => "nullable|mimes:pdf|max:10000"
             ];
         }
         return $rules;

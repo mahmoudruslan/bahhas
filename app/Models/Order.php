@@ -13,24 +13,24 @@ class Order extends Model
     protected $guarded = [];
     public $timestamps = true;
 
-    public function productDetails()
+    public function products()
     {
         return $this->hasMany(OrderProduct::class);
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'order_products');
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class, 'order_products');
+    // }
 
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function getStatusAttribute($value)
+    public function status()
     {
-        return $value == 1 ? __("Complete") : __('Incomplete');
+        return $this->status == 1 ? __("Complete") : __('Pending review');
     }
 
     public function getCreatedAtAttribute($value)

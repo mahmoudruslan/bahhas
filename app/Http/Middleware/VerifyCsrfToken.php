@@ -15,5 +15,8 @@ class VerifyCsrfToken extends Middleware
         'http://localhost:8000/arb/response/fail',
         'http://localhost:8000/arb/response/success',
         'http://localhost:8000/arb/response',
+        'http://localhost:8000/api/arb/response',
+        'https://bhhath.basebackend.com/api/arb/response',
+        'https://bhhath.basebackend.com/arb/response',
     ];
 }

@@ -47,7 +47,7 @@ class CartController extends Controller
             $cart_product = $cart->cartProducts->where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
             // if $cart_product empty = create product for the cart else update quantity
             $this->createOrUpdateCartProduct($cart_product, $cart, $request, $customer);
-            return $this->returnSuccess('200', __('Created Successfully'));
+            return $this->returnSuccess('200', __('Data saved successfully'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -60,14 +60,14 @@ class CartController extends Controller
             $customer = Customer::find($customer_id);
             $user_cart = $customer->cart;
             if ($user_cart) {
-                $cart_product = $user_cart->Products()->where('product_id', $request->product_id)->first();
+                $cart_product = $user_cart->cartProducts()->where('product_id', $request->product_id)->first();
                 $this->deleteFiles($cart_product->attach);
                 $cart_product->delete();
             }
-            if (!count($user_cart->products) > 0) {
+            if (!count($user_cart->cartProducts) > 0) {
                 $user_cart->delete();
             }
-            return $this->returnSuccess('200', __('Deleted Successfully'));
+            return $this->returnSuccess('200', __('Data deleted successfully'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }

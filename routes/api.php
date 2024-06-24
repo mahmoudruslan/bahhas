@@ -34,16 +34,15 @@ use Illuminate\Support\Facades\App;
 
 define('PAGINATION', 10);
 
-Route::post('/login-email', [AuthController::class, 'loginWithEmail'])->middleware('guest');
-Route::post('/login-phone', [AuthController::class, 'loginWithPhone'])->middleware('guest');
 
-Route::post('customer/register', [AuthController::class, 'register']);
+
 Route::post('/arb/response', [OrderController::class, 'store']);
 Route::get('/get/arb/response', [OrderController::class, 'store']);
 
 
 Route::group(['middleware' => 'lang'], function(){
-
+    Route::post('/login-email', [AuthController::class, 'loginWithEmail'])->middleware('guest');
+    Route::post('/login-phone', [AuthController::class, 'loginWithPhone'])->middleware('guest');
     Route::get('product-categories', [CategoryController::class, 'productCategories']);
     Route::get('service-categories', [CategoryController::class, 'serviceCategories']);
     Route::get('advisor-categories', [CategoryController::class, 'advisorCategories']);

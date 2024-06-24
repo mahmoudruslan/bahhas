@@ -38,7 +38,7 @@ class AuthController extends Controller
                 $customer->notify(new SendVerifyMail());
                 return $this->returnToken('customer', $customer->makeHidden('code'), $token);
             }
-            return $this->returnError('500', 'بيانات الدخول غير صحيحة');
+            return $this->returnError('203', __('Login data is incorrect'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -75,7 +75,7 @@ class AuthController extends Controller
                     ]
                 ]);
             }
-            return $this->returnError('203', 'بيانات الدخول غير صحيحة');
+            return $this->returnError('203', __('Login data is incorrect'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -135,31 +135,7 @@ class AuthController extends Controller
         return $info["http_code"];
         // return $response['message'];
     }
-    // public function register(Request $request)
-    // {
-    //     try {
-    //         $validator = Validator::make($request->all(), $this->registerRules());
 
-    //         if ($validator->fails()) {
-    //             return $this->returnValidationError($validator);
-    //         }
-    //         //register
-    //         $customer = Customer::create($validator->validated());
-    //         $customer->createOTPCode();
-
-    //         $token = $customer->createToken('auth_token')->plainTextToken;
-    //         $customer->notify(new SendVerifyMail());
-            
-            
-    //         return $this->returnData('data', [
-    //             'customer'          => $customer,
-    //             'access_token'  => $token,
-    //             'token_type'    => 'Bearer'
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return $this->returnError('500', $e->getMessage());
-    //     }
-    // }
 
     public function checkOTPCode(Request $request)
     {
@@ -182,15 +158,15 @@ class AuthController extends Controller
                             'code' => null,
                             'code_expire' => null,
                         ]);
-                        return $this->returnError('403', 'code expire');
+                        return $this->returnError('403', __('Verify code expired'));
                     }
                 $customer->update([
                     'email_verified_at' => now(),
                     'code' => null
                 ]);
-                return $this->returnSuccess("verified successfully");
+                return $this->returnSuccess(__("Verified successfully"));
             }
-            return $this->returnError('403', 'error otp code');
+            return $this->returnError('403', __('error in OTP code'));
             
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());

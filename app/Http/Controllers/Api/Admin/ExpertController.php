@@ -31,7 +31,7 @@ class ExpertController extends Controller
                 $data['IBAN_certificate'] = $path . $IBAN_cert_name;
                 $data['the_biography'] = $path . $biography_name;
                 $expert = Expert::create($data);
-            return $this->returnData('expert', $expert, 'Created successfully');
+            return $this->returnData('expert', $expert, __('Data saved successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

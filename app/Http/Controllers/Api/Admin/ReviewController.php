@@ -42,7 +42,7 @@ class ReviewController extends Controller
             }
             Review::create($validator->validated());
             
-            return $this->returnSuccess();
+            return $this->returnSuccess(200, __('Data saved successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

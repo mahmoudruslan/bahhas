@@ -207,7 +207,10 @@
     "Data updated successfully": "تم تعديل البيانات بنجاح",
     "Data deleted successfully": "تم حذف البيانات بنجاح",
     "Submit" : "حفظ البيانات",
-
+    "Verified successfully":"تم التحقق بنجاح",
+    "Verify code expired":"انتهت صلاحية رمز التحقق",
+    "error in OTP code":"OTP خطأ في رمز",
+    "Login data is incorrect":"بيانات الدخول غير صحيحة",
     "Edit":"تعديل",
     "Warning": "تحذير",
 

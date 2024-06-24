@@ -37,7 +37,7 @@ class CustomerController extends Controller
                 $data['image'] = $path . $image_name;
             }
             $customer->update($data);
-            return $this->returnSuccess('200', __('Updated Successfully'));
+            return $this->returnSuccess('200', __('Data updated successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }

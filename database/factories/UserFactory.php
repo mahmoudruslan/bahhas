@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail,
             'mobile' => '010' . rand('10000000', '99999999'),
-            'image' => 'images/admins/admin.svg',
+            'image' => 'images/admins/admin.svg.png',
             'email_verified_at' => now(),
             'password' => '00000000',
             'remember_token' => Str::random(10),

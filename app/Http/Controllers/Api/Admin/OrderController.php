@@ -29,9 +29,8 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
         try {
-            if ($request->result == 'CAPTURED') {
+            if ($request->all()['result'] == 'CAPTURED') { 
 
                 $customer = Customer::find(8); //auth customer
                 $cart = $customer->cart;
@@ -66,7 +65,7 @@ class OrderController extends Controller
                 }
                 $cart->delete();
                 $order = Order::with('products')->find($order->id);
-                dd($order);
+                // dd($order);
                 return $this->returnData('order', $order, __('Created Successfully'));
             }
             return $this->returnError('201', __('error in payment'));

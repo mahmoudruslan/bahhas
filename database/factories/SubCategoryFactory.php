@@ -22,7 +22,7 @@ class SubCategoryFactory extends Factory
             'name_ar' => $this->faker->word,
             'name_en' => $this->faker->word,
             'category_id' => $categories->random(),
-            'cover' => 'cover.jpg',
+            'cover' => 'images/sub-categories/sub-category.jpg',
         ];
     }
 }

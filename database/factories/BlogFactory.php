@@ -21,7 +21,7 @@ class BlogFactory extends Factory
             'title_en' => $this->faker->sentence(),
             'description_ar' => $this->faker->paragraph(15),
             'description_en' => $this->faker->paragraph(15),
-            'image' => 'images/blogs/blog.jpg'
+            'image' => 'images/blogs/blog.png'
         ];
     }
 }

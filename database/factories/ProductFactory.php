@@ -34,7 +34,7 @@ class ProductFactory extends Factory
             'details_ar' => $this->faker->sentence,
             'details_en' => $this->faker->sentence,
             'quantity' => rand('10', '100'),
-            'image' => 'images/products/product.jpg',
+            'image' => 'images/products/product.png',
             'price' => rand('10', '2000'),
             'category_id' => $category_id = $categories->random()->id,
             'sub_category_id' => 

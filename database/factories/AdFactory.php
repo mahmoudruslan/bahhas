@@ -27,7 +27,7 @@ class AdFactory extends Factory
             'title_en' => $this->faker->sentence(),
             'details_ar' => $this->faker->sentence(),
             'details_en' => $this->faker->sentence(),
-            'cover' => 'images/ads/ad.png',
+            'cover' => 'images/ads/ad.jpg',
             'status' => true,
             'url' => 'https://github.com/',
         ];

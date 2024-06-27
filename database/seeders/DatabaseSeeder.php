@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => '00000000',
             'mobile' => '01092199386',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/admins/admin.svg.png',
 
         ]);
         $super_admin->assignRole('super-admin');
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'rezk@gmail.com',
             'password' => '00000000',
             'mobile' => '010545445446',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/admins/admin.svg.png',
         ]);
         $admin->assignRole('admin');
         $employee = User::factory()->create([
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ebraheem@gmail.com',
             'password' => '00000000',
             'mobile' => '01097978898986',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/admins/admin.svg.png',
         ]);
         $employee->assignRole('employee');
 

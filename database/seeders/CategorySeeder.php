@@ -18,45 +18,45 @@ class CategorySeeder extends Seeder
         Category::create([
             'name_ar' => 'الاستشارات العلمية',
             'name_en' => 'bahhas services',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'service',
         ]);
         Category::create([
             'name_ar' => 'النقد الاكاديمى',
             'name_en' => 'bahhas services',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'service',
         ]);
         Category::create([
             'name_ar' => 'التحليل الإحصائى',
             'name_en' => 'bahhas services',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'service',
         ]);
 
         Category::create([
             'name_ar' => 'كتب ومراجعة',
             'name_en' => 'bahhas store',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'product',
         ]);
         Category::create([
             'name_ar' => 'لقاءات علمية مباشرة',
             'name_en' => 'bahhas store',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'product',
         ]);
 
         Category::create([
             'name_ar' => 'الخبراء والمستشارون',
             'name_en' => 'bahhas advisor',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'advisor',
         ]);
         Category::create([
             'name_ar' => 'الخبيرات والمستشارات',
             'name_en' => 'bahhas advisor',
-            'cover' => 'images/parent-categories/cover.jpg',
+            'cover' => 'images/categories/category.jpg',
             'type' => 'advisor',
         ]);
 

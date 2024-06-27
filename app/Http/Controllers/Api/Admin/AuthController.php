@@ -36,7 +36,15 @@ class AuthController extends Controller
                 $customer->createOTPCode();
                 $token  = $customer->createToken('auth_token')->plainTextToken;
                 $customer->notify(new SendVerifyMail());
-                return $this->returnToken('customer', $customer->makeHidden('code'), $token);
+                return response()->json([
+                    
+                        'status' => true,
+                        'msg' => 'success',
+                        'token_type' => 'Bearer',
+                        'token' => $token,
+                        'customer' => $customer->makeHidden('code')
+                    
+                ]);
             }
             return $this->returnError('203', __('Login data is incorrect'));
         } catch (\Exception $e) {
@@ -64,7 +72,7 @@ class AuthController extends Controller
                 $http_code = $this->sendVerifySMS($customer->code, $customer->phone);
 
                 return response()->json([
-                    'data' => [
+                    
                         'status' => true,
                         'msg' => 'success',
                         'sms_error_number' => $http_code,
@@ -72,7 +80,7 @@ class AuthController extends Controller
                         'token' => $token,
                         'customer' => $customer->makeHidden('code')
 
-                    ]
+                    
                 ]);
             }
             return $this->returnError('203', __('Login data is incorrect'));

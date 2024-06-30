@@ -11,6 +11,7 @@ use App\Http\Controllers\PrintController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BhhathController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
@@ -23,7 +24,7 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
-
+use App\Http\Controllers\TransferController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -76,6 +77,7 @@ Route::group(
             Route::resource('addresses', AddressController::class)->middleware('can:addresses');
             Route::resource('categories', CategoryController::class)->middleware('can:categories');
             Route::resource('sub-categories', SubCategoryController::class)->middleware('can:sub-categories');
+            Route::resource('transfers', TransferController::class)->middleware('can:transfers');
             Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('can:main');
             Route::resource('products', ProductController::class)->middleware('can:products');
             Route::resource('services', ServiceController::class)->middleware('can:services');
@@ -85,6 +87,7 @@ Route::group(
             Route::resource('experts', ExpertController::class)->middleware('can:experts');
             Route::resource('orders', OrderController::class)->middleware('can:orders');
             Route::resource('permission-roles' , RolePermissionController::class)->middleware('can:roles');//roles and permissions routes
+            Route::resource('bank-accounts' , BankAccountController::class)->middleware('can:bank-accounts');//roles and permissions routes
             Route::get('contact-me/edit' , [ContactMeController::class, 'edit'])->name('contact-me.edit')->middleware('can:contact-me');
             Route::get('bhhath/edit' , [BhhathController::class, 'edit'])->name('bhhath.edit')->middleware('can:bhhath');
             Route::post('contact-me/update/{id}' , [ContactMeController::class, 'update'])->name('contact-me.update')->middleware('can:contact-me');

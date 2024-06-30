@@ -277,6 +277,44 @@
                     </div>
                 </li>
             @endcan
+            <!-- bank-accounts -->
+            @can('bank-accounts')
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBankAccount"
+                    aria-expanded="true" aria-controls="collapseBankAccount">
+                    <i class="fas fa-users fa-fw"></i>
+
+                    <span>{{ __('Bank accounts') }}</span>
+                </a>
+                <div id="collapseBankAccount" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item"
+                            href="{{ route('admin.bank-accounts.index') }}">{{ __('Bank accounts') }}</a>
+                        <a class="collapse-item"
+                            href="{{ route('admin.bank-accounts.create') }}">{{ __('Add bank account') }}</a>
+                    </div>
+                </div>
+            </li>
+        @endcan
+        <!-- transfers -->
+        @can('transfers')
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransfers"
+                aria-expanded="true" aria-controls="collapseTransfers">
+                <i class="fas fa-users fa-fw"></i>
+
+                <span>{{ __('Transfers') }}</span>
+            </a>
+            <div id="collapseTransfers" class="collapse" aria-labelledby="headingPages"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item"
+                        href="{{ route('admin.transfers.index') }}">{{ __('Transfers') }}</a>
+                </div>
+            </div>
+        </li>
+    @endcan
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->

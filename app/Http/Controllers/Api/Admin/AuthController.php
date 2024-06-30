@@ -28,7 +28,11 @@ class AuthController extends Controller
             }
 
             $customer  = Customer::where('email', $request->email)->first();
-            if ($customer) {
+                if (!$customer) {
+                    $customer = Customer::create([
+                        'email' => $request->email,
+                    ]);
+                }
                 $old_tokens = $customer->tokens();
                 if ($old_tokens) {
                     $old_tokens->delete();
@@ -45,7 +49,7 @@ class AuthController extends Controller
                         'customer' => $customer->makeHidden('code')
                     
                 ]);
-            }
+            
             return $this->returnError('203', __('Login data is incorrect'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
@@ -61,8 +65,12 @@ class AuthController extends Controller
             }
 
             $customer  = Customer::where('phone', $request->phone)->first();
-            if ($customer) {
-                $old_tokens = $customer->tokens();
+            if (!$customer) {
+                $customer = Customer::create([
+                    'phone' => $request->phone,
+                ]);
+            }                
+            $old_tokens = $customer->tokens();
                 if ($old_tokens) {
                     $old_tokens->delete();
                 }
@@ -82,7 +90,7 @@ class AuthController extends Controller
 
                     
                 ]);
-            }
+            
             return $this->returnError('203', __('Login data is incorrect'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());

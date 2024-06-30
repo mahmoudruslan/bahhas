@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\AdController;
 use App\Http\Controllers\Api\Admin\AdvisorController;
 use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\BankAccountController;
 use App\Http\Controllers\Api\Admin\BhhathController;
 use App\Http\Controllers\Api\Admin\BlogController;
 use App\Http\Controllers\Api\Admin\CartController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\Api\Admin\ReviewController;
 use App\Http\Controllers\Api\Admin\ServiceController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
+use App\Http\Controllers\Api\Admin\TransferController;
+use App\Http\Controllers\Api\Admin\WishListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -70,10 +73,16 @@ Route::group(['middleware' => 'lang'], function(){
 
     Route::post('experts/store', [ExpertController::class, 'store']);
     Route::group(['middleware' => ['auth:sanctum', 'checkOTPCode']], function () {
+        Route::get('bank-accounts', [BankAccountController::class, 'index']);
         Route::get('customer', [CustomerController::class, 'show']);
         Route::post('customers/update', [CustomerController::class, 'update']);
         Route::delete('customers/delete', [CustomerController::class, 'destroy']);
         Route::get('cart', [CartController::class, 'getCart']);
+        Route::get('customer/wish-list', [WishListController::class, 'index']);
+        Route::post('customer/transfer/store', [TransferController::class, 'store']);
+        Route::post('customer/wish-list/store', [WishListController::class, 'store']);
+        Route::post('customer/wish-list/delete', [WishListController::class, 'destroy']);
+
         Route::post('carts/add-to-cart', [CartController::class, 'store']);
         Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
         Route::post('carts/decrease', [CartController::class, 'decrease']);

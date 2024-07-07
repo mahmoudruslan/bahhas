@@ -17,6 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
             $table->string('total')->nullable();
+            $table->string('total_after_discount')->nullable();
             $table->string('coupon')->nullable();
             $table->timestamps();
         });

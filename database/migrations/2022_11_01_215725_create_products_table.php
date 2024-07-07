@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('details_en')->nullable();
             $table->string('quantity')->default(1);
             $table->string('image');
-            $table->string('price');
+            $table->decimal('price');
             $table->string('book')->nullable();
             $table->string('type')->nullable();
             $table->boolean('status')->default(true);

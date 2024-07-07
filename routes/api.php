@@ -54,6 +54,7 @@ Route::group(['middleware' => 'lang'], function(){
     Route::get('blogs/{blog_id}', [BlogController::class, 'show']);
     Route::get('services', [ServiceController::class, 'allServices']);
     Route::get('products', [ProductController::class, 'allProducts']);
+    Route::get('all-products', [ProductController::class, 'allProductsServicesAdvisors']);
     Route::get('advisors', [AdvisorController::class, 'allAdvisors']);
     Route::get('services/{service_category_id}', [ServiceController::class, 'categoryServices']);
     Route::get('products/{sub_category_id}', [ProductController::class, 'categoryProducts']);
@@ -84,6 +85,7 @@ Route::group(['middleware' => 'lang'], function(){
         Route::post('customer/wish-list/delete', [WishListController::class, 'destroy']);
 
         Route::post('carts/add-to-cart', [CartController::class, 'store']);
+        Route::post('carts/add-coupon', [CartController::class, 'addCoupon']);
         Route::post('carts/delete-from-cart', [CartController::class, 'deleteProduct']);
         Route::post('carts/decrease', [CartController::class, 'decrease']);
         Route::post('carts/increase', [CartController::class, 'increase']);

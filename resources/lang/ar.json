@@ -212,7 +212,10 @@
     "error in OTP code":"OTP خطأ في رمز",
     "Login data is incorrect":"بيانات الدخول غير صحيحة",
     "Edit":"تعديل",
+    "The product is not in the cart": "المنتج غير موجود فى السلة",
     "Warning": "تحذير",
+    "Cart not found": "لا يوجد سلة مشتريات",
+    "Coupon added successfully": "تم إضافة الكوبون بنجاح",
 
     "Delete":"حذف",
     "Close" : "اغلاق",

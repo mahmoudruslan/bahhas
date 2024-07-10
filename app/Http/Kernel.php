@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'lang' => \App\Http\Middleware\LangSwitcher::class,
         'checkOTPCode' => \App\Http\Middleware\OTPVerify::class,
+        'cors' => \App\Http\Middleware\Cors::class, 
 
         /**** OTHER MIDDLEWARE ****/
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,

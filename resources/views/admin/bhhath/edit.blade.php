@@ -1,12 +1,12 @@
 @extends('layouts.admin.master')
 @section('title')
-    {{ __('Bhhath') }}
+    {{ __('Nwrni') }}
 @endsection
 @section('content')
     <div class="row">
         <div class="p-5 col-lg-12">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit bhhath information') }}</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit nwrni information') }}</h1>
             </div>
             <form class="user insubmit" method="POST" action="{{ route('admin.bhhath.update', $bhhath->id) }}"
                 enctype="multipart/form-data">

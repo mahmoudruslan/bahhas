@@ -1,3 +1,5 @@
+        {{-- livewire Scripts --}}
+    @livewireScripts
     <!-- Bootstrap core JavaScript-->
 
     {{-- <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script> --}}
@@ -11,8 +13,7 @@
 
     <!-- Page level plugins -->
     <script src="{{ asset('backend/vendor/chart.js/Chart.min.js') }}"></script>
-    {{-- livewire Scripts --}}
-    @livewireScripts
+
     <!-- Page level custom scripts -->
     <script src="{{ asset('backend/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('backend/js/demo/chart-pie-demo.js') }}"></script>

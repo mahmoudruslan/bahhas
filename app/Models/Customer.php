@@ -53,5 +53,9 @@ class Customer extends Authenticatable
         $this->save();
 
     }
+    public function wishList()
+    {
+        return $this->belongsToMany(Product::class, WishList::class);
+    }
 
 }

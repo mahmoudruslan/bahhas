@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartProduct;
+use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Traits\Files;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use function PHPUnit\Framework\isEmpty;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
@@ -27,7 +27,7 @@ class CartController extends Controller
             $cart = $customer->cart;
 
             if ($cart) {
-                $new_cart = Cart::with(['cartProducts.product:id,name_'. $lang . ' AS name,details_'. $lang . ' AS details,image,price'])->find($cart->id);
+                $new_cart = Cart::with(['cartProducts.product:id,name_' . $lang . ' AS name,details_' . $lang . ' AS details,image,price'])->find($cart->id);
                 return $this->returnData('cart', $new_cart);
             }
             return $this->returnData('cart', []);
@@ -53,6 +53,46 @@ class CartController extends Controller
         }
     }
 
+    public function addCoupon(Request $request)
+    {
+        //coupon process
+        $customer_id = Auth::guard('sanctum')->id();
+        $customer = Customer::find($customer_id);
+        $cart = $customer->cart;
+        //check if cart exists
+        if ($cart) {
+            $coupon = Coupon::where('code', $request->coupon)->first(); //get coupon
+            if (!$coupon || $coupon->status == false) {
+                return $this->returnError(200, 'Invalid coupon');
+            }
+            //check dates
+            $at_the_moment = Carbon::createFromFormat('Y-m-d H:i:s', now());
+            $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $coupon->start_date);
+            $expire_date = Carbon::createFromFormat('Y-m-d H:i:s', $coupon->expire_date);
+            $expire = $at_the_moment->gte($expire_date);
+            $the_future = $start_date->gte($at_the_moment);
+            if ($expire || $coupon->used_times >= $coupon->use_times) {
+                return $this->returnError(200, 'Coupon has expired');
+            } else if ($the_future) {
+                return $this->returnError(200, 'Coupon is not active yet');
+            } else if (!$cart->total >= $coupon->greater_than) //if low price
+            {
+                return $this->returnError(200, 'Order price must be greater than ' . $coupon->greater_than);
+            }
+            //coupon value %
+            $percentage_coupon_value = $coupon->value;
+            $coupon_value = $cart->total * ($percentage_coupon_value  / 100); //get discount value
+            $total = $cart->total - $coupon_value; //Subtract the discount value from the basic total
+            //update the cart
+            $cart->update([
+                'coupon' => $request->coupon,
+                'total_after_discount' => round($total),
+            ]);
+            return $this->returnSuccess(200, __('Coupon added successfully'));
+        }
+
+        return $this->returnError(200, __('Cart not found'));
+    }
     public function deleteProduct(Request $request)
     {
         try {
@@ -79,23 +119,31 @@ class CartController extends Controller
             $customer_id = Auth::guard('sanctum')->id();
             $customer = Customer::find($customer_id);
             $cart = $customer->cart;
-            $product = $cart->products->where('product_id', $request->product_id)->first();
-            if ($product->quantity < 100) {
-                $product->update([
-                    'quantity' => $product->quantity + 1,
-                    'total' => $product->total + $product->product->price,
-                ]);
-                $cart->update([
-                    'total' => $cart->total + $product->product->price,
-                ]);
+            $product = $cart->cartProducts->where('product_id', $request->product_id)->first();
+            if ($product) {
+                if ($product->quantity < 100) {
+                    $product->update([
+                        'quantity' => $product->quantity + 1,
+                        'total' => $product->total + $product->product->price,
+                    ]);
+                    $cart->update([
+                        'total' => $total = $cart->total + $product->product->price,
+                        'total_after_discount' => $total,
+                        'coupon' => null,
+                    ]);
+                }
+                return $this->returnData(
+                    'data',
+                    [
+                        'quantity' => $product->quantity,
+                        'product_total' => $product->total,
+                        'cart_total' => $cart->total,
+                        'cart_total_after_discount' => $cart->total_after_discount
+                    ]
+                );
             }
-            return $this->returnData(
-                'data',[
-                    'quantity' => $product->quantity,
-                    'product_total' => $product->total,
-                    'cart_total' => $cart->total
-                ]
-            );
+            return $this->returnError(200, __('The product is not in the cart'));
+            
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -105,9 +153,9 @@ class CartController extends Controller
     {
         try {
             $customer_id = Auth::guard('sanctum')->id();
-            $customer = Customer::find($customer_id);
-            $cart = Customer::findOrFail($request->customer_id)->cart;
-            $product = $cart->products->where('product_id', $request->product_id)->first();
+            $customer = Customer::findOrFail($customer_id);
+            $cart = $customer->cart;
+            $product = $cart->cartProducts->where('product_id', $request->product_id)->first();
             if ($product) {
                 if ($product->quantity > 1) {
                     $product->update([
@@ -115,7 +163,9 @@ class CartController extends Controller
                         'total' => $product->total - $product->product->price,
                     ]);
                     $cart->update([
-                        'total' => $cart->total - $product->product->price,
+                        'total' => $total = $cart->total - $product->product->price,
+                        'total_after_discount' => $total,
+                        'coupon' => null,
                     ]);
                 }
                 return $this->returnData(
@@ -123,11 +173,12 @@ class CartController extends Controller
                     [
                         'quantity' => $product->quantity,
                         'product_total' => $product->total,
-                        'cart_total' => $cart->total
+                        'cart_total' => $cart->total,
+                        'cart_total_after_discount' => $cart->total_after_discount
                     ]
                 );
             }
-            return $this->returnError('500', __('product not found'));
+            return $this->returnError(200, __('The product is not in the cart'));
         } catch (\Exception $e) {
             return $this->returnError('500', $e->getMessage());
         }
@@ -170,7 +221,9 @@ class CartController extends Controller
         }
         $cart_products = $customer->cart->cartProducts;
         $cart->update([
-            'total' => count($cart_products) > 1 ? $cart_products->sum('total') : $cart_product->total
+            'total' => $total = count($cart_products) > 1 ? $cart_products->sum('total') : $cart_product->total,
+            'total_after_discount' => $total,
+            'coupon' => null
         ]);
         return true;
     }

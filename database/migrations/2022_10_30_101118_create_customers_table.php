@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default('images/customers/customer.svg.png');
             $table->string('code')->nullable();
             $table->timestamp('code_expire')->nullable();
             $table->boolean('status')->default(false);

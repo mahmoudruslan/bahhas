@@ -27,7 +27,9 @@ class ServiceController extends Controller
     public function create(Request $request)
     {
         try {
-            $categories = Category::WhereDoesntHave('subCategories')->select('id','name_ar','name_en')->get();
+            $categories = Category::WhereDoesntHave('subCategories')
+            ->select('id','name_ar','name_en')
+            ->get();
             $sub_categories = SubCategory::select('id','name_ar','name_en')->get();
             return view('admin.services.create', compact('categories', 'sub_categories'));
         } catch (\Exception $e) {
@@ -61,7 +63,9 @@ class ServiceController extends Controller
     public function edit($id)
     {
         try {
-            $categories = Category::WhereDoesntHave('subCategories')->select('id','name_ar','name_en')->get();
+            $categories = Category::WhereDoesntHave('subCategories')
+            ->select('id','name_ar','name_en')
+            ->get();
             $sub_categories = SubCategory::select('id','name_ar','name_en')->get();
             $product = Product::findOrFail($id);
             return view('admin.services.edit', compact('categories', 'sub_categories', 'product'));

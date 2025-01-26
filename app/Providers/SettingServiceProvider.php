@@ -14,7 +14,7 @@ class SettingServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        
+
     }
 
     /**

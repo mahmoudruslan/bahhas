@@ -52,7 +52,7 @@ Route::post('/arb/response', [OrderController::class, 'store']);
 
 // Route::post('https://private-anon-061c89e2e8-msegat.apiary-proxy.com/gw/sendsms.php', [AdminController::class, 'test']);
 
-
+Route::get('allMyAds' , [BhhathController::class, 'showAdd']);
 Route::view('/', 'auth.login')->middleware('guest');
 Auth::routes(['verify' => true]);
 

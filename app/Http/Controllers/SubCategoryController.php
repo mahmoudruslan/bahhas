@@ -23,7 +23,7 @@ class SubCategoryController extends Controller
 
     public function create()
     {
-        $categories = Category::get();
+        $categories = Category::where('type', 'product')->get();
         return view('admin.sub_categories.create', compact('categories'));
     }
 
@@ -47,7 +47,7 @@ class SubCategoryController extends Controller
     {
         try {
             $sub_category = SubCategory::findOrFail($id);
-            $categories = Category::get();
+            $categories = Category::where('type', 'product')->get();
             return view('admin.sub_categories.edit', compact('sub_category', 'categories'));
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -37,6 +37,7 @@ class RolePermissionSeeder extends Seeder
             'bhhath',
             'customer',
             'settings',
+            'transfers',
             'bank-accounts',
             'experts'
         ];

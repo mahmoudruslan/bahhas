@@ -27,15 +27,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RolePermissionSeeder::class);
-        $this->call(UserSeeder::class);
-        Ad::factory()->count(5)->create();
+        Ad::factory()->count(10)->create();
         
+        $this->call(UserSeeder::class);
         $this->call(CountrySeeder::class);
+        // $this->call(CitySeeder::class);
+        // Address::factory()->count(10)->create();
+        // Customer::factory()->count(10)->create();
         $this->call(CustomerSeeder::class);
         $this->call(CategorySeeder::class);
+        // Category::factory()->count(10)->create();
         SubCategory::factory()->count(10)->create();
         Product::factory()->count(50)->create();
         Review::factory()->count(10)->create();
+        // Blog::factory()->count(50)->create();
         $this->call(CouponSeeder::class);
         $this->call(BlogSeeder::class);
         $this->call(ContactMeSeeder::class);
@@ -46,8 +51,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(OrderProductSeeder::class);
-        
-
 
 
 

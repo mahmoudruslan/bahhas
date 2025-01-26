@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\BankAccount;
-use App\Traits\HtmlTrait;
+use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -15,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class BankAccountDataTable extends DataTable
 {
-    use HtmlTrait;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *

@@ -43,7 +43,7 @@ class WishListController extends Controller
         try {
             WishList::where('customer_id', Auth::guard('sanctum')->user()->id)
             ->where('product_id', $request->product_id)->delete();
-
+       
             return $this->returnSuccess(200 , __('Data deleted successfully'));
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());

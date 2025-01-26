@@ -362,7 +362,7 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{{route('admin.bhhath.edit')}}">
                         <i class="fas fa-fw fa-wrench"></i>
-                        <span>{{ __('Bhhath') }}</span>
+                        <span>{{ __('Nwrni') }}</span>
                     </a>
                 </li>
             @endcan

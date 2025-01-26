@@ -78,7 +78,7 @@
                         <select name="category_id"
                             class="form-control select-radius 
                         @error('category_id') is-invalid @enderror">
-                            <option>{{ __('Choose category') }}</option>
+                            <option disabled selected>{{ __('Choose category') }}</option>
                             @foreach ($categories as $item)
                                 <option value="{{ $item->id }}">{{ $item->name_ar }}</option>
                             @endforeach

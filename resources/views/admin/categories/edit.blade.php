@@ -34,7 +34,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <select name="type" class="form-control">
                                 <option selected value="{{ $category->type }}">{{ __($category->type) }}</option>
                                 
@@ -48,7 +48,7 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>{{ __('Choose image') }}</label>
                             <input type="file" name="cover"><br>

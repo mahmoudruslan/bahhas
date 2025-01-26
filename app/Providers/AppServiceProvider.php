@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
         Schema::defaultStringLength(125);
+        $this->app['request']->server->set('HTTPS', true);
     }
 }

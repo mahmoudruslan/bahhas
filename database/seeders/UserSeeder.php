@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
         User::factory()->count(10)->create();
         $super_admin = User::factory()->create([
             'first_name' => 'mahmoud',
